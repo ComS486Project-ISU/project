@@ -1,5 +1,8 @@
 import javax.servlet.http.*;
 import javax.servlet.*;
+
+import beans.StringBean;
+
 import java.io.*;
 
 public class CananatorServlet extends HttpServlet {
@@ -7,15 +10,56 @@ public class CananatorServlet extends HttpServlet {
 public void doGet(HttpServletRequest req,HttpServletResponse res)
 throws ServletException,IOException
 	{
-		res.setContentType("text/html");//setting the content type
-		PrintWriter pw=res.getWriter();//get the stream to write the data
+//		res.setContentType("text/html");//setting the content type
+//		PrintWriter pw=res.getWriter();//get the stream to write the data
+//		
+//		//writing html in the stream
+//		pw.println("<html><body>");
+//		pw.println("Welcome to CananatorWeb!");
+//		pw.println("</body></html>");
+//		
+//		pw.close();//closing the stream
+//		
+//		
+//		//do business logic and get data
+//		String operation = req.getParameter("operation");
+//		if(operation == null)
+//		{
+//			operation = "unknown";
+//		}
+		String address = "/JSP/Cananator.jsp";
+//		if(operation.equals("order"))
+//		{
+//			address = "/JSP/Order.jsp";
+//		}
+//		else if(operation.equals("cancel"))
+//		{
+//			address = "/JSP/Cancel.jsp";
+//		}
+//		else 
+//		{
+//			address = "/JSP/UnknownOperation.jsp";
+//		}
+//		
 		
-		//writing html in the stream
-		pw.println("<html><body>");
-		pw.println("Welcome to CananatorWeb!");
-		pw.println("</body></html>");
+		// JSP 2.0 -> ${key.someProperty}
 		
-		pw.close();//closing the stream
+		StringBean sBean = new StringBean();
+		sBean.setMesage("Data1, Data2, Data3");
+		
+		//session based sharing
+		//HttpSession session = req.getSession();
+		//session.setAttribute("key", sBean);
+		
+		//context based sharing
+		synchronized(this){
+			getServletContext().setAttribute("key", sBean);
+		}
+		
+		RequestDispatcher dispatcher = 
+				req.getRequestDispatcher(address);
+		dispatcher.forward(req, res);
+		
 	}
 }
 
