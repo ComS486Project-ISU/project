@@ -8,7 +8,6 @@ import javax.servlet.*;
 public class NumberCounterServlet extends HttpServlet
 {
   private static final long serialVersionUID = 1L;
-  private static int counter;
   private NumberCounter cntr= null;
   
   public void doGet(HttpServletRequest req, HttpServletResponse res)
@@ -18,7 +17,6 @@ public class NumberCounterServlet extends HttpServlet
       cntr = new NumberCounter();
       new Thread(cntr).start();
     }
-    counter++;
     
     res.setContentType("text/html"); // setting the content type
     PrintWriter pw=res.getWriter(); // get the stream to write the data
