@@ -20,16 +20,15 @@
 
 
 <div class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
+ <div class="navbar-inner">
         <div class="container">
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="icon-th-list"></span></a>
-            <a href="#" class="brand">Solar Car Telementry</a>
-            <div>
-                <ul class="nav nav-pills">
-                    <li><a href="../../index.html">Home</a></li>
-                    <li class="active"><a href="#">Cananator</a></li>
-                </ul>
+	<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-th-list"></span></a>
+        <a href="#" class="brand">Solar Car Telementry</a>
+        <div><ul class="nav nav-pills">
+  		<li class="active"><a href="#">Home</a></li>
+		<li><a href="/CananatorWeb/JSP/Cananator.jsp">Cananator</a></li>
+		</ul>
             </div>
         </div>
     </div>
@@ -38,15 +37,7 @@
 
 <div class="hero-unit">
     <div class="container">
-        <table border="5">
-            <tr>
-                <th class="title">This is Cannanator.jsp</th>
-            </tr>
-            <tr>
-                <td>MyData:</td>
-                <td>${key.getMessage()}</td>
-            </tr>
-        </table>
+        <h1>Home page content goes here</h1>
     </div>
 </div>
 
