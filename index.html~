@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <html lang="en">
-  <head>
+<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,7 +9,7 @@
 	<link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="http://getbootstrap.com/examples/sticky-footer/sticky-footer.css" rel="stylesheet">
 	<!--<link href="http://getbootstrap.com/examples/jumbotron/jumbotron.css" rel="stylesheet">-->
-	<link href="http://necolas.github.io/normalize.css/" rel="stylesheet">
+	<link href="http://necolas.github.io/normalize.css" rel="stylesheet">
  
 
 
@@ -19,14 +19,15 @@
 	  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 	  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 	<![endif]-->
-  </head>
 
+</head>
+<body>
 
 <!-- HEADER AREA -->
 
 <div class="navbar navbar-default navbar-static-top">
 	<div class="navbar-header">
-		<div class="navbar-brand">CANanator Web</div>
+		<div class="navbar-brand">CANanator Web Interface</div>
 	</div>
 </div>
 
@@ -46,7 +47,7 @@
 						</tr>
 						<tr>
 							<td>Driving Direction</td>
-							<td>[Status]</td>
+							<td>${key.getMessage()}</td>
 						</tr>
 						<tr>
 							<td>Throttle Position</td>
@@ -365,5 +366,5 @@
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="js/bootstrap.min.js"></script>
 
-  </body>
+</body>
 </html>

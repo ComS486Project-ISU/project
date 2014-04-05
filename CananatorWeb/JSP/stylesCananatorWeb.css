@@ -1,0 +1,11 @@
+#sortedtable thead tr th.headerSortUp, #keywords thead tr th.headerSortDown {
+  background: #acc8dd;
+}
+
+#sortedtable thead tr th.headerSortUp span {
+  background-image: url('up-arrow.png');
+}
+#sortedtable thead tr th.headerSortDown span {
+  background-image: url('down-arrow.png');
+}
+
