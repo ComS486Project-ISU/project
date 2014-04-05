@@ -10,7 +10,8 @@ tmp/
 local.properties
 .settings/
 .loadpath
-.*~
+.html~
+.jsp~
 
 # External tool builders
 .externalToolBuilders/
