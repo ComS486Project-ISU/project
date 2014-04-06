@@ -7,10 +7,15 @@ tmp/
 *.bak
 *.swp
 *~.nib
+*.class
 local.properties
 .settings/
 .loadpath
-.classes/
+
+.html~
+.jsp~
+
+>>>>>>> b96b98d0ebd6f943d8381c054d547c27394d49ce
 # External tool builders
 .externalToolBuilders/
 

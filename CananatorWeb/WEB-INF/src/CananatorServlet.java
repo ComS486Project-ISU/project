@@ -6,8 +6,9 @@ import beans.StringBean;
 import java.io.*;
 
 public class CananatorServlet extends HttpServlet {
+ 
+  private static final long serialVersionUID = 1L;
 
-<<<<<<< HEAD
 public void doGet(HttpServletRequest req,HttpServletResponse res)
 throws ServletException,IOException
 	{
@@ -62,22 +63,6 @@ throws ServletException,IOException
 		dispatcher.forward(req, res);
 		
 	}
-=======
-  private static final long serialVersionUID = 1L;
   
-  public void doGet(HttpServletRequest req,HttpServletResponse res)
-  throws ServletException,IOException
-  {
-  	res.setContentType("text/html"); // setting the content type
-  	PrintWriter pw=res.getWriter(); // get the stream to write the data
-  		
-  	// writing html in the stream
-  	pw.println("<html><body>");
-  	pw.println("Welcome to CananatorWeb!");
-  	pw.println("</body></html>");
-  	
-  	pw.close(); // closing the stream
-  }
->>>>>>> e60ab2d30463d8d84d955bbbd3740edaf3bdca51
 }
 
