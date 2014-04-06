@@ -10,7 +10,7 @@ tmp/
 local.properties
 .settings/
 .loadpath
-
+.classes/
 # External tool builders
 .externalToolBuilders/
 
