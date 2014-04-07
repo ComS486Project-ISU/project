@@ -31,8 +31,6 @@
 	</div>
 </div>
 
-
-
 <!-- UPPER CONTENT AREA -->
 
 <div class="jumbotron">
@@ -116,7 +114,7 @@
 						<tbody>
 						<tr>
 							<td>Driving Speed (<abbr title="Miles per Hour">MPH</abbr>)</td>
-							<td>[Status]</td>
+							<td>${telemetryData.drivingSpeed}</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
@@ -124,7 +122,7 @@
 						</tr>
 						<tr>
 							<td>Energy Consumption (<abbr title="Mile per Gallon Equivalent">MPGe</abbr>)</td>
-							<td>[Status]</td>
+							<td>${telemetryData.energyConsumption}</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
@@ -132,7 +130,7 @@
 						</tr>
 						<tr>
 							<td><abbr title="Power Tracker">MPPT</abbr> Efficiency</td>
-							<td>[Status]</td>
+							<td>${telemetryData.mpptEfficiency}</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
@@ -140,7 +138,7 @@
 						</tr>
 						<tr>
 							<td>Battery Pack Power (<abbr title="Watts">W</abbr>)</td>
-							<td>[Status]</td>
+							<td>${telemetryData.batteryPower}</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
@@ -148,7 +146,7 @@
 						</tr>
 						<tr>
 							<td>Solar Array Power (<abbr title="Watts">W</abbr>)</td>
-							<td>[Status]</td>
+							<td>${telemetryData.solarPower}</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
@@ -156,7 +154,7 @@
 						</tr>
 						<tr>
 							<td>Motor Power (<abbr title="Watts">W</abbr>)</td>
-							<td>[Status]</td>
+							<td>${telemetryData.motorPower}</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
@@ -164,7 +162,7 @@
 						</tr>
 						<tr>
 							<td>Electronics Power (<abbr title="Watts">W</abbr>)</td>
-							<td>[Status]</td>
+							<td>${telemetryData.elecPower}</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
@@ -172,7 +170,7 @@
 						</tr>
 						<tr>
 							<td>Cockpit Temperature (<abbr title="Degrees Celcius">&deg;C</abbr>)</td>
-							<td>[Status]</td>
+							<td>${telemetryData.cockpitTemp}</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
@@ -180,7 +178,7 @@
 						</tr>
 						<tr>
 							<td>Motor Temperature (<abbr title="Degrees Celcius">&deg;C</abbr>)</td>
-							<td>[Status]</td>
+							<td>${telemetryData.motorTemp}</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
@@ -188,7 +186,7 @@
 						</tr>
 						<tr>
 							<td>Controller Temperature (<abbr title="Degrees Celcius">&deg;C</abbr>)</td>
-							<td>[Status]</td>
+							<td>${telemetryData.controlTemp}</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
@@ -196,7 +194,7 @@
 						</tr>
 						<tr>
 							<td>Baseplate Temperature (<abbr title="Degrees Celcius">&deg;C</abbr>)</td>
-							<td>[Status]</td>
+							<td>${telemetryData.baseplateTemp}</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
@@ -204,7 +202,7 @@
 						</tr>
 						<tr>
 							<td>Battery Temperature (<abbr title="Degrees Celcius">&deg;C</abbr>)</td>
-							<td>[Status]</td>
+							<td>${telemetryData.batteryTemp}</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
@@ -212,7 +210,7 @@
 						</tr>
 						<tr>
 							<td><abbr title="Power Tracker">MPPT</abbr> Temperature (<abbr title="Degrees Celcius">&deg;C</abbr>)</td>
-							<td>[Status]</td>
+							<td>${telemetryData.mpptTemp}</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
 							<td>[Status]</td>

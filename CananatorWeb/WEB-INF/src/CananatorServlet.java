@@ -2,6 +2,7 @@ import javax.servlet.http.*;
 import javax.servlet.*;
 
 import beans.StringBean;
+import beans.TelemetryDataBean;
 
 import java.io.*;
 
@@ -49,6 +50,7 @@ throws ServletException,IOException
 		StringBean sBean = new StringBean();
 		sBean.setMesage("Data1, Data2, Data3");
 		
+		TelemetryDataBean tdBean = new TelemetryDataBean();
 		//session based sharing
 		//HttpSession session = req.getSession();
 		//session.setAttribute("key", sBean);
@@ -56,6 +58,7 @@ throws ServletException,IOException
 		//context based sharing
 		synchronized(this){
 			getServletContext().setAttribute("key", sBean);
+			getServletContext().setAttribute("telemetryData", tdBean);
 		}
 		
 		RequestDispatcher dispatcher = 
