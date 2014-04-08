@@ -20,7 +20,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>CananatorServlet</servlet-name>
-        <url-pattern>/ComS486Project/CananatorWeb</url-pattern>
+        <url-pattern>/CananatorWeb</url-pattern>
     </servlet-mapping>
 
 <!-- <welcome>HelloWorld</welcome> -->
