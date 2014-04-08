@@ -3,13 +3,29 @@ import javax.servlet.*;
 
 import beans.StringBean;
 import beans.TelemetryDataBean;
-
+import appPackage.*;
 import java.io.*;
 
 public class CananatorServlet extends HttpServlet {
  
   private static final long serialVersionUID = 1L;
-
+  private PrisumCanParser telemetryReceiver;
+  private TelemetryDataBean tdBean;
+  
+  public void init()
+{
+	telemetryReceiver = new PrisumCanParser();
+	tdBean = new TelemetryDataBean();
+	
+	//set arbituary values until testing with batterybox
+	SetTestData();
+	
+	//connect
+	//telemetryReceiver.connect("COM5");
+	
+	//telemetry has a lot of unused properties atm
+	// only use .PrisumSolarCarState
+}
 public void doGet(HttpServletRequest req,HttpServletResponse res)
 throws ServletException,IOException
 	{
@@ -50,10 +66,12 @@ throws ServletException,IOException
 		StringBean sBean = new StringBean();
 		sBean.setMesage("Data1, Data2, Data3");
 		
-		TelemetryDataBean tdBean = new TelemetryDataBean();
 		//session based sharing
 		//HttpSession session = req.getSession();
 		//session.setAttribute("key", sBean);
+		
+		//update telemetry data
+		this.UpdateTelemetryData();
 		
 		//context based sharing
 		synchronized(this){
@@ -64,6 +82,22 @@ throws ServletException,IOException
 		RequestDispatcher dispatcher = 
 				req.getRequestDispatcher(address);
 		dispatcher.forward(req, res);
+		
+	}
+
+	private void UpdateTelemetryData()
+	{
+		tdBean.setEnergyConsumption((float)telemetryReceiver.solarCarState.BPS.PackPower);
+		tdBean.setSolarPower((float)telemetryReceiver.solarCarState.BPS.ArrayPower);
+		tdBean.setMotorPower((float)telemetryReceiver.solarCarState.BPS.MotorPower);
+		
+	}
+	
+	private void SetTestData()
+	{
+		telemetryReceiver.solarCarState.BPS.PackPower = 2000;
+		telemetryReceiver.solarCarState.BPS.ArrayPower = 2000;
+		telemetryReceiver.solarCarState.BPS.MotorPower = -3000;
 		
 	}
   

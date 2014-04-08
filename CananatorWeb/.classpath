@@ -7,5 +7,7 @@
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/jsp-api.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/el-api.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/annotations-api.jar"/>
+	<classpathentry kind="lib" path="C:/GitRepositories/coms486/project/CananatorWeb/WEB-INF/lib/CANanator.jar"/>
+	<classpathentry kind="lib" path="C:/GitRepositories/coms486/project/CananatorWeb/WEB-INF/lib/jssc.jar"/>
 	<classpathentry kind="output" path="WEB-INF/classes"/>
 </classpath>
