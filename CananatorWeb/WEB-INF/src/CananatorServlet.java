@@ -3,7 +3,8 @@ import javax.servlet.*;
 
 import beans.StringBean;
 import beans.TelemetryDataBean;
-import appPackage.*;
+import CananatorX.*;
+
 import java.io.*;
 
 public class CananatorServlet extends HttpServlet {
@@ -21,7 +22,7 @@ public class CananatorServlet extends HttpServlet {
 	SetTestData();
 	
 	//connect
-	//telemetryReceiver.connect("COM5");
+	//telemetryReceiver.connect("COM3");
 	
 	//telemetry has a lot of unused properties atm
 	// only use .PrisumSolarCarState
