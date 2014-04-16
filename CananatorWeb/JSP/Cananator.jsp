@@ -312,21 +312,21 @@
 <!--<div class="container"> -->
 	<!-- Nav tabs -->
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="#bps" data-toggle="tab">Battery Protection (BPS)</a></li>
+		<li><a href="#bps" data-toggle="tab">Battery Protection (BPS)</a></li>
 		<li><a href="#mppt" data-toggle="tab">Power Trackers (MPPT)</a></li>
 		<li><a href="#motor" data-toggle="tab">Motor</a></li>
 		<li><a href="#errorlog" data-toggle="tab">Error Log</a></li>
-		<li><a href="#graphs" data-toggle="tab">Graphs</a></li>
+		<li class="active"><a href="#graphs" data-toggle="tab">Graphs</a></li>
 	</ul>
 
 <!-- Tab panes (LOWER CONTENT) -->
 	<div class="tab-content">
-		<div class="tab-pane active" id="bps">
-	   		<div class="panel panel-default">
+		<div class="tab-pane" id="bps">
+				<div class="panel panel-default">
   				<div class="panel-body">
   					<h4>BPS Content</h4>
   					<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
-   				</div>
+					</div>
   			</div>
 		</div>
 		<div class="tab-pane" id="mppt">
@@ -353,11 +353,12 @@
 				</div>
   			</div>
 		</div>
-		<div class="tab-pane" id="graphs">
+		<div class="tab-pane active" id="graphs">
 			<div class="panel panel-default">
   				<div class="panel-body">
- 					<div id="chart"></div>
-					<div id="legend"></div>
+ 					<div align="center">
+	 					<div id="chart_div" style="height:350px; width:80%;">
+					</div>
 				</div>
   			</div>
 		</div>
@@ -381,69 +382,30 @@
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
-	<!--Chart script stuff using Rickshaw.js charting.  See Rickshaw website http://code.shutterstock.com/rickshaw/ for example with dynamic updating -->
-		<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.5/d3.js"></script>
-		<script src="//cdnjs.cloudflare.com/ajax/libs/rickshaw/1.4.6/rickshaw.js"></script>
-
-		<script>
-		//x-value is epoch referenced time
-		var speed = [ { x: 1397704200, y: 15 }, { x: 1397704260, y: 20 }, { x: 1397704320, y: 30 }, { x: 1397704380, y: 34 }, { x: 1397704440, y: 32 } ];
-		var power = [ { x: 1397704200, y: 40 }, { x: 1397704260, y: 49 }, { x: 1397704320, y: 38 }, { x: 1397704380, y: 30 }, { x: 1397704440, y: 35 } ];
-		var charge = [ { x: 1397704200, y: 90 }, { x: 1397704260, y: 88 }, { x: 1397704320, y: 87 }, { x: 1397704380, y: 86 }, { x: 1397704440, y: 85 } ];
-		
-		var graph = new Rickshaw.Graph({
-			element: document.querySelector("#chart"),
-			//width: 800,
-			height: 300,
-			renderer: 'line',
-			series: [{
-					data: speed,
-					color: 'red',
-					name: "Speed"
-				}, {
-					data: power,
-					color: 'blue',
-					name: "Power Consumption"
-				}, {
-					data: charge,
-					color: 'green',
-					name: "Charge State"
-			}]
-		});
-		
-		graph.render();
-		
-		//x-axis setup
-		var x_Axis = new Rickshaw.Graph.Axis.Time({
-			graph: graph
-		});
-
-		x_Axis.render();
-
-		//hover over chart info pop-up
-		var hoverDetail = new Rickshaw.Graph.HoverDetail( {
-			graph: graph,
-			formatter: function(series, x, y) {
-				var date = '<span class="date">' + new Date(x * 1000).toUTCString() + '</span>';
-				var swatch = '<span class="detail_swatch" style="background-color: ' + series.color + '"></span>';
-				var content = swatch + series.name + ": " + parseInt(y) + '<br>' + date;
-				return content;
+	<!--Chart script stuff -->
+		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+		<script type="text/javascript">
+			google.load("visualization", "1", {packages:["corechart"]});
+			google.setOnLoadCallback(drawChart);
+			function drawChart() {
+				var data = google.visualization.arrayToDataTable([
+					['Year',	'Sales',	'Expenses'],
+					['2004',	1000,		400],
+					['2005',	1170,		460],
+					['2006',	660,		1120],
+					['2007',	1030,		540]
+				]);
+	
+				var options = {
+					title: 'Company Performance'
+				};
+	
+				var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+				
+				chart.draw(data, options);
 			}
-		} );
-		
-		//creates legend
-		var legend = new Rickshaw.Graph.Legend( {
-			graph: graph,
-			element: document.getElementById('legend')
-		} );
+	 </script>
 
-		//line toggle via legend
-		var shelving = new Rickshaw.Graph.Behavior.Series.Toggle({
-			graph: graph,
-			legend: legend
-		});
-
-		</script>
 
 
 </body>
