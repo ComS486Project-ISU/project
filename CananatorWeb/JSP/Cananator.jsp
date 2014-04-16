@@ -386,14 +386,14 @@
 		<script src="//cdnjs.cloudflare.com/ajax/libs/rickshaw/1.4.6/rickshaw.js"></script>
 
 		<script>
-		//x-value is epoch referenced time.
+		//x-value is epoch referenced time
 		var speed = [ { x: 1397704200, y: 15 }, { x: 1397704260, y: 20 }, { x: 1397704320, y: 30 }, { x: 1397704380, y: 34 }, { x: 1397704440, y: 32 } ];
 		var power = [ { x: 1397704200, y: 40 }, { x: 1397704260, y: 49 }, { x: 1397704320, y: 38 }, { x: 1397704380, y: 30 }, { x: 1397704440, y: 35 } ];
 		var charge = [ { x: 1397704200, y: 90 }, { x: 1397704260, y: 88 }, { x: 1397704320, y: 87 }, { x: 1397704380, y: 86 }, { x: 1397704440, y: 85 } ];
 		
 		var graph = new Rickshaw.Graph({
 			element: document.querySelector("#chart"),
-			width: 800,
+			//width: 800,
 			height: 300,
 			renderer: 'line',
 			series: [{
