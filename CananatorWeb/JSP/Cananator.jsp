@@ -6,19 +6,21 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>CANanator Web Interface</title>
-	<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-	<link href="//getbootstrap.com/examples/sticky-footer/sticky-footer.css" rel="stylesheet">
-	<!--<link href="http://getbootstrap.com/examples/jumbotron/jumbotron.css" rel="stylesheet">-->
-	<link href="//necolas.github.io/normalize.css" rel="stylesheet">
- 
-
-
-	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE 9]>
-	  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-	  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-	<![endif]-->
+	
+	<!-- Stylesheet stuff -->
+		<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+		<link href="//getbootstrap.com/examples/sticky-footer/sticky-footer.css" rel="stylesheet">
+		<link href="//necolas.github.io/normalize.css" rel="stylesheet">
+		<link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" rel="stylesheet">
+		<!--<link href="//cdnjs.cloudflare.com/ajax/libs/rickshaw/1.4.6/rickshaw.css" rel="stylesheet">-->
+	
+		<!-- Styles for chart hover -->
+		<style>
+			.rickshaw_graph .detail .x_label { display: none }
+			.rickshaw_graph .detail .item { line-height: 1.4; padding: 0.5em }
+			.detail_swatch { float: right; display: inline-block; width: 10px; height: 10px; margin: 0 4px 0 0 }
+			.rickshaw_graph .detail .date { color: #a0a0a0 }
+		</style>
 
 </head>
 <body>
@@ -354,15 +356,12 @@
 		<div class="tab-pane" id="graphs">
 			<div class="panel panel-default">
   				<div class="panel-body">
-  					<h4>Graph Content</h4>
-  					<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
+ 					<div id="chart"></div>
+					<div id="legend"></div>
 				</div>
   			</div>
 		</div>
 	</div>
-<!--</div>-->
-
-
 
 
 <!-- FOOTER -->
@@ -376,9 +375,76 @@
 <!-- JAVASCRIPT -->
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+	
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+	<!--Chart script stuff using Rickshaw.js charting.  See Rickshaw website http://code.shutterstock.com/rickshaw/ for example with dynamic updating -->
+		<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.5/d3.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/rickshaw/1.4.6/rickshaw.js"></script>
+
+		<script>
+		//x-value is epoch referenced time.
+		var speed = [ { x: 1397704200, y: 15 }, { x: 1397704260, y: 20 }, { x: 1397704320, y: 30 }, { x: 1397704380, y: 34 }, { x: 1397704440, y: 32 } ];
+		var power = [ { x: 1397704200, y: 40 }, { x: 1397704260, y: 49 }, { x: 1397704320, y: 38 }, { x: 1397704380, y: 30 }, { x: 1397704440, y: 35 } ];
+		var charge = [ { x: 1397704200, y: 90 }, { x: 1397704260, y: 88 }, { x: 1397704320, y: 87 }, { x: 1397704380, y: 86 }, { x: 1397704440, y: 85 } ];
+		
+		var graph = new Rickshaw.Graph({
+			element: document.querySelector("#chart"),
+			width: 800,
+			height: 300,
+			renderer: 'line',
+			series: [{
+					data: speed,
+					color: 'red',
+					name: "Speed"
+				}, {
+					data: power,
+					color: 'blue',
+					name: "Power Consumption"
+				}, {
+					data: charge,
+					color: 'green',
+					name: "Charge State"
+			}]
+		});
+		
+		graph.render();
+		
+		//x-axis setup
+		var x_Axis = new Rickshaw.Graph.Axis.Time({
+			graph: graph
+		});
+
+		x_Axis.render();
+
+		//hover over chart info pop-up
+		var hoverDetail = new Rickshaw.Graph.HoverDetail( {
+			graph: graph,
+			formatter: function(series, x, y) {
+				var date = '<span class="date">' + new Date(x * 1000).toUTCString() + '</span>';
+				var swatch = '<span class="detail_swatch" style="background-color: ' + series.color + '"></span>';
+				var content = swatch + series.name + ": " + parseInt(y) + '<br>' + date;
+				return content;
+			}
+		} );
+		
+		//creates legend
+		var legend = new Rickshaw.Graph.Legend( {
+			graph: graph,
+			element: document.getElementById('legend')
+		} );
+
+		//line toggle via legend
+		var shelving = new Rickshaw.Graph.Behavior.Series.Toggle({
+			graph: graph,
+			legend: legend
+		});
+
+		</script>
+
 
 </body>
 </html>
