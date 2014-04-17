@@ -8,11 +8,11 @@
 	<title>CANanator Web Interface</title>
 	
 	<!-- Stylesheet stuff -->
-		<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-		<link href="//getbootstrap.com/examples/sticky-footer/sticky-footer.css" rel="stylesheet">
-		<link href="//necolas.github.io/normalize.css" rel="stylesheet">
-		<link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" rel="stylesheet">
-		<!--<link href="//cdnjs.cloudflare.com/ajax/libs/rickshaw/1.4.6/rickshaw.css" rel="stylesheet">-->
+		<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="//getbootstrap.com/examples/sticky-footer/sticky-footer.css" rel="stylesheet" type="text/css" />
+		<link href="//necolas.github.io/normalize.css" rel="stylesheet" type="text/css" />
+		<link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
+
 	
 		<!-- Styles for chart hover -->
 		<style>
@@ -357,7 +357,11 @@
 			<div class="panel panel-default">
   				<div class="panel-body">
  					<div align="center">
-	 					<div id="chart_div" style="height:350px; width:80%;">
+	 					<div id="GoogleChart" style="height:350px; width:80%;"> 					
+					</div>
+ 					<div align="center">
+	 					<div id="jqPlotLive" style="height:350px; width:80%;"></div>
+						<button>Start Updates</button>
 					</div>
 				</div>
   			</div>
@@ -376,14 +380,14 @@
 <!-- JAVASCRIPT -->
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" type="text/javascript"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js" type="text/javascript"></script>
 	
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
-		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js" type="text/javascript"></script>
 
-	<!--Chart script stuff -->
-		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<!--Google Chart script stuff -->
+		<script src="https://www.google.com/jsapi" type="text/javascript"></script>
 		<script type="text/javascript">
 			google.load("visualization", "1", {packages:["corechart"]});
 			google.setOnLoadCallback(drawChart);
@@ -397,14 +401,86 @@
 				]);
 	
 				var options = {
-					title: 'Company Performance'
+					title: 'Company Performance',
 				};
 	
-				var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+				var chart = new google.visualization.LineChart(document.getElementById('GoogleChart'));
 				
 				chart.draw(data, options);
 			}
-	 </script>
+	</script>
+
+
+	<!-- jqPlot stuff -->
+	<link href="//cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.8/jquery.jqplot.min.css" rel="stylesheet" type="text/css" />
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.8/jquery.jqplot.min.js" type="text/javascript"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.8/plugins/jqplot.dateAxisRenderer.min.js" type="text/javascript"></script>
+
+	<script type="text/javascript">
+		//jqPlot with real time update example http://www.meccanismocomplesso.org/en/jqplot-real-time-data/
+		
+		$(document).ready(function () {
+			var t = 5000;	//refresh time (in millisec)
+			var n = 40;		//samples to draw
+			var x = (new Date()).getTime();	// current time
+			var data = [];	//buffer of n samples
+			for (i = 0; i < n; i++) {
+				data.push([x - (n - 1 - i) * t, 0]);
+			}
+	
+			var options = {
+				axes: {
+					xaxis: {
+						numberTicks: 10,
+						renderer: $.jqplot.DateAxisRenderer,
+						tickOptions: { formatString: '%H:%M:%S' },
+						min: data[0][0],
+						max: data[data.length - 1][0]
+					},
+					yaxis: {
+						min: 0,
+						max: 1, // reset to maximum scale
+						numberTicks: 6,
+						tickOptions: { formatString: '%.1f'	}
+					}
+				},
+				seriesDefaults: { rendererOptions: { smooth: false } } // curved lines or linear
+			};
+			
+			var plot1 = $.jqplot('jqPlotLive', [data], options);
+	
+			$('button').click(function () {
+				doUpdate();
+				$(this).hide();
+			});
+	
+			function doUpdate() {
+				if (data.length > n - 1) {
+					data.shift();
+				}
+				var y = Math.random(); // y variable data is a random generated number in this example
+				var x = (new Date()).getTime();
+				data.push([x, y]);
+				if (plot1) {
+					plot1.destroy();
+				}
+				
+				plot1.series[0].data = data;
+
+				// the problem is that now the values ​​on the y ticks are no longer static
+				// and change with each update, and then change the underlying logic
+				// need to adjust the values ​​in options.
+
+				options.axes.xaxis.min = data[0][0];
+				options.axes.xaxis.max = data[data.length - 1][0];
+				plot1 = $.jqplot('jqPlotLive', [data], options);
+				setTimeout(doUpdate, t);
+			}	
+		});
+	</script>
+
+
+
 
 
 
