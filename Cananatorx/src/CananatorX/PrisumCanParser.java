@@ -8,135 +8,76 @@
 package CananatorX;
 import CananatorX.CanDataArg.PrisumCanDataType;
 import CananatorX.PrisumSolarCarState.BatteryModuleError;
+import CananatorX.PrisumSolarCarState.MpptStatus;
 import CananatorX.PrisumSolarCarState.PackError;
 import CananatorX.PrisumSolarCarState;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Date;
+
 import javax.swing.JComboBox;
+
 import jssc.SerialPortList;
 import jssc.SerialPort;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
 import jssc.SerialPortException;
-
-import CananatorX.PrisumSolarCarState.PackStatus;
- 
-import CananatorX.PrisumSolarCarState.PowerBoardStatus;
+import CananatorX.PrisumSolarCarState.BatteryModuleError;
+import CananatorX.PrisumSolarCarState.PowerBoardError;
 import CananatorX.PrisumSolarCarState.BpsStatus;
+import CananatorX.PrisumSolarCarState.MotorBoardIOState;
+import CananatorX.PrisumSolarCarState.MotorBoardStatus;
+
 /**
  *
  * @author prisum
  */
 public class PrisumCanParser {
     
-    public int k=0;
+	private int k=0;
     private boolean[] info = new boolean[20];
-    public boolean running = false;
-    public String error= "";
+    private boolean running = false;
+    private String error= "";
+    /** CAN MESSAGE IDS **/
+    //256-285 modules 1- 30
+    //305 PowerSense
+    //306 PowerBoard
+    //322 BPS Reset
+    //323 Pack Energy
+    //324 Pack Health
     
+    private byte[] CANmessage=new byte[14];
+    private byte[] CANmessages= new byte[140];
+    private int[] intCANmessage= new int[14];
+    private String[] stringCANmessage= new String[14];
+    private int[] CANdata=new int[8];
     
-    public byte[] CANmessage=new byte[14];
-    public byte[] CANmessages= new byte[140];
-    public int[] intCANmessage= new int[14];
-    public String[] stringCANmessage= new String[14];
-    public int[] CANdata=new int[8];
-    public boolean CANvalid=false;
-    public int ID = 0;
-    public int numInvalidCAN=0;
-    public String CANtype ="";
-    public int CheckSum=0;
-    public int messageSize=0;
-    public int baudRate= 57600;
-    public Date lastCANmessage = new Date();
-    DecimalFormat df= new DecimalFormat("#.###");
-    public int bpsLow = 256; //Lowest BPS CAN ID
-    public int bpsHigh = 324; //Highest BPS CAN ID
-    public int FirstModule = 257; //Lowest battery module info CAN ID
-    public int LastModule = 283; //Highest possible battery module info CAN ID
-    public int motorLow = 768; //Lowerst Motor CAN ID
-    public int motorHigh = 775; //Highest Motor CAN ID
-    public int vdtsLow = 1280; //Lowest VDTS CAN ID
-    public int vdtsHigh = 1283; //Highest VDTS CAN ID
-    public int mpptLow = 1536; //Lowest MPPT ID
-    public int mpptHigh = 1567; //Highest MPPT ID
-    public int FirstMPPT = 1536; //Lowest MPPT info CAN ID
-    public int LastMPPT = 1551; //Highest possible MPPT info CAN ID
-    public int dashLow = 1920; //Lowest Dash ID
-    public int dashHigh = 1920; //Highest Dash ID
+    private boolean CANvalid=false;
+    private int ID = 0;
+    private int numInvalidCAN=0;
+    private String CANtype ="";
+    private int CheckSum=0;
+    private int messageSize=0;
+    private int baudRate= 57600;
+    private Date lastCANmessage = new Date();
+    private DecimalFormat df= new DecimalFormat("#.###");
     
-    public int MPHcount  = 0; //Counter variable for speed calculations
-    public int MPHmax  = 0; //Initialize maximum speed
-    public int MPHmin  = 10000; //Initialize minimum speed
-    public int MPHrecent  = 0; //Initialize weighted average of MPH with expected value
-    public int MPHavg  = 0; //Initialize average speed
-    public int MPPTeffCount  = 0; //Counter variable for MPPT efficiency calculations
-    public int MPPTeffMax  = 0; //Initialize maximum MPPT efficiency
-    public int MPPTeffMin  = 100; //Initialize minimum MPPT efficiency
-    public int MPPTeffRecent  = 1; //Initialize weighted average of MPPT efficiency with expected value
-    public int MPPTeffAvg  = 0; //Initialize average MPPT efficiency
-    public int ElectronicsPowerCount  = 0; //Counter variable for electronics calculations
-    public int ElectronicsPowerMax  = 0; //Initialize maximum electronics power
-    public int ElectronicsPowerMin  = 10000; //Initialize minimum electronics power
-    public int ElectronicsPowerRecent  = 25; //Initialize weighted average of electronics power with expected value
-    public int ElectronicsPowerAvg  = 0; //Initialize average electronics power
-    public int MPGeCount  = 0; //Counter variable for MPGe
-    public int MPGeMax  = 0; //Initialize maximum MPGe
-    public int MPGeMin  = 10000; //Initialize minimum MPGe
-    public int MPGeRecent  = 0; //Initialize weighted average of MPGe with expected value
-    public int MPGeAvg  = 0; //Initialize average MPGe
-    public int PackPowerCount  = 0; //Counter variable for pack calculations
-    public double PackPowerMax  = -10000; //Initialize maximum pack power
-    public double PackPowerMin  = 10000; //Initialize minimum pack power
-    public double PackPowerRecent  = 0; //Initialize weighted average of pack power with expected value
-    public double PackPowerAvg  = 0; //Initialize average pack power
-    public int ArrayPowerCount  = 0; //Counter variable for array calculations
-    public double ArrayPowerMax  = 0; //Initialize maximum array power
-    public double ArrayPowerMin  = 10000; //Initialize minimum array power
-    public double ArrayPowerRecent  = 0; //Initialize weighted average of array power with expected value
-    public double ArrayPowerAvg  = 0; //Initialize average array power
-    public int MotorPowerCount  = 0; //Counter variable for motor power calculations
-    public double MotorPowerMax  = 0; //Initialize maximum motor power
-    public double MotorPowerMin  = 10000; //Initialize minimum motor power
-    public double MotorPowerRecent  = 0; //Initialize weighted average of motor power with expected value
-    public double MotorPowerAvg  = 0; //Initialize average motor power
-    public int CockpitTCount  = 0; //Counter variable for cockpit temp calculations
-    public double CockpitTempMax  = 0; //Initialize maximum cockpit temp
-    public double CockpitTempMin  = 10000; //Initialize minimum cockpit temp
-    public double CockpitTempRecent  = 30; //Initialize weighted average of cockpit temp with expected value
-    public double CockpitTempAvg  = 0; //Initialize average cockpit temp
-    public int MotorTCount  = 0; //Counter variable for motor temp calculations
-    public int MotorTMax  = 0; //Initialize maximum motor temp
-    public int MotorTMin  = 10000; //Initialize minimum motor temp
-    public int MotorTRecent  = 30; //Initialize weighted average of motor temp with expected value
-    public int MotorTAvg  = 0; //Initialize average motor temp
-    public int ControllerTCount  = 0; //Counter variable for controller temp calculations
-    public int ControllerTMax  = 0; //Initialize maximum controller temp
-    public int ControllerTMin  = 10000; //Initialize minimum controller temp
-    public int ControllerTRecent  = 30; //Initialize weighted average of controller temp with expected value
-    public int ControllerTAvg  = 0; //Initialize average controller temp
-    public int BaseplateTCount  = 0; //Counter variable for baseplate temp calculations
-    public int BaseplateTMax  = 0; //Initialize maximum baseplate temp
-    public int BaseplateTMin  = 10000; //Initialize minimum baseplate temp
-    public int BaseplateTRecent  = 30; //Initialize weighted average of baseplate temp with expected value
-    public int BaseplateTAvg  = 0; //Initialize average baseplate temp
-    public int PackTCount  = 0; //Counter variable for pack temp calculations
-    public int PackTMax  = 0; //Initialize maximum pack temp
-    public int PackTMin  = 10000; //Initialize minimum pack temp
-    public int PackTRecent  = 30; //Initialize weighted average of pack temp with expected value
-    public int PackTAvg  = 0; //Initialize average pack temp
-    public int MPPTtCount  = 0; //Counter variable for MPPT temp calculations
-    public int MPPTtMax  = 0; //Initialize maximum MPPT temp
-    public int MPPTtMin  = 10000; //Initialize minimum MPPT temp
-    public int MPPTtRecent  = 30; //Initialize weighted average of MPPT temp with expected value
-    public int MPPTtAvg  = 0; //Initialize average MPPT temp
-    public int RecentV  = 100; //Initialize weighted average of system voltage with expected value
-    public int ShortWeight  = 100; //Determines how many recent samples are given significant weight
-    public int MidWeight  = 300; //Determines how many recent samples are given significant weight
-    public int LongWeight  = 600; //Determines how many recent samples are given significant weight
-    
+    private int bpsLow = 256; //Lowest BPS CAN ID
+    private int bpsHigh = 324; //Highest BPS CAN ID
+    private int FirstModule = 257; //Lowest battery module info CAN ID
+    private int LastModule = 283; //Highest possible battery module info CAN ID
+    private int motorLow = 768; //Lowerst Motor CAN ID
+    private int motorHigh = 775; //Highest Motor CAN ID
+    private int vdtsLow = 1280; //Lowest VDTS CAN ID
+    private int vdtsHigh = 1283; //Highest VDTS CAN ID
+    private int mpptLow = 1536; //Lowest MPPT ID
+    private int mpptHigh = 1567; //Highest MPPT ID
+    private int dashLow = 1920; //Lowest Dash ID
+    private int dashHigh = 1920; //Highest Dash ID
+        
 
     public double ModVScale  = 0.001; //Battery module voltage scale
     public double ModTScale  = 1; //Battery module temperature scale
@@ -144,28 +85,8 @@ public class PrisumCanParser {
     public double VScale  = 0.1; //Pack voltage scale
     public double pbScale  = 0.01; //Powerboard scale
     public double V5Scale  = 0.1; //5V scale
-    public double SystemV; //Main battery pack voltage
-    public double PackCurrent;  //Main battery pack current
-    public double NoLoadV; //Main pack voltage with low load
-    public double PackPower; //Main battery pack power
-
-    public double ArrayVoltage; //Voltage of Array
-    public double ArrayCurrent; //Current from Array
-    public double ArrayPower; //Solar array power
-    public double MotorVoltage;  //Motor Shunt Voltage
-    public double MotorCurrent; //Motor Shunt Current
-    public double MotorPower; //Motor Shunt power
-    public double AuxV; //Aux pack voltage
-    public double V12Main; //12v main bus voltage
-    public double V12Aux; //12v aux bus voltage
-    public double V5; //5v bus voltage
     
-    public double SOC;
-    public double BatteryCapacity;
-    public double Cycles;
     public PrisumSolarCarState solarCarState = new PrisumSolarCarState();
-    
-    
    
     static SerialPort serialPort;
     
@@ -260,6 +181,7 @@ public class PrisumCanParser {
                                 for(i=0; i<CANmessage.length; i++){
                                     stringCANmessage[i]= ""+CANmessage[i];
                                     intCANmessage[i]= CANmessage[i];  //TEST THIS
+                                    
                                 }
                                 CANvalidation();
                                 if(CANvalid){
@@ -364,14 +286,14 @@ public class PrisumCanParser {
             bps();
         }else if(ID>= motorLow && ID<= motorHigh){
             CANtype= "Motor"; //Device is Motor
-          //  Motor();
+            Motor();
         }else if(ID>= vdtsLow && ID<= vdtsHigh){
             CANtype= "VDTS"; //Device is VDTS
         }else if(ID>= mpptLow && ID<= mpptHigh){
             CANtype= "MPPT"; //Device is MPPT
         }else if(ID>= dashLow && ID<= dashHigh){
             CANtype= "Dash"; //Device is Dash
-          //  dash();
+            Dash();
         }else{
             CANtype= "Unknown"; //Device is Unknown
         }
@@ -402,374 +324,193 @@ public class PrisumCanParser {
         int CAN9=intCANmessage[9];
         int CAN10=intCANmessage[10];
         if(ID>=FirstModule && ID<=LastModule){
-            boolean vReadErr  = false; //Voltage read error (bit 6)
-            boolean tReadErr  = false; //Temp read error (bit 7)
-            boolean otFault  = false; //Over temp fault (bit 0)
-            boolean otWarn  = false; //Over temp warning (bit 1)
-            boolean utFault  = false; //Under temp fault (bit 2)
-            boolean utWarn  = false; //Under temp warning (bit 3)
-            boolean ovFault  = false; //Over voltage fault (bit 4)
-            boolean ovWarn  = false; //Over voltage warning (bit 5)
-            boolean uvFault  = false; //Under voltage fault (bit 6)
-            boolean uvWarn  = false; //Under voltage warning (bit 7)
-            BatteryModuleError modStatus = BatteryModuleError.None;
+
             //PowerBoardStatus PowerBoardStatus = PowerBoardStatus.None;
-            double modV=(intCANmessage[5]*256+intCANmessage[6])*ModVScale;
-            double modT=(intCANmessage[7]*256+intCANmessage[8])*ModTScale;
+            double modV=(intCANmessage[5]<<8+intCANmessage[6])*ModVScale;
+            double modT=(intCANmessage[7]<<8+intCANmessage[8])*ModTScale;
             int modID=ID-257;
-          //  System.out.println(modID);
-            PrisumSolarCarState.BatteryModule bm = solarCarState.BPS.BatteryModules.get(modID);
-            bm.Temp = modT;
-            bm.Voltage = modV;
-            bm.Id = modID;
             
-            if(CAN9<256 && CAN9>=128){
-                CAN9=CAN9-128;
-                tReadErr = true;  //Temp read error (bit 7)
-                modStatus=BatteryModuleError.None;
-                
-                bm.bmErrors[modStatus.ordinal()] = true;
-               //faultTable.setValueAt("ERROR "+modID, 0, 1);
-            }
-            if(CAN9<128 && CAN9>=64){
-                CAN9=CAN9-64;
-                vReadErr  = true;  //Voltage read error (bit 6)
-                modStatus=BatteryModuleError.VoltageReadError;
-                bm.bmErrors[modStatus.ordinal()] = true;
-                //faultTable.setValueAt("ERROR "+modID, 5, 1);
-            }
+            solarCarState.setBatteryModuleTemp(modID, modT);
+            solarCarState.setBatteryModuleVoltage(modID, modV);
             
-            if(CAN10<256 && CAN10>=128){
-                CAN10=CAN10-128; //Under voltage warning (bit 7)
-                modStatus = BatteryModuleError.UnderVoltWarning;
-                bm.bmErrors[modStatus.ordinal()] = true;
-                //faultTable.setValueAt("ERROR "+modID, 9, 1);
-            }
-            if(CAN10<128 && CAN10>=64){ 
-                CAN10=CAN10-64;
-                //Under Voltage Fault (bit 6)
-                
-                modStatus = BatteryModuleError.UnderVoltFault;
-                bm.bmErrors[modStatus.ordinal()] = true;
-                //faultTable.setValueAt("ERROR "+modID, 8, 1);
-            }
-            if(CAN10<64 && CAN10>=32){
-                CAN10=CAN10-32;
-               //Over voltage warning (bit 5)
-                
-                modStatus = BatteryModuleError.OverVoltWarning;
-                bm.bmErrors[modStatus.ordinal()] = true;
-                //faultTable.setValueAt("ERROR "+modID, 7, 1);
-            }
-            if(CAN10<32 && CAN10>=16){
-                CAN10=CAN10-16;
-                //Over voltage fault (bit 4)
-                
-                modStatus = BatteryModuleError.OverVoltFault;
-                bm.bmErrors[modStatus.ordinal()] = true;
-                //faultTable.setValueAt("ERROR "+modID, 6, 1);
-            }
-            if(CAN10<16 && CAN10>=8){
-                CAN10=CAN10-8;
-                //Under temp warning (bit 3)
-                
-                modStatus = BatteryModuleError.UnderTempWarning;
-                bm.bmErrors[modStatus.ordinal()] = true;
-                //faultTable.setValueAt("ERROR "+modID, 4, 1);
-            }
-            if(CAN10<8 && CAN10>=4){
-                CAN10=CAN10-4;
-                //Under temp fault (bit 2)
-                
-                modStatus = BatteryModuleError.UnderTempFault;
-                bm.bmErrors[modStatus.ordinal()] = true;
-                //faultTable.setValueAt("ERROR "+modID, 3, 1);
-            }
-            if(CAN10<4 && CAN10>=2){
-                CAN10=CAN10-2;
-                //Over temp warning (bit 1)
-                
-                modStatus = BatteryModuleError.OverTempWarning;
-                bm.bmErrors[modStatus.ordinal()] = true;
-                //faultTable.setValueAt("ERROR "+modID, 2, 1);
-            }
-            if(CAN10==1){
-                //Over temp fault (bit 0)
-                modStatus = BatteryModuleError.OverTempFault;
-                bm.bmErrors[modStatus.ordinal()] = true;
-                //faultTable.setValueAt("ERROR "+modID, 1, 1);
-            }
-          //  String UpdateTime = stringCANmessage[12]; //Time of last update*/
+            
+            //Status 1
+            solarCarState.setBatteryModuleError(modID, BatteryModuleError.UnderVoltWarning,  itob(CAN9 & 10000000));
+            solarCarState.setBatteryModuleError(modID, BatteryModuleError.UnderVoltFault, 	 itob(CAN9 & 01000000));
+            solarCarState.setBatteryModuleError(modID, BatteryModuleError.OverVoltWarning,	 itob(CAN9 & 00100000));
+            solarCarState.setBatteryModuleError(modID, BatteryModuleError.OverVoltFault,	 itob(CAN9 & 00010000));
+            solarCarState.setBatteryModuleError(modID, BatteryModuleError.UnderTempWarning,  itob(CAN9 & 00001000));
+            solarCarState.setBatteryModuleError(modID, BatteryModuleError.UnderTempFault,    itob(CAN9 & 00000100));
+            solarCarState.setBatteryModuleError(modID, BatteryModuleError.OverTempWarning,   itob(CAN9 & 00000010));
+            solarCarState.setBatteryModuleError(modID, BatteryModuleError.OverTempFault,     itob(CAN9 & 00000001));
       
- 
+           
+            //status 2
+            solarCarState.setBatteryModuleError(modID, BatteryModuleError.VoltageReadError,          itob(CAN10 & 0b0000001));
+            solarCarState.setBatteryModuleError(modID, BatteryModuleError.TempReadError,             itob(CAN10 & 0b0000010));
+            solarCarState.setBatteryModuleError(modID, BatteryModuleError.TempCalibrationRangeError, itob(CAN10 & 0b0000100));
+            solarCarState.setBatteryModuleError(modID, BatteryModuleError.ModuleDisconnectedFault, 	 itob(CAN10 & 0b0001000));
             
-            
-            //moduleTable.setValueAt(df.format(modV), modID, 1);
-            //moduleTable.setValueAt(modT, modID, 2);
-            //moduleTable.setValueAt(modStatus, modID, 3);
-
-             
-            if( solarCarState.BPS.highV <= modV){
-                solarCarState.BPS.highVmod=modID;
-                solarCarState.BPS.highV = modV;
-                //BPStable.setValueAt(highV, 0, 1);
-            }
-//            if(lowVmod!=0){
-//                Object objdb2 = moduleTable.getValueAt(lowVmod,1);
-//                lowV= Double.parseDouble(objdb2.toString());
-//            }
-            if( solarCarState.BPS.lowV >= modV || solarCarState.BPS.lowV==0.0){
-                solarCarState.BPS.lowVmod=modID;
-                solarCarState.BPS.lowV = modV;
-                //BPStable.setValueAt(lowV, 1, 1);
-            }
-//            if(highTmod!=0){
-//                Object objdb3 = moduleTable.getValueAt(highTmod,2);
-//                highT= Double.parseDouble(objdb3.toString());
-//            }
-            if( solarCarState.BPS.highT <= modT){
-                solarCarState.BPS.highTmod=modID;
-                solarCarState.BPS.highT = modT;
-                //BPStable.setValueAt(highT, 2, 1);
-            }
-             if( solarCarState.BPS.lowT >= modT){
-                solarCarState.BPS.lowTmod=modID;
-                solarCarState.BPS.lowT = modT;
-                //BPStable.setValueAt(highT, 2, 1);
-            }
-            
-             //not updating on bps statistics data, only batt mod
-
-            CanDataArg dataArg = new CanDataArg(this,solarCarState, bm,PrisumCanDataType.BatteryModule);
+            CanDataArg dataArg = new CanDataArg(this,solarCarState, modID,PrisumCanDataType.BatteryModule);
             prisumListener.CanDataChanged(dataArg);
-                             
-            
             
         }else if(ID==305/*Pack Powersense*/){
-            PackError modStatus = PackError.None;
-            //NEED TO ADD: POWER RECENT, AVERAGE, COUNT, REVENT V
-            SystemV=(((intCANmessage[5]+1)*256)+intCANmessage[6])*VScale;
-            PackCurrent = (((intCANmessage[7]+1)*256)+intCANmessage[8])*IScale;
-            PackPower = SystemV * PackCurrent; // there is a pack energy mesasge instead
-            int Status2=intCANmessage[9];
-            solarCarState.BPS.SystemV = SystemV;
-            solarCarState.BPS.PackCurrent=PackCurrent;
-            solarCarState.BPS.PackPower=PackPower;
+           
+        	//NEED TO ADD: POWER RECENT, AVERAGE, COUNT, REVENT V
             
-            if(itob(Status2 & 0b00100000)){
-                modStatus = PackError.PackCurrentReadError;
-                solarCarState.BPS.PackErrors[modStatus.ordinal()]=true;
-              //  faultTable.setValueAt("ERROR", 10, 1); //pack current read error
-            }
-            if(itob(Status2 & 0b00010000)){
-                modStatus = PackError.PackVoltageReadError;
-                solarCarState.BPS.PackErrors[modStatus.ordinal()]=true;
-              //  faultTable.setValueAt("ERROR", 11, 1); //pack voltage read error
-            }
-            if(itob(Status2 & 0b00001000)){
-                modStatus = PackError.OverDischargeWarning;
-                solarCarState.BPS.PackErrors[modStatus.ordinal()]=true;
-              //  faultTable.setValueAt("WARNING", 15, 1); //Over Discharge warning
-            }
-            if(itob(Status2 & 0b00000100)){
-                modStatus = PackError.OverDischargeFault;
-                solarCarState.BPS.PackErrors[modStatus.ordinal()]=true;
-               // faultTable.setValueAt("FAULT", 14, 1); //Over Discharge Fault
-            }
-            if(itob(Status2 & 0b00000010)){
-                modStatus = PackError.OverChargeWarning;
-                solarCarState.BPS.PackErrors[modStatus.ordinal()]=true;
-              //  faultTable.setValueAt("WARNING", 13, 1); //Over charge Warning
-            }
-            if(itob(Status2 & 0b00000001)){
-                modStatus = PackError.OverChargeFault;
-                solarCarState.BPS.PackErrors[modStatus.ordinal()]=true;
-            //    faultTable.setValueAt("FAULT", 12, 1); //Over charge Fault
-            }
-            if(PackPower>0){
-                solarCarState.BPS.PackStatus=PrisumSolarCarState.PackStatus.Charging;
-            }else if(PackPower<0){
-                solarCarState.BPS.PackStatus=PrisumSolarCarState.PackStatus.Draining;
-            }else{
-                solarCarState.BPS.PackStatus=PrisumSolarCarState.PackStatus.NoNetPower;
-            }
+        	double PackCurrent = (((intCANmessage[5])<<8)+intCANmessage[6])*IScale;
+        	double ArrayCurrent = (((intCANmessage[7])<<8)+intCANmessage[8])*IScale;
+        	double MotorCurrent = (((intCANmessage[9])<<8)+intCANmessage[10])*IScale;
+        	
+            int Status1=intCANmessage[11];
+            int Status2=intCANmessage[12];
+            
+            solarCarState.setPackCurrent(PackCurrent);
+            solarCarState.setArrayCurrent(ArrayCurrent);
+            solarCarState.setMotorPower(MotorCurrent);
+            
+            //status 1
+            solarCarState.setPackError(PackError.PackCalibrationRangeError, itob(Status1 & 0b10000000));
+            solarCarState.setPackError(PackError.ArrayCurrentReadError, itob(Status1 & 0b01000000));
+            solarCarState.setPackError(PackError.MotorCurrentReadError, itob(Status1 & 0b00100000));
+            solarCarState.setPackError(PackError.PackCurrentReadError,  itob(Status1 & 0b00010000));
+            solarCarState.setPackError(PackError.OverDischargeWarning,  itob(Status1 & 0b00001000));
+            solarCarState.setPackError(PackError.OverDischargeFault,    itob(Status1 & 0b00000100));
+            solarCarState.setPackError(PackError.OverChargeWarning,     itob(Status1 & 0b00000010));
+            solarCarState.setPackError(PackError.OverChargeFault,       itob(Status1 & 0b00000001));
+            
+            //status 2
+            solarCarState.setPackError(PackError.MotorCurrentCalibrationError, itob(Status2 & 0b00000001));
+            solarCarState.setPackError(PackError.MotorCurrentCalibrationError, itob(Status2 & 0b00000010));
+            solarCarState.setPackError(PackError.MotorCurrentCalibrationError, itob(Status2 & 0b00000100));
 
-            if(solarCarState.BPS.PackPowerMin>solarCarState.BPS.PackPower){
-                solarCarState.BPS.PackPowerMin=solarCarState.BPS.PackPower;
-                //BPStable.setValueAt(PackPowerMin, 9, 1);
-            }
-            if(solarCarState.BPS.PackPowerMax<solarCarState.BPS.PackPower){
-                solarCarState.BPS.PackPowerMax=solarCarState.BPS.PackPower;
-                //BPStable.setValueAt(PackPowerMax, 8, 1);
-            }
         
             CanDataArg dataArg = new CanDataArg(this,solarCarState, 0,PrisumCanDataType.BatteryProtectionSystem);
             prisumListener.CanDataChanged(dataArg);
             
-        }else if(ID==306 /*Array Shunt*/){
-            int Status2=intCANmessage[9];
-            PackError modStatus = PackError.None;
-            solarCarState.BPS.ArrayVoltage = (((intCANmessage[5]+1)*256)+intCANmessage[6])*VScale;
-            solarCarState.BPS.ArrayCurrent = (((intCANmessage[7]+1)*256)+intCANmessage[8])*IScale;
-            solarCarState.BPS.ArrayPower=ArrayCurrent*ArrayVoltage;
-           /* if(itob(Status2 & 0b00000100)){   // check this?
-                modStatus = PackError.ArrayCurrentReadError;
-                solarCarState.BPS.PackErrors[7]=true;
-                //faultTable.setValueAt("ERROR", 16, 1); //array current read error
-            }*/
-            //BPStable.setValueAt(ArrayCurrent, 14, 1);
-            //BPStable.setValueAt(ArrayPower, 15, 1);
-            if(ArrayPowerMin>ArrayPower){
-                ArrayPowerMin=ArrayPower;
-                solarCarState.BPS.ArrayPowerMin = ArrayPowerMin;
-               // BPStable.setValueAt(ArrayPowerMin, 16, 1);
-            }
-            if(ArrayPowerMax<ArrayPower){
-                ArrayPowerMax=ArrayPower;
-                solarCarState.BPS.ArrayPowerMax = ArrayPowerMax;
-               // BPStable.setValueAt(ArrayPowerMax, 17, 1);
-            }
-            //do average
-            CanDataArg dataArg = new CanDataArg(this,solarCarState, 0,PrisumCanDataType.BatteryProtectionSystem);
-            prisumListener.CanDataChanged(dataArg);
-            
-        }else if(ID==307 /*Motor Shunt*/){
-            solarCarState.BPS.MotorVoltage = (((intCANmessage[5]+1)*256)+intCANmessage[6])*VScale;
-            solarCarState.BPS.MotorCurrent = (((intCANmessage[7]+1)*256)+intCANmessage[8])*IScale;
-            solarCarState.BPS.MotorPower=MotorCurrent*SystemV;
-            /*
-            int Status2=intCANmessage[9];
-            PackError modStatus = PackError.None;
-            if(itob(Status2 & 0b0010000)){  //check this
-                modStatus = PackError.ArrayCurrentReadError;
-                solarCarState.BPS.PackErrors[8]=true;
-                //faultTable.setValueAt("ERROR", 17, 1); //Motor current read error
-            }*/
-            //BPStable.setValueAt(MotorCurrent, 21, 1);
-            //BPStable.setValueAt(MotorPower, 22, 1);
-            if(MotorPowerMin>MotorPower){
-                MotorPowerMin=MotorPower;
-                solarCarState.BPS.MotorPowerMin = MotorPowerMin;
-                //BPStable.setValueAt(MotorPowerMin, 23, 1);
-            }
-            if(MotorPowerMax<MotorPower){
-                MotorPowerMax=MotorPower;
-                solarCarState.BPS.MotorPowerMax = MotorPowerMax;
-                //BPStable.setValueAt(MotorPowerMax, 24, 1);
-            }  
-            CanDataArg dataArg = new CanDataArg(this,solarCarState, 0,PrisumCanDataType.BatteryProtectionSystem);
-            prisumListener.CanDataChanged(dataArg);
-        }else if(ID==310 /*Power board*/){
+        }   else if(ID==306 /*Power board*/){
+        	
+        	
             //PowerBoardStatus modStatus = PowerBoardStatus.None;
-            int Status=intCANmessage[12];
-            solarCarState.BPS.AuxPackVoltage = (((intCANmessage[5]+1)*256)+intCANmessage[6])*IScale;
-            solarCarState.BPS.TwelveVoltMainVoltage = (((intCANmessage[7]+1)*256)+intCANmessage[8])*pbScale;
-            solarCarState.BPS.TwelveVoltAuxVoltage = (((intCANmessage[9]+1)*256)+intCANmessage[10])*pbScale;
-            solarCarState.BPS.FiveVoltVoltage = (intCANmessage[11])*V5Scale;
-            //solarCarState.BPS.MotorPower=MotorCurrent*SystemV;
-            if(itob(Status & 0b00010000)){
-                solarCarState.BPS.PowerBoardStatuses[PowerBoardStatus.AuxPackReadError.ordinal()] = true;
-               // solarCarState.BPS.PowerBoardStatus[0]=true;
-                //faultTable.setValueAt("ERROR", 18, 1); //Aux Pack Low
-            }
-            if(itob(Status & 0b00001000)){
-                //modStatus = PowerBoardStatus.TwelveVoltMainReadError;
-                solarCarState.BPS.PowerBoardStatuses[PowerBoardStatus.TwelveVoltMainReadError.ordinal()]=true;
-                //faultTable.setValueAt("ERROR", 20, 1); //5v read error
-            }
-            if(itob(Status & 0b00000100)){
-                //modStatus = PowerBoardStatus.TwelveVoltAuxReadError;
-                solarCarState.BPS.PowerBoardStatuses[PowerBoardStatus.TwelveVoltAuxReadError.ordinal()]=true;
-                //faultTable.setValueAt("ERROR", 21, 1); //12V aux read error
-            }
-            if(itob(Status & 0b00000010)){
-                //modStatus = PowerBoardStatus.FiveVoltReadError;
-                solarCarState.BPS.PowerBoardStatuses[PowerBoardStatus.FiveVoltReadError.ordinal()]=true;
-                //faultTable.setValueAt("ERROR", 22, 1); //12V main read error
-            }
-            if(itob(Status & 0b00000001)){
-                //modStatus = PowerBoardStatuses.AuxPackLow;
-                solarCarState.BPS.PowerBoardStatuses[PowerBoardStatus.AuxPackLow.ordinal()]=true;
-               // faultTable.setValueAt("ERROR", 19, 1); //Aux Pack read error
-            }
-            /*
-            jTable1.setValueAt(df.format(AuxV), 14, 1);
-            jTable1.setValueAt(df.format(V12Main), 15, 1);
-            jTable1.setValueAt(df.format(V12Aux), 16, 1);
-            jTable1.setValueAt(df.format(V5), 17, 1);
-            */
+            int Status1=intCANmessage[11];
+            int Status2=intCANmessage[12];
+        	solarCarState.setAuxPackVoltage(((intCANmessage[5]<<8)+intCANmessage[6])*IScale);
+            solarCarState.setTwelveVoltMainVoltage(((intCANmessage[7]<<8)+intCANmessage[8])*pbScale);
+            solarCarState.setTwelveVoltAuxVoltage( ((intCANmessage[9]<<8)+intCANmessage[10])*pbScale); 
+            
+            //status 1
+            solarCarState.setPowerBoardError(PowerBoardError.AuxPackReadError, 			 itob(Status1 & 0b00000001));
+            solarCarState.setPowerBoardError(PowerBoardError.TwelveVoltMainReadError, 	 itob(Status1 & 0b00000010));
+            solarCarState.setPowerBoardError(PowerBoardError.TwelveVoltMainOffError, 	 itob(Status1 & 0b00000100));            
+            solarCarState.setPowerBoardError(PowerBoardError.TwelveVoltAuxReadError, 	 itob(Status1 & 0b00001000));
+            solarCarState.setPowerBoardError(PowerBoardError.MainPackReadError, 		 itob(Status1 & 0b00010000));
+            solarCarState.setPowerBoardError(PowerBoardError.AuxPackLow, 		  		 itob(Status1 & 0b00100000));
+            solarCarState.setPowerBoardError(PowerBoardError.PowerBoardDisconnectedFault,itob(Status1 & 0b01000000));
+          
+        }else if(ID==322 /*BPS Reset Data Format*/){
+        	
+        	//Nothing used in this message At the moment
         
-            
-        }else if(ID==323){
-            
-           /* boolean ArraySw=false;
-            boolean ArrayEn=false;
-            boolean PackEn=false;
-            boolean PreCharge=false;
-            */
-            PackError modStatus = PackError.None;
-            SOC=intCANmessage[7]/100;
-            int BPSStatus=intCANmessage[8];
-            if(itob(BPSStatus & 0b00010000)){
-                solarCarState.BPS.BpsStatuses[BpsStatus.PackPrecharge.ordinal()]=true;
-                //PreCharge=true;
-                //faultTable.setValueAt("ERROR", 18, 1); //Pack Pre-Charge
-            }
-            if(itob(BPSStatus & 0b00001000)){
-                solarCarState.BPS.BpsStatuses[BpsStatus.PackEnable.ordinal()]=true;
-                //PackEn=true;
-                //faultTable.setValueAt("ERROR", 20, 1); //Pack Enable
-            }
-            if(itob(BPSStatus & 0b00000100)){
-                solarCarState.BPS.BpsStatuses[BpsStatus.ArraySwitch.ordinal()]=true;
-                //ArraySw=true;
-                //faultTable.setValueAt("ERROR", 21, 1); //Array Switch
-            }
-            if(itob(BPSStatus & 0b00000010)){
-                solarCarState.BPS.BpsStatuses[BpsStatus.ArrayEnable.ordinal()]=true;
-                //ArrayEn=true;
-                //faultTable.setValueAt("ERROR", 22, 1); //Array Enable
-            }
-            if(itob(BPSStatus & 0b00000001)){
-                solarCarState.BPS.BpsStatuses[BpsStatus.MpptEnable.ordinal()]=true;
-                //faultTable.setValueAt("ERROR", 19, 1); //MPPT Enable
-            }
-            
+    	}else if(ID==323 /*Pack Enery and BPS status Data Format*/){
+           
+    		solarCarState.setPackPower(intCANmessage[5]<<8 +intCANmessage[6]);
+    		solarCarState.setPackVoltage((intCANmessage[7]<<8 +intCANmessage[8])/10);
+    		//votage sum not yet implemented in solar car state
+    		//solarCarState.setPackVoltageSum(intCANmessage[9]<<8 +intCANmessage[10]);
+    		
+    		solarCarState.setStateOfCharge(intCANmessage[11]);
+    		
+    		int Status1 = intCANmessage[12];
+			solarCarState.setBpsStatus(BpsStatus.ArrayEnable, 			itob(Status1 & 0b00000001));
+			solarCarState.setBpsStatus(BpsStatus.ArraySwitch, 			itob(Status1 & 0b00000010));
+			solarCarState.setBpsStatus(BpsStatus.PackEnable, 			itob(Status1 & 0b00000100));
+			solarCarState.setBpsStatus(BpsStatus.PackPrecharge,			itob(Status1 & 0b00001000));
+			solarCarState.setBpsStatus(BpsStatus.PackPrechargeTimeout,	itob(Status1 & 0b00010000));
+			solarCarState.setBpsStatus(BpsStatus.ChargingMode,			itob(Status1 & 0b00100000));
+			solarCarState.setBpsStatus(BpsStatus.ManualChargingMode,	itob(Status1 & 0b01000000));
+			solarCarState.setBpsStatus(BpsStatus.SubarrayControlEnable,	itob(Status1 & 0b10000000));
+    		  
+        }else if(ID==324 /*Pack Health*/){
+        	
+        	int currentCap  = intCANmessage[5] << 8 + intCANmessage[6];
+        	int cycles      = intCANmessage[7] << 8 + intCANmessage[8];
+        	int mpptStatus1 = intCANmessage[9];
+        	int mpptStatus2 = intCANmessage[10];
+        	
+        	solarCarState.setCurrentCapAmpHours(currentCap);
+        	solarCarState.setPackCycles(cycles);
 
-            //SOC
-            //jTable1.setValueAt(df.format(SOC),8,1);
-            
-            /*
-        }else if(ID==324){
-            Cycles = (((intCANmessage[5]+1)*256)+intCANmessage[6]);
-            BatteryCapacity = (((intCANmessage[7]+1)*256)+intCANmessage[8]);
-            jTable1.setValueAt(Cycles,7,1);
-            jTable1.setValueAt(df.format(BatteryCapacity),9,1);
+        	solarCarState.setMpptStatus(MpptStatus.MpptZeroEnable, 		itob(mpptStatus1 & 0b00000001));
+        	solarCarState.setMpptStatus(MpptStatus.MpptOneEnable, 		itob(mpptStatus1 & 0b00000010));
+        	solarCarState.setMpptStatus(MpptStatus.MpptTwoEnable, 		itob(mpptStatus1 & 0b00000100));
+        	solarCarState.setMpptStatus(MpptStatus.MpptThreeEnable, 	itob(mpptStatus1 & 0b00001000));
+        	solarCarState.setMpptStatus(MpptStatus.MpptFourEnable, 		itob(mpptStatus1 & 0b00010000));
+        	solarCarState.setMpptStatus(MpptStatus.MpptFiveEnable, 		itob(mpptStatus1 & 0b00100000));
+        	solarCarState.setMpptStatus(MpptStatus.MpptSixEnable, 		itob(mpptStatus1 & 0b01000000));
+        	solarCarState.setMpptStatus(MpptStatus.MpptSevenEnable, 	itob(mpptStatus1 & 0b10000000));
+        	
+        	solarCarState.setMpptStatus(MpptStatus.MpptEightEnable, 	itob(mpptStatus2 & 0b00000001));
+        	solarCarState.setMpptStatus(MpptStatus.MpptNineEnable, 		itob(mpptStatus2 & 0b00000010));
+        	solarCarState.setMpptStatus(MpptStatus.MpptTenEnable, 		itob(mpptStatus2 & 0b00000100));
+        	solarCarState.setMpptStatus(MpptStatus.MpptElevenEnable, 	itob(mpptStatus2 & 0b00001000));
+        	solarCarState.setMpptStatus(MpptStatus.MpptTwelveEnable, 	itob(mpptStatus2 & 0b00010000));
+        	solarCarState.setMpptStatus(MpptStatus.MpptThirteenEnable, 	itob(mpptStatus2 & 0b00100000));
+        	solarCarState.setMpptStatus(MpptStatus.MpptFourteenEnable, 	itob(mpptStatus2 & 0b01000000));
+        	solarCarState.setMpptStatus(MpptStatus.MpptFifteenEnable, 	itob(mpptStatus2 & 0b10000000));
+      
+        	
         }   
                        
 
     }
     private void Motor(){
-        if(ID==769){
-            byte[] MotorCur = {CANmessage[5], CANmessage[6], CANmessage[7],CANmessage[8] };
-            float MotorCurrent = ByteBuffer.wrap(MotorCur).order(ByteOrder.LITTLE_ENDIAN).getFloat();
-            byte[] MotorVel = {CANmessage[9], CANmessage[10], CANmessage[11],CANmessage[12] };
-            float MotorVelocity = ByteBuffer.wrap(MotorVel).order(ByteOrder.LITTLE_ENDIAN).getFloat();
-            MotorTable.setValueAt(MotorCurrent, 0, 1);
-            MotorTable.setValueAt(MotorVelocity, 1, 1);
+        if(ID==768 /* MotorBoard Status Data Format */){
+        	
+        	int speedMPH = 		intCANmessage[5];
+        	
+        	int throttlePos = 	intCANmessage[7];
+        	int regenPos = 		intCANmessage[8];
+        	int throttleLimit = intCANmessage[9];
+        	int regenLimit = 	intCANmessage[10];
+        	int status = 		intCANmessage[11];
+        	int IOState = 		intCANmessage[12];
+        	
+        	
+        	solarCarState.setMPH(speedMPH);
+        	solarCarState.setThrottlePositionPercent(throttlePos);
+        	
+        	solarCarState.setMotorBoardRegenLimit(regenLimit);
+        	
+
+        	solarCarState.setMotorBoardStatus(MotorBoardStatus.Regen,					itob(status & 0b00000001));
+        	solarCarState.setMotorBoardStatus(MotorBoardStatus.Throttle,				itob(status & 0b00000010));
+        	solarCarState.setMotorBoardStatus(MotorBoardStatus.Reverse,					itob(status & 0b00000100));
+        	solarCarState.setMotorBoardStatus(MotorBoardStatus.MotorEnable,				itob(status & 0b00001000));
+        	solarCarState.setMotorBoardStatus(MotorBoardStatus.WavesculptorConected,	itob(status & 0b00010000));
+        	solarCarState.setMotorBoardStatus(MotorBoardStatus.RegenEnable,				itob(status & 0b00100000));
+        	solarCarState.setMotorBoardStatus(MotorBoardStatus.ThrottleEnable,			itob(status & 0b01000000));
+        	
+        	
+        
+        	solarCarState.setMotorBoardIOState(MotorBoardIOState.NotThrottleEnable, itob(status & 0b00000001));
+        	solarCarState.setMotorBoardIOState(MotorBoardIOState.MotorEnable, 		itob(status & 0b00000010));
+        	solarCarState.setMotorBoardIOState(MotorBoardIOState.NotRegenEnable, 	itob(status & 0b00000100));
+        	solarCarState.setMotorBoardIOState(MotorBoardIOState.Reverse, 			itob(status & 0b00001000));
+        	solarCarState.setMotorBoardIOState(MotorBoardIOState.RegenPin, 			itob(status & 0b00010000));
+        	solarCarState.setMotorBoardIOState(MotorBoardIOState.FansPin, 			itob(status & 0b00100000));
+        	
+        	
         }
-        if(ID==770){
-            byte[] bytes1 = {CANmessage[5], CANmessage[6], CANmessage[7],CANmessage[8] };
-            float f1 = ByteBuffer.wrap(bytes1).order(ByteOrder.LITTLE_ENDIAN).getFloat();
-            MotorTable.setValueAt(f1, 2, 1);
-        }
+        
     }
     
-    private void dash(){
+    private void Dash(){
     //    int CockpitTemp=CANmessage[]
     //    CockpitTempRecent=(CockpitTempRecent * (ShortWeight - 1) + CockpitTemp) / ShortWeight
+    
+    	solarCarState.setCockpitTemp(intCANmessage[5] << 8 + intCANmessage[6] );
     }
     
-    */
-        }}
+    
+        
     }
