@@ -6,19 +6,21 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>CANanator Web Interface</title>
-	<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-	<link href="//getbootstrap.com/examples/sticky-footer/sticky-footer.css" rel="stylesheet">
-	<!--<link href="http://getbootstrap.com/examples/jumbotron/jumbotron.css" rel="stylesheet">-->
-	<link href="//necolas.github.io/normalize.css" rel="stylesheet">
- 
+	
+	<!-- Stylesheet stuff -->
+		<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="//getbootstrap.com/examples/sticky-footer/sticky-footer.css" rel="stylesheet" type="text/css" />
+		<link href="//necolas.github.io/normalize.css" rel="stylesheet" type="text/css" />
+		<link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
 
-
-	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE 9]>
-	  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-	  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-	<![endif]-->
+	
+		<!-- Styles for chart hover -->
+		<style>
+			.rickshaw_graph .detail .x_label { display: none }
+			.rickshaw_graph .detail .item { line-height: 1.4; padding: 0.5em }
+			.detail_swatch { float: right; display: inline-block; width: 10px; height: 10px; margin: 0 4px 0 0 }
+			.rickshaw_graph .detail .date { color: #a0a0a0 }
+		</style>
 
 </head>
 <body>
@@ -310,59 +312,61 @@
 <!--<div class="container"> -->
 	<!-- Nav tabs -->
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="#bps" data-toggle="tab">Battery Protection (BPS)</a></li>
+		<li><a href="#bps" data-toggle="tab">Battery Protection (BPS)</a></li>
 		<li><a href="#mppt" data-toggle="tab">Power Trackers (MPPT)</a></li>
 		<li><a href="#motor" data-toggle="tab">Motor</a></li>
 		<li><a href="#errorlog" data-toggle="tab">Error Log</a></li>
-		<li><a href="#graphs" data-toggle="tab">Graphs</a></li>
+		<li class="active"><a href="#graphs" data-toggle="tab">Graphs</a></li>
 	</ul>
 
 <!-- Tab panes (LOWER CONTENT) -->
 	<div class="tab-content">
-		<div class="tab-pane active" id="bps">
-	   		<div class="panel panel-default">
-  				<div class="panel-body">
-  					<h4>BPS Content</h4>
-  					<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
-   				</div>
-  			</div>
+		<div class="tab-pane" id="bps">
+				<div class="panel panel-default">
+				<div class="panel-body">
+					<h4>BPS Content</h4>
+					<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
+					</div>
+			</div>
 		</div>
 		<div class="tab-pane" id="mppt">
 			<div class="panel panel-default">
-  				<div class="panel-body">
-  					<h4>MPPT Content</h4>
-  					<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
+				<div class="panel-body">
+					<h4>MPPT Content</h4>
+					<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
 				</div>
-  			</div>
+			</div>
 		</div>
 		<div class="tab-pane" id="motor">
 			<div class="panel panel-default">
-  				<div class="panel-body">
-  					<h4>Motor Content</h4>
-  					<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
+				<div class="panel-body">
+					<h4>Motor Content</h4>
+					<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
 				</div>
-  			</div>
+			</div>
 		</div>
 		<div class="tab-pane" id="errorlog">
 			<div class="panel panel-default">
-  				<div class="panel-body">
-  					<h4>Error Content</h4>
-  					<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
+				<div class="panel-body">
+					<h4>Error Content</h4>
+					<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
 				</div>
-  			</div>
+			</div>
 		</div>
-		<div class="tab-pane" id="graphs">
+		<div class="tab-pane active" id="graphs">
 			<div class="panel panel-default">
-  				<div class="panel-body">
-  					<h4>Graph Content</h4>
-  					<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
+				<div class="panel-body">
+ 					<div align="center" style="padding-top:20px; padding-bottom:20px">
+	 					<div id="GoogleChart" style="height:400px; width:80%"> 					
+					</div>
+ 					<div align="center" style="padding-top:20px; padding-bottom:20px">
+	 					<div id="jqPlotLive" style="height:350px; width:80%"></div>
+						<div style="padding-top:20px; padding-bottom:20px"><button>Start Chart Updates</button></div>
+					</div>
 				</div>
-  			</div>
+			</div>
 		</div>
 	</div>
-<!--</div>-->
-
-
 
 
 <!-- FOOTER -->
@@ -376,9 +380,179 @@
 <!-- JAVASCRIPT -->
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" type="text/javascript"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js" type="text/javascript"></script>
+	
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js" type="text/javascript"></script>
+
+	<!--Google Chart script stuff -->
+		<script src="https://www.google.com/jsapi" type="text/javascript"></script>
+		
+		<script type="text/javascript">
+		google.load('visualization', '1', {packages: ['corechart']});
+		</script>
+		
+		<script type="text/javascript">
+		function drawVisualization() {
+			// Create and populate the data table.
+			var data = new google.visualization.DataTable();
+			data.addColumn('string', 'Time');
+			data.addColumn('number', 'Speed');
+			data.addColumn('number', 'Power Consumption');
+			data.addColumn('number', 'Charge Status');
+			data.addRow(["0", 17.7, 400, 98.5]);
+			data.addRow(["10", 20.6, 476, 98.1]);
+			data.addRow(["20", 21.1, 495, 97.4]);
+			data.addRow(["30", 19.4, 433, 97.0]);
+		 
+			// Chart options
+			var options = {
+				//curveType: "function",
+				vAxes: {
+					0: { title: "Speed and Charge" },	// left axis
+					1: { title: "Power" }	// right axis
+				},
+				hAxis: { title: "Time" },
+				series:{
+					0:{targetAxisIndex:0},
+					1:{targetAxisIndex:1},
+					2:{targetAxisIndex:0}
+				},
+				legend: 'bottom'
+			};
+
+			// Create and draw the visualization.
+			new google.visualization.LineChart(document.getElementById('GoogleChart')).
+			draw(data, options);
+			
+
+		}
+
+		google.setOnLoadCallback(drawVisualization);
+		</script>
+
+
+	<!-- jqPlot stuff -->
+	<link href="//cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.8/jquery.jqplot.min.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.8/jquery.jqplot.min.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.8/plugins/jqplot.dateAxisRenderer.min.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.8/plugins/jqplot.highlighter.min.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.8/plugins/jqplot.cursor.min.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.8/plugins/jqplot.canvasTextRenderer.min.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.8/plugins/jqplot.canvasAxisLabelRenderer.min.js"></script>
+
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			var time = 500;	//refresh time (in millisec)
+			var samples = 40;	//samples to draw
+			var x = (new Date()).getTime();	// current time
+			var dataZ = [];	//buffer of n samples
+			var dataSpeed = [];
+			var dataPower = [];
+			var dataCharge = [];
+			for (i = 0; i < samples; i++) {
+				dataZ.push([x - (samples - 1 - i) * time, 0]);
+				dataSpeed.push([x - (samples - 1 - i) * time, 0]);
+				dataPower.push([x - (samples - 1 - i) * time, 0]);
+				dataCharge.push([x - (samples - 1 - i) * time, 0]);
+			}
+	
+			var options = {
+				legend: {
+					show:true,
+					location: 'e',
+					placement: "outsideGrid"
+					//showLabels:true,
+					//labels = ["Speed", "Power Consumption", "Charge Status"]
+				},
+				/*highlighter: { show: true },
+				cursor: { show: false, tooltipLocation: 'ne' },*/
+				axes: {
+					xaxis: {
+						numberTicks: 10,
+						renderer: $.jqplot.DateAxisRenderer,
+						tickOptions: { formatString: '%H:%M:%S' },
+						min: dataZ[0][0],
+						max: dataZ[dataZ.length - 1][0],
+						label: 'Local Time',
+						labelRenderer: $.jqplot.CanvasAxisLabelRenderer
+					},
+					yaxis: {
+						min: 0,
+						autoscale: true,
+						//max: 10, // reset to required maximum scale
+						numberTicks: 6,
+						tickOptions: { formatString: '%.1f'	},
+						label: 'Speed and Charge',
+						labelRenderer: $.jqplot.CanvasAxisLabelRenderer
+					},
+					y2axis: {
+						min: 0,
+						autoscale: true,
+						//max: 10, // reset to required maximum scale
+						numberTicks: 6,
+						tickOptions: { formatString: '%.1f'	},
+						label: 'Power',
+						labelRenderer: $.jqplot.CanvasAxisLabelRenderer
+					}
+				},
+				//seriesDefaults: { rendererOptions: { smooth: false } }, // shows lines between points as curved or linear
+				series: [
+					{ label: 'Speed', yaxis:'yaxis'},
+					{ label: 'Power Consumption', yaxis:'y2axis' },
+					{ label: 'Charge Status', yaxis:'yaxis' },
+				]
+			};
+			
+			var plot1 = $.jqplot('jqPlotLive', [dataSpeed, dataPower, dataCharge], options);
+	
+			$('button').click(function () {
+				doUpdate();
+				$(this).hide();
+			});
+	
+			function doUpdate() {
+				if (dataZ.length > samples - 1) {
+					dataZ.shift();
+					dataSpeed.shift();
+					dataPower.shift();
+					dataCharge.shift();
+				}
+
+				var yZ = 0;
+				var ySpeed = Math.random();					// y values for speed -- replace with code to bean ?
+				var yPower = Math.random()/Math.random()/Math.random()+100;	// y values for power -- replace with code to bean ?
+				var yCharge = Math.random()*Math.random();	// y values for charge -- replace with code to bean ?
+
+				var x = (new Date()).getTime();
+
+				dataZ.push([x, yZ]);
+				dataSpeed.push([x, ySpeed]);
+				dataPower.push([x, yPower]);
+				dataCharge.push([x, yCharge]);
+
+				if (plot1) {
+					plot1.destroy();
+				}
+				
+				//plot1.series[0].dataZ = dataZ;
+				plot1.series[0].dataSpeed = dataSpeed;
+				plot1.series[1].dataPower = dataPower;
+				plot1.series[2].dataCharge = dataCharge;
+
+				// the problem is that now the values ​​on the y ticks are no longer static
+				// and change with each update, and then change the underlying logic
+				// need to adjust the values ​​in options.
+
+				options.axes.xaxis.min = dataZ[0][0];
+				options.axes.xaxis.max = dataZ[dataZ.length - 1][0];
+				plot1 = $.jqplot('jqPlotLive', [dataSpeed, dataPower, dataCharge], options);
+				setTimeout(doUpdate, time);
+			}	
+		});
+	</script>
 
 </body>
 </html>
