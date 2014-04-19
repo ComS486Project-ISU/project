@@ -16,7 +16,7 @@
 
     <servlet>
         <servlet-name>CananatorServlet</servlet-name>
-        <servlet-class>CananatorServlet</serlet-class>
+        <servlet-class>CananatorServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>CananatorServlet</servlet-name>

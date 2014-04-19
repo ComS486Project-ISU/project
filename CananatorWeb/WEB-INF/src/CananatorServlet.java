@@ -11,19 +11,17 @@ public class CananatorServlet extends HttpServlet {
  
   private static final long serialVersionUID = 1L;
   private PrisumCanParser telemetryReceiver;
-  private TelemetryDataBean tdBean;
   
   public void init()
 {
 	 
 	telemetryReceiver = new PrisumCanParser();
-	tdBean = new TelemetryDataBean();
 	
 	//set arbituary values until testing with batterybox
 	SetTestData();
 	
 	//connect
-	telemetryReceiver.connect("COM3");
+	//telemetryReceiver.connect("COM3");
 	
 	//telemetry has a lot of unused properties atm
 	// only use .PrisumSolarCarState
@@ -73,7 +71,6 @@ throws ServletException,IOException
 		//session.setAttribute("key", sBean);
 		
 		//update telemetry data
-		this.UpdateTelemetryData();
 		
 		//context based sharing
 		synchronized(this){
@@ -87,14 +84,21 @@ throws ServletException,IOException
 		
 	}
 
-	private void UpdateTelemetryData()
-	{
-		
-	}
-	
 	private void SetTestData()
 	{
 		telemetryReceiver.solarCarState.setPackPower(1000);
+		telemetryReceiver.solarCarState.setMPH(50);
+		telemetryReceiver.solarCarState.setArrayPower(2000);
+		telemetryReceiver.solarCarState.setMotorPower(3000);
+		telemetryReceiver.solarCarState.setCockpitTemp(70);
+		telemetryReceiver.solarCarState.setStateOfCharge(50);
+		telemetryReceiver.solarCarState.setPackCurrent(100);
+		telemetryReceiver.solarCarState.setArrayCurrent(200);
+		telemetryReceiver.solarCarState.setMotorCurrent(300);
+		telemetryReceiver.solarCarState.setAuxPackVoltage(40);
+		telemetryReceiver.solarCarState.setTwelveVoltAuxVoltage(30);
+		telemetryReceiver.solarCarState.setTwelveVoltMainVoltage(40);
+		telemetryReceiver.solarCarState.setFiveVoltVoltage(20);
 	}
   
 }

@@ -78,7 +78,7 @@
 						</tr>
 						<tr>
 							<td>State of Charge</td>
-							<td>[Status]</td>
+							<td>${telemetryData.stateOfCharge}</td>
 						</tr>
 						<tr>
 							<td>Battery Capacity (<abbr title="Kilowatt Hours">kWh</abbr>)</td>
@@ -140,7 +140,7 @@
 						</tr>
 						<tr>
 							<td>Battery Pack Power (<abbr title="Watts">W</abbr>)</td>
-							<td>[Status]</td>
+							<td>${telemetryData.packPower}</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
@@ -148,7 +148,7 @@
 						</tr>
 						<tr>
 							<td>Solar Array Power (<abbr title="Watts">W</abbr>)</td>
-							<td>[Status]</td>
+							<td>${telemetryData.arrayPower}</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
@@ -156,7 +156,7 @@
 						</tr>
 						<tr>
 							<td>Motor Power (<abbr title="Watts">W</abbr>)</td>
-							<td>[Status]</td>
+							<td>${telemetryData.motorPower}</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
@@ -172,7 +172,7 @@
 						</tr>
 						<tr>
 							<td>Cockpit Temperature (<abbr title="Degrees Celcius">&deg;C</abbr>)</td>
-							<td>[Status]</td>
+							<td>${telemetryData.cockpitTemp}</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
 							<td>[Status]</td>
@@ -235,17 +235,17 @@
 						<tbody>
 						<tr>
 							<td>Pack</td>
-							<td>[Status]</td>
+							<td>${telemetryData.packCurrent}</td>
 							<td>[Status]</td>
 						</tr>
 						<tr>
 							<td>Array</td>
-							<td>[Status]</td>
+							<td>${telemetryData.arrayCurrent}</td>
 							<td>[Status]</td>
 						</tr>
 						<tr>
 							<td>Motor</td>
-							<td>[Status]</td>
+							<td>${telemetryData.motorCurrent}</td>
 							<td>[Status]</td>
 						</tr>
 						</tbody>
@@ -280,7 +280,7 @@
 						</tr>
 						<tr>
 							<td><abbr title="Auxiliary">Aux.</abbr> Pack (<abbr title="Volts">V</abbr>)</td>
-							<td>[Status]</td>
+							<td>${telemetryData.auxPackVoltage}</td>
 						</tr>
 						<tr>
 							<td><abbr title="Auxiliary">Aux.</abbr> Pack Level (<abbr title="Volts">V</abbr>)</td>
@@ -288,15 +288,15 @@
 						</tr>
 						<tr>
 							<td>12V Main Bus (<abbr title="Volts">V</abbr>)</td>
-							<td>[Status]</td>
+							<td>${telemetryData.twelveVoltMainVoltage}</td>
 						</tr>
 						<tr>
 							<td>12V <abbr title="Auxiliary">Aux.</abbr> Bus (<abbr title="Volts">V</abbr>)</td>
-							<td>[Status]</td>
+							<td>${telemetryData.twelveVoltAuxVoltage}</td>
 						</tr>
 						<tr>
 							<td>5V Bus (<abbr title="Volts">V</abbr>)</td>
-							<td>[Status]</td>
+							<td>${telemetryData.fiveVoltVoltage}</td>
 						</tr>
 						</tbody>
 					</table>
