@@ -133,6 +133,13 @@ public class PrisumCanParser {
     {
         prisumListener = listener;
     }
+    private void NotifyDataChanged(CanDataArg e)
+    {
+    	if(prisumListener != null)
+    	{
+    		prisumListener.CanDataChanged(e);
+    	}
+    }
     
     public void connect(String comPort) {
         serialPort = new SerialPort(comPort); 
@@ -148,7 +155,8 @@ public class PrisumCanParser {
             
             //TO THIS ->
             CanDataArg dataArg = new CanDataArg(this,solarCarState, "CAN started, Port open",PrisumCanDataType.CanStatus);
-            prisumListener.CanDataChanged(dataArg);
+            NotifyDataChanged(dataArg);
+            
             
             
             serialPort.addEventListener(new SerialPortReader());//Add SerialPortEventListener
@@ -187,7 +195,7 @@ public class PrisumCanParser {
                                 if(CANvalid){
                                     CANparse();
                                     CanDataArg dataArg = new CanDataArg(this,solarCarState, "Active",PrisumCanDataType.CanStatus);
-                                    prisumListener.CanDataChanged(dataArg);
+                                    NotifyDataChanged(dataArg);
                                     numInvalidCAN=0;
                                 }else{
                                     numInvalidCAN++;
@@ -200,7 +208,7 @@ public class PrisumCanParser {
 
                                 
                                 CanDataArg dataArg = new CanDataArg(this,solarCarState, stringCANmessage,PrisumCanDataType.NewCanMessage);
-                                prisumListener.CanDataChanged(dataArg);
+                                NotifyDataChanged(dataArg);
                              
                                 //System.out.println(string);
                                 for(i=0; i<14; i++){
@@ -352,7 +360,7 @@ public class PrisumCanParser {
             solarCarState.setBatteryModuleError(modID, BatteryModuleError.ModuleDisconnectedFault, 	 itob(CAN10 & 0b0001000));
             
             CanDataArg dataArg = new CanDataArg(this,solarCarState, modID,PrisumCanDataType.BatteryModule);
-            prisumListener.CanDataChanged(dataArg);
+            NotifyDataChanged(dataArg);
             
         }else if(ID==305/*Pack Powersense*/){
            
@@ -386,7 +394,7 @@ public class PrisumCanParser {
 
         
             CanDataArg dataArg = new CanDataArg(this,solarCarState, 0,PrisumCanDataType.BatteryProtectionSystem);
-            prisumListener.CanDataChanged(dataArg);
+            NotifyDataChanged(dataArg);
             
         }   else if(ID==306 /*Power board*/){
         	

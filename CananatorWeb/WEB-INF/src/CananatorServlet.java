@@ -15,6 +15,7 @@ public class CananatorServlet extends HttpServlet {
   
   public void init()
 {
+	 
 	telemetryReceiver = new PrisumCanParser();
 	tdBean = new TelemetryDataBean();
 	
@@ -22,7 +23,7 @@ public class CananatorServlet extends HttpServlet {
 	SetTestData();
 	
 	//connect
-	//telemetryReceiver.connect("COM3");
+	telemetryReceiver.connect("COM3");
 	
 	//telemetry has a lot of unused properties atm
 	// only use .PrisumSolarCarState
@@ -77,7 +78,7 @@ throws ServletException,IOException
 		//context based sharing
 		synchronized(this){
 			getServletContext().setAttribute("key", sBean);
-			getServletContext().setAttribute("telemetryData", tdBean);
+			getServletContext().setAttribute("telemetryData", telemetryReceiver.solarCarState);
 		}
 		
 		RequestDispatcher dispatcher = 
@@ -88,18 +89,12 @@ throws ServletException,IOException
 
 	private void UpdateTelemetryData()
 	{
-		tdBean.setEnergyConsumption((float)telemetryReceiver.solarCarState.BPS.PackPower);
-		tdBean.setSolarPower((float)telemetryReceiver.solarCarState.BPS.ArrayPower);
-		tdBean.setMotorPower((float)telemetryReceiver.solarCarState.BPS.MotorPower);
 		
 	}
 	
 	private void SetTestData()
 	{
-		telemetryReceiver.solarCarState.BPS.PackPower = 2000;
-		telemetryReceiver.solarCarState.BPS.ArrayPower = 2000;
-		telemetryReceiver.solarCarState.BPS.MotorPower = -3000;
-		
+		telemetryReceiver.solarCarState.setPackPower(1000);
 	}
   
 }

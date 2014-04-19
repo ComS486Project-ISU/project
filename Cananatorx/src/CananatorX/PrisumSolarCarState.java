@@ -35,6 +35,7 @@ public class PrisumSolarCarState {
     private int MPHavg  = 0; //Initialize average speed
     public synchronized void setMPHavg(int amount){MPHavg = amount;}
 	public synchronized int getMPHavg(){return MPHavg;}
+	public synchronized int getMPH(){return MPH; }
 	
 	private int throttlePositionPercent = 0;
 	/*** Throttle Percentage ***/
@@ -730,7 +731,7 @@ public	PrisumSolarCarState()
 	        bm.Id = i;
 	        bm.Temp = 0;
 	        bm.Voltage = 0;
-	        bm.bmErrors = new boolean[8];
+	        bm.bmErrors = new boolean[BatteryModuleError.values().length];
 	               
 	        BatteryModules.add(bm);
 	    }
