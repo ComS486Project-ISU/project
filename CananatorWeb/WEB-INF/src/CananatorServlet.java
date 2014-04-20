@@ -21,7 +21,7 @@ public class CananatorServlet extends HttpServlet {
 	SetTestData();
 	
 	//connect
-	//telemetryReceiver.connect("COM3");
+	telemetryReceiver.connect("COM3");
 	
 	//telemetry has a lot of unused properties atm
 	// only use .PrisumSolarCarState

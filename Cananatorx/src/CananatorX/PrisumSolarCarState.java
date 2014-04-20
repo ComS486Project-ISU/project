@@ -433,7 +433,7 @@ public class PrisumSolarCarState {
 	    }
     }
     
-    public List<Double> getBatteryModuleTemps()
+    public List<Double> getBatteryModuleTemperatures()
     {
     	ArrayList<Double> modTemps =  new ArrayList<Double>();// = new double[PrisumSolarCarConstants.NumModules];
 	
@@ -556,38 +556,80 @@ public class PrisumSolarCarState {
     	return bm.bmErrors[error.ordinal()];
     }
 	
+    private List<Boolean> collectBatModErrors(BatteryModuleError error)
+    {
+    	ArrayList<Boolean> errors = new ArrayList<Boolean>();
+    	
+    	for(BatteryModule bm : BatteryModules)
+    	{
+    		errors.add(bm.bmErrors[error.ordinal()]);
+    	}
+    	
+    	return errors;
+    }
+    public List<Boolean> getBatteryModuleTempReadErrors()    { 	return collectBatModErrors(BatteryModuleError.TempReadError); };
+    
     public synchronized boolean getBatteryModuleTempReadError(int num)
 	{
     	return getBatteryModuleError(num,BatteryModuleError.TempReadError);	
 	}
-	public synchronized boolean getBatteryModuleOverTempFault(int num)
+    
+
+    public List<Boolean> getBatteryModuleOverTempFaults()  { 	return collectBatModErrors(BatteryModuleError.OverTempFault); };
+    public synchronized boolean getBatteryModuleOverTempFault(int num)
 	{
     	return getBatteryModuleError(num,BatteryModuleError.OverTempFault);	
 	}
+    
+    public List<Boolean> getBatteryModuleOverTempWarnings()  { 	return collectBatModErrors(BatteryModuleError.OverTempWarning); };
+    
 	public synchronized boolean getBatteryModuleOverTempWarning(int num)
 	{
     	return getBatteryModuleError(num,BatteryModuleError.OverTempWarning);
 	}
+	
+	public List<Boolean> getBatteryModuleUnderTempFaults()  { 	return collectBatModErrors(BatteryModuleError.UnderTempFault); };
+	public List<Boolean> getBatteryModuleUnderTempWarnings()  { 	return collectBatModErrors(BatteryModuleError.UnderTempWarning); };
+    
 	public synchronized boolean getBatteryModuleUnderTempFault(int num)
 	{
     	return getBatteryModuleError(num,BatteryModuleError.UnderTempFault);
 	}
+	
+	public List<Boolean> getBatteryModuleVoltageReadErrors()  { 	return collectBatModErrors(BatteryModuleError.VoltageReadError); };
+    
 	public synchronized boolean getBatteryModuleVoltageReadError(int num)
 	{
     	return getBatteryModuleError(num,BatteryModuleError.VoltageReadError);		
 	}
+	
+	public List<Boolean> getBatteryModuleOverVoltFaults()  { 	return collectBatModErrors(BatteryModuleError.OverVoltFault); };
+	public List<Boolean> getBatteryModuleOverVoltWarnings()  { 	return collectBatModErrors(BatteryModuleError.OverVoltWarning); };
+    
 	public synchronized boolean getBatteryModuleOverVoltFault(int num)
 	{
     	return getBatteryModuleError(num,BatteryModuleError.OverVoltFault);
 	}
+	
+	public List<Boolean> getBatteryModuleUnderVoltFaults()  { 	return collectBatModErrors(BatteryModuleError.UnderVoltFault); };
+    
 	public synchronized boolean getBatteryModuleUnderVoltFault(int num)
 	{
     	return getBatteryModuleError(num,BatteryModuleError.UnderVoltFault);
 	}
+
+	public List<Boolean> getBatteryModuleUnderVoltWarnings()  { 	return collectBatModErrors(BatteryModuleError.UnderVoltWarning); };
+
 	public synchronized boolean getBatteryModuleUnderVoltWarning(int num)
 	{
     	return getBatteryModuleError(num,BatteryModuleError.UnderVoltWarning);
 	}	
+	
+	public List<Boolean> getBatteryModuleDisconnectedFaults() { return collectBatModErrors(BatteryModuleError.ModuleDisconnectedFault); };
+
+	public List<Boolean> getBatteryModuleTempCalibrationRangeErrors() { return collectBatModErrors(BatteryModuleError.TempCalibrationRangeError); };
+
+	
 	/*** PACK ERROR ***/
     public enum PackError
     {

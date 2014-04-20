@@ -334,7 +334,20 @@
 							<th>Module Number</th>
 							<th>Voltage</th>
 							<th>Temp</th>
-							<th>Error</th>
+							<th>VRE</th>
+							<th>OVF</th>
+							<th>OVW</th>
+							<th>UVW</th>
+							<th>UVF</th>
+							<th>TRE</th>
+							<th>OTF</th>
+							<th>OTW</th>
+							<th>UTW</th>
+							<th>UTF</th>
+							<th>DISC</th>
+							<th>TRANGE</th>
+							
+							
 						</tr>
 						</thead>
 						<tbody>
@@ -343,7 +356,18 @@
 									<td>Module ${i}</td>
 						            <td><c:out value="${telemetryData.batteryModuleVoltages[i]}" /></td>
 						            <td><c:out value="${telemetryData.batteryModuleTemperatures[i]}" /></td>
-						            <td><c:out value="${telemetryData.batteryModuleTemperatures[i]}" /></td>
+						            <td><c:out value="${telemetryData.batteryModuleVoltageReadErrors[i]}" /></td>
+						            <td><c:out value="${telemetryData.batteryModuleOverVoltFaults[i]}" /></td>
+						            <td><c:out value="${telemetryData.batteryModuleOverVoltWarnings[i]}" /></td>
+						            <td><c:out value="${telemetryData.batteryModuleUnderVoltWarnings[i]}" /></td>
+						            <td><c:out value="${telemetryData.batteryModuleUnderVoltFaults[i]}" /></td>
+						            <td><c:out value="${telemetryData.batteryModuleTempReadErrors[i]}" /></td>
+						            <td><c:out value="${telemetryData.batteryModuleOverTempFaults[i]}" /></td>
+						            <td><c:out value="${telemetryData.batteryModuleOverTempWarnings[i]}" /></td>
+						            <td><c:out value="${telemetryData.batteryModuleUnderTempWarnings[i]}" /></td>
+						            <td><c:out value="${telemetryData.batteryModuleUnderTempFaults[i]}" /></td>						 
+						            <td><c:out value="${telemetryData.batteryModuleDisconnectedFaults[i]}" /></td>
+						            <td><c:out value="${telemetryData.batteryModuleTempCalibrationRangeErrors[i]}" /></td>
 						            
 							</tr>
 						</c:forEach>
