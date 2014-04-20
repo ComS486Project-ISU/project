@@ -6,6 +6,8 @@
 
 package CananatorX;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 /**
  *
  * @author prisum
@@ -431,6 +433,30 @@ public class PrisumSolarCarState {
 	    }
     }
     
+    public List<Double> getBatteryModuleTemps()
+    {
+    	ArrayList<Double> modTemps =  new ArrayList<Double>();// = new double[PrisumSolarCarConstants.NumModules];
+	
+    	int i = 0;
+    	for(BatteryModule bm : BatteryModules)
+    	{
+    		modTemps.add(bm.Temp);
+    		i++;
+    	}
+    	return  modTemps;
+    }
+    
+    public List<Double> getBatteryModuleVoltages()
+    {
+    	ArrayList<Double> modVoltages = new ArrayList<Double>();
+	
+    	for(BatteryModule bm : BatteryModules)
+    	{
+    		modVoltages.add(bm.Voltage);
+    	}
+    	return modVoltages;
+    }
+    
 	public synchronized double getBatteryModuleTemp(int num)
 	{
 		BatteryModule bm = BatteryModules.get(num);
@@ -725,7 +751,7 @@ public	PrisumSolarCarState()
 		MotorBoardIOStates = new boolean[MotorBoardIOState.values().length];
 		
 	    //initialize with default values
-	    for(int i = 1; i< PrisumSolarCarConstants.NumModules+1; i++)
+	    for(int i = 0; i< PrisumSolarCarConstants.NumModules+1; i++)
 	    {
 	        BatteryModule bm = new BatteryModule();
 	        bm.Id = i;

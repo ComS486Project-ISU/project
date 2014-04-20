@@ -1,5 +1,8 @@
-	<!DOCTYPE html>
 
+<%@ page import="java.util.List" %>
+<%@ page import="CananatorX.PrisumSolarCarState" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
@@ -325,8 +328,28 @@
 				<div class="panel panel-default">
 				<div class="panel-body">
 					<h4>BPS Content</h4>
-					<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
-					</div>
+					<table class="table table-striped table-condensed table-bordered">
+						<thead>
+						<tr>
+							<th>Module Number</th>
+							<th>Voltage</th>
+							<th>Temp</th>
+							<th>Error</th>
+						</tr>
+						</thead>
+						<tbody>
+						<c:forEach var="i" begin="1" end="30">
+							<tr>
+									<td>Module ${i}</td>
+						            <td><c:out value="${telemetryData.batteryModuleVoltages[i]}" /></td>
+						            <td><c:out value="${telemetryData.batteryModuleTemperatures[i]}" /></td>
+						            <td><c:out value="${telemetryData.batteryModuleTemperatures[i]}" /></td>
+						            
+							</tr>
+						</c:forEach>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 		<div class="tab-pane" id="mppt">

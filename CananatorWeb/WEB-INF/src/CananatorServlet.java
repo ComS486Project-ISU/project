@@ -76,6 +76,7 @@ throws ServletException,IOException
 		synchronized(this){
 			getServletContext().setAttribute("key", sBean);
 			getServletContext().setAttribute("telemetryData", telemetryReceiver.solarCarState);
+			
 		}
 		
 		RequestDispatcher dispatcher = 
@@ -99,6 +100,8 @@ throws ServletException,IOException
 		telemetryReceiver.solarCarState.setTwelveVoltAuxVoltage(30);
 		telemetryReceiver.solarCarState.setTwelveVoltMainVoltage(40);
 		telemetryReceiver.solarCarState.setFiveVoltVoltage(20);
+		telemetryReceiver.solarCarState.setBatteryModuleVoltage(1, 32.3);
+
 	}
   
 }
