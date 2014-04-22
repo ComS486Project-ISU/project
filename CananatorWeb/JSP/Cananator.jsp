@@ -17,15 +17,6 @@
 		<link href="//necolas.github.io/normalize.css" rel="stylesheet" type="text/css" />
 		<link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
 
-	
-		<!-- Styles for chart hover -->
-		<style>
-			.rickshaw_graph .detail .x_label { display: none }
-			.rickshaw_graph .detail .item { line-height: 1.4; padding: 0.5em }
-			.detail_swatch { float: right; display: inline-block; width: 10px; height: 10px; margin: 0 4px 0 0 }
-			.rickshaw_graph .detail .date { color: #a0a0a0 }
-		</style>
-
 </head>
 <body>
 
@@ -58,7 +49,7 @@
 						</tr>
 						<tr>
 							<td>Throttle Position</td>
-							<td>${telemetryData.throttlePositionPercent}</td>
+							<td><c:out value="${telemetryData.throttlePositionPercent}" /></td>
 						</tr>
 						<tr>
 							<td>Motor Limiting</td>
@@ -82,23 +73,23 @@
 						</tr>
 						<tr>
 							<td>State of Charge</td>
-							<td>${telemetryData.stateOfCharge}</td>
+							<td><c:out value="${telemetryData.stateOfCharge}" /></td>
 						</tr>
 						<tr>
 							<td>Battery Capacity (<abbr title="Amp Hours">Ah</abbr>)</td>
-							<td>${telemetryData.maxCapacityAmpHours}</td>
+							<td><c:out value="${telemetryData.maxCapacityAmpHours}" /></td>
 						</tr>
 						<tr>
 							<td>High Module (<abbr title="Degrees Celcius">&deg;C</abbr>)</td>
-							<td>${telemetryData.batteryModuleTempHigh}</td>
+							<td><c:out value="${telemetryData.batteryModuleTempHigh}" /></td>
 						</tr>
 						<tr>
 							<td>High Module (<abbr title="Volts">V</abbr>)</td>
-							<td>${telemetryData.batteryModuleVoltageHigh}</td>
+							<td><c:out value="${telemetryData.batteryModuleVoltageHigh}" /></td>
 						</tr>
 						<tr>
 							<td>Low Module (<abbr title="Volts">V</abbr>)</td>
-							<td>${telemetryData.batteryModuleVoltageLow}</td>
+							<td><c:out value="${telemetryData.batteryModuleVoltageLow}" /></td>
 						</tr>
 						</tbody>
 					</table>
@@ -120,11 +111,11 @@
 						<tbody>
 						<tr>
 							<td>Driving Speed (<abbr title="Miles per Hour">MPH</abbr>)</td>
-							<td>${telemetryData.MPH}</td>
-							<td>${telemetryData.MPHrecent}</td>
-							<td>${telemetryData.MPHavg}</td>
-							<td>${telemetryData.MPHmax}</td>
-							<td>${telemetryData.MPHmin}</td>
+							<td><c:out value="${telemetryData.MPH}" /></td>
+							<td><c:out value="${telemetryData.MPHrecent}" /></td>
+							<td><c:out value="${telemetryData.MPHavg}" /></td>
+							<td><c:out value="${telemetryData.MPHmax}" /></td>
+							<td><c:out value="${telemetryData.MPHmin}" /></td>
 						</tr>
 						<tr>
 							<td>Energy Consumption (<abbr title="Mile per Gallon Equivalent">MPGe</abbr>)</td>
@@ -145,26 +136,26 @@
 						<tr>
 							<td>Battery Pack Power (<abbr title="Watts">W</abbr>)</td>
 							<td><fmt:formatNumber maxFractionDigits="3" type="number" value="${telemetryData.packPower}" /></td>
-							<td>${telemetryData.packPowerRecent}</td>
-							<td>${telemetryData.packPowerAvg}</td>
-							<td>${telemetryData.packPowerMax}</td>
-							<td>${telemetryData.packPowerMin}</td>
+							<td><c:out value="${telemetryData.packPowerRecent}" /></td>
+							<td><c:out value="${telemetryData.packPowerAvg}" /></td>
+							<td><c:out value="${telemetryData.packPowerMax}" /></td>
+							<td><c:out value="${telemetryData.packPowerMin}" /></td>
 						</tr>
 						<tr>
 							<td>Solar Array Power (<abbr title="Watts">W</abbr>)</td>
-							<td>${telemetryData.arrayPower}</td>
-							<td>${telemetryData.arrayPowerRecent}</td>
-							<td>${telemetryData.arrayPowerAvg}</td>
-							<td>${telemetryData.arrayPowerMax}</td>
-							<td>${telemetryData.arrayPowerMin}</td>
+							<td><c:out value="${telemetryData.arrayPower}" /></td>
+							<td><c:out value="${telemetryData.arrayPowerRecent}" /></td>
+							<td><c:out value="${telemetryData.arrayPowerAvg}" /></td>
+							<td><c:out value="${telemetryData.arrayPowerMax}" /></td>
+							<td><c:out value="${telemetryData.arrayPowerMin}" /></td>
 						</tr>
 						<tr>
 							<td>Motor Power (<abbr title="Watts">W</abbr>)</td>
-							<td>${telemetryData.motorPower}</td>
-							<td>${telemetryData.motorPowerRecent}</td>
-							<td>${telemetryData.motorPowerAvg}</td>
-							<td>${telemetryData.motorPowerMax}</td>
-							<td>${telemetryData.motorPowerMin}</td>
+							<td><c:out value="${telemetryData.motorPower}" /></td>
+							<td><c:out value="${telemetryData.motorPowerRecent}" /></td>
+							<td><c:out value="${telemetryData.motorPowerAvg}" /></td>
+							<td><c:out value="${telemetryData.motorPowerMax}" /></td>
+							<td><c:out value="${telemetryData.motorPowerMin}" /></td>
 						</tr>
 						<tr>
 							<td>Electronics Power (<abbr title="Watts">W</abbr>)</td>
@@ -176,11 +167,11 @@
 						</tr>
 						<tr>
 							<td>Cockpit Temperature (<abbr title="Degrees Celcius">&deg;C</abbr>)</td>
-							<td>${telemetryData.cockpitTemp}</td>
-							<td>${telemetryData.cockpitTempRecent}</td>
-							<td>${telemetryData.cockpitTempAvg}</td>
-							<td>${telemetryData.cockpitTempMax}</td>
-							<td>${telemetryData.cockpitTempMin}</td>
+							<td><c:out value="${telemetryData.cockpitTemp}" /></td>
+							<td><c:out value="${telemetryData.cockpitTempRecent}" /></td>
+							<td><c:out value="${telemetryData.cockpitTempAvg}" /></td>
+							<td><c:out value="${telemetryData.cockpitTempMax}" /></td>
+							<td><c:out value="${telemetryData.cockpitTempMin}" /></td>
 						</tr>
 						<tr>
 							<td>Motor Temperature (<abbr title="Degrees Celcius">&deg;C</abbr>)</td>
@@ -239,17 +230,17 @@
 						<tbody>
 						<tr>
 							<td>Pack</td>
-							<td>${telemetryData.packCurrent}</td>
+							<td><c:out value="${telemetryData.packCurrent}" /></td>
 							<td>[Status]</td>
 						</tr>
 						<tr>
 							<td>Array</td>
-							<td>${telemetryData.arrayCurrent}</td>
+							<td><c:out value="${telemetryData.arrayCurrent}" /></td>
 							<td>[Status]</td>
 						</tr>
 						<tr>
 							<td>Motor</td>
-							<td>${telemetryData.motorCurrent}</td>
+							<td><c:out value="${telemetryData.motorCurrent}" /></td>
 							<td>[Status]</td>
 						</tr>
 						</tbody>
@@ -284,7 +275,7 @@
 						</tr>
 						<tr>
 							<td><abbr title="Auxiliary">Aux.</abbr> Pack (<abbr title="Volts">V</abbr>)</td>
-							<td>${telemetryData.auxPackVoltage}</td>
+							<td><c:out value="${telemetryData.auxPackVoltage}" /></td>
 						</tr>
 						<tr>
 							<td><abbr title="Auxiliary">Aux.</abbr> Pack Level (<abbr title="Volts">V</abbr>)</td>
@@ -292,15 +283,15 @@
 						</tr>
 						<tr>
 							<td>12V Main Bus (<abbr title="Volts">V</abbr>)</td>
-							<td>${telemetryData.twelveVoltMainVoltage}</td>
+							<td><c:out value="${telemetryData.twelveVoltMainVoltage}" /></td>
 						</tr>
 						<tr>
 							<td>12V <abbr title="Auxiliary">Aux.</abbr> Bus (<abbr title="Volts">V</abbr>)</td>
-							<td>${telemetryData.twelveVoltAuxVoltage}</td>
+							<td><c:out value="${telemetryData.twelveVoltAuxVoltage}" /></td>
 						</tr>
 						<tr>
 							<td>5V Bus (<abbr title="Volts">V</abbr>)</td>
-							<td>${telemetryData.fiveVoltVoltage}</td>
+							<td><c:out value="${telemetryData.fiveVoltVoltage}" /></td>
 						</tr>
 						</tbody>
 					</table>
@@ -328,52 +319,205 @@
 		<div class="tab-pane active" id="bps">
 				<div class="panel panel-default">
 				<div class="panel-body">
-					<h4>BPS Content</h4>
-					<table class="table table-striped table-condensed table-bordered">
-						<thead>
-						<tr>
-							<th>Module Number</th>
-							<th>Voltage</th>
-							<th>Temp</th>
-							<th>VRE</th>
-							<th>OVF</th>
-							<th>OVW</th>
-							<th>UVW</th>
-							<th>UVF</th>
-							<th>TRE</th>
-							<th>OTF</th>
-							<th>OTW</th>
-							<th>UTW</th>
-							<th>UTF</th>
-							<th>DISC</th>
-							<th>TRANGE</th>
-							
-							
-						</tr>
-						</thead>
-						<tbody>
-					  	<c:forEach var="moduleId" items="${telemetryData.batteryModuleIds}" varStatus="count">
-							<tr>
-						            <td>Module ${moduleId}</td>
-						         	<td><fmt:formatNumber maxFractionDigits="3" type="number" value="${telemetryData.batteryModuleVoltages[count.index]}" /></td>
-						            <td><c:out value="${telemetryData.batteryModuleTemperatures[count.index]}" /></td>
-						            <td><c:out value="${telemetryData.batteryModuleVoltageReadErrors[count.index]}" /></td>
-						            <td><c:out value="${telemetryData.batteryModuleOverVoltFaults[count.index]}" /></td>
-						            <td><c:out value="${telemetryData.batteryModuleOverVoltWarnings[count.index]}" /></td>
-						            <td><c:out value="${telemetryData.batteryModuleUnderVoltWarnings[count.index]}" /></td>
-						            <td><c:out value="${telemetryData.batteryModuleUnderVoltFaults[count.index]}" /></td>
-						            <td><c:out value="${telemetryData.batteryModuleTempReadErrors[count.index]}" /></td>
-						            <td><c:out value="${telemetryData.batteryModuleOverTempFaults[count.index]}" /></td>
-						            <td><c:out value="${telemetryData.batteryModuleOverTempWarnings[count.index]}" /></td>
-						            <td><c:out value="${telemetryData.batteryModuleUnderTempWarnings[count.index]}" /></td>
-						            <td><c:out value="${telemetryData.batteryModuleUnderTempFaults[count.index]}" /></td>						 
-						            <td><c:out value="${telemetryData.batteryModuleDisconnectedFaults[count.index]}" /></td>
-						            <td><c:out value="${telemetryData.batteryModuleTempCalibrationRangeErrors[count.index]}" /></td>
-						            
-							</tr>
-						</c:forEach>
-						</tbody>
-					</table>
+					<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
+						<div class="table" style="padding-top:20px">
+							<table class="table table-condensed table-bordered">
+								<thead>
+									<tr>
+										<th>Module Number</th>
+										<th>Voltage</th>
+										<th>Temp</th>
+										<th>VRE</th>
+										<th>OVF</th>
+										<th>OVW</th>
+										<th>UVW</th>
+										<th>UVF</th>
+										<th>TRE</th>
+										<th>OTF</th>
+										<th>OTW</th>
+										<th>UTW</th>
+										<th>UTF</th>
+										<th>DISC</th>
+										<th>TRANGE</th>
+									</tr>
+								</thead>
+								<tbody>
+								  	<c:forEach var="moduleId" items="${telemetryData.batteryModuleIds}" varStatus="count">
+									<tr>
+										<td style="vertical-align:middle">Module <c:out value="${moduleId}" /></td>
+										
+										<!-- batteryModuleVoltages cell -->
+										<td>
+												<c:set var="batteryModuleVoltages" scope="session" value="${telemetryData.batteryModuleVoltages[count.index]}"/>
+												<c:choose>
+													<c:when test="${batteryModuleVoltages > 40}"><p class="list-group-item list-group-item-success"><fmt:formatNumber maxFractionDigits="3" type="number" value="${telemetryData.batteryModuleVoltages[count.index]}" /></c:when>	<%-- when equal to a good fault code --%>
+													<c:when test="${batteryModuleVoltages >= 20 && batteryModuleVoltages <= 40}"><p class="list-group-item list-group-item-warning"><fmt:formatNumber maxFractionDigits="3" type="number" value="${telemetryData.batteryModuleVoltages[count.index]}" /></c:when>	<%-- when equal to a middle fault code --%>
+													<c:when test="${batteryModuleVoltages < 20}"><p class="list-group-item list-group-item-danger"><fmt:formatNumber maxFractionDigits="3" type="number" value="${telemetryData.batteryModuleVoltages[count.index]}" /></c:when>	<%-- when equal to a bad fault code --%>
+													<c:otherwise>&nbsp;</c:otherwise>
+												</c:choose>
+										</td>
+
+										<!-- batteryModuleTemperatures cell -->
+										<td>
+												<c:set var="batteryModuleTemperatures" scope="session" value="${telemetryData.batteryModuleTemperatures[count.index]}"/>
+												<c:choose>
+													<c:when test="${batteryModuleTemperatures < 20}"><p class="list-group-item list-group-item-success"><c:out value="${telemetryData.batteryModuleTemperatures[count.index]}" /></c:when>	<%-- when equal to a good fault code --%>
+													<c:when test="${batteryModuleTemperatures >= 20 && batteryModuleTemperatures <= 40}"><p class="list-group-item list-group-item-warning"><c:out value="${telemetryData.batteryModuleTemperatures[count.index]}" /></c:when>	<%-- when equal to a middle fault code --%>
+													<c:when test="${batteryModuleTemperatures > 40}"><p class="list-group-item list-group-item-danger"><c:out value="${telemetryData.batteryModuleTemperatures[count.index]}" /></c:when>	<%-- when equal to a bad fault code --%>
+													<c:otherwise>&nbsp;</c:otherwise>
+												</c:choose>
+										</td>
+
+										<!-- batteryModuleVoltageReadErrors cell -->
+										<td>
+												<c:set var="batteryModuleVoltageReadErrors" scope="session" value="${telemetryData.batteryModuleVoltageReadErrors[count.index]}"/>
+												<c:choose>
+													<c:when test="${batteryModuleVoltageReadErrors == good_fault_code}"><p class="list-group-item list-group-item-success"><c:out value="${telemetryData.batteryModuleVoltageReadErrors[count.index]}" /></c:when>	<%-- when equal to a good fault code --%>
+													<c:when test="${batteryModuleVoltageReadErrors == soso_fault_code}"><p class="list-group-item list-group-item-warning"><c:out value="${telemetryData.batteryModuleVoltageReadErrors[count.index]}" /></c:when>	<%-- when equal to a middle fault code --%>
+													<c:when test="${batteryModuleVoltageReadErrors == bad_fault_code}"><p class="list-group-item list-group-item-danger"><c:out value="${telemetryData.batteryModuleVoltageReadErrors[count.index]}" /></c:when>	<%-- when equal to a bad fault code --%>
+													<c:when test="${batteryModuleVoltageReadErrors == false}">&nbsp;</c:when>
+													<c:otherwise>&nbsp;</c:otherwise>
+												</c:choose>
+										</td>
+
+
+										<!-- batteryModuleOverVoltFaults cell -->
+										<td>
+												<c:set var="batteryModuleOverVoltFaults" scope="session" value="${telemetryData.batteryModuleOverVoltFaults[count.index]}"/>
+												<c:choose>
+													<c:when test="${batteryModuleOverVoltFaults == good_fault_code}"><p class="list-group-item list-group-item-success"><c:out value="${telemetryData.batteryModuleOverVoltFaults[count.index]}" /></c:when>	<%-- when equal to a good fault code --%>
+													<c:when test="${batteryModuleOverVoltFaults == soso_fault_code}"><p class="list-group-item list-group-item-warning"><c:out value="${telemetryData.batteryModuleOverVoltFaults[count.index]}" /></c:when>	<%-- when equal to a middle fault code --%>
+													<c:when test="${batteryModuleOverVoltFaults == bad_fault_code}"><p class="list-group-item list-group-item-danger"><c:out value="${telemetryData.batteryModuleOverVoltFaults[count.index]}" /></c:when>		<%-- when equal to a bad fault code --%>
+													<c:when test="${batteryModuleOverVoltFaults == false}">&nbsp;</c:when>
+													<c:otherwise>&nbsp;</c:otherwise>
+												</c:choose>
+										</td>
+
+										<!-- batteryModuleOverVoltWarnings cell -->
+										<td>
+												<c:set var="batteryModuleOverVoltWarnings" scope="session" value="${telemetryData.batteryModuleOverVoltWarnings[count.index]}"/>
+												<c:choose>
+													<c:when test="${batteryModuleOverVoltWarnings == good_fault_code}"><p class="list-group-item list-group-item-success"><c:out value="${telemetryData.batteryModuleOverVoltWarnings[count.index]}" /></c:when>	<%-- when equal to a good fault code --%>
+													<c:when test="${batteryModuleOverVoltWarnings == soso_fault_code}"><p class="list-group-item list-group-item-warning"><c:out value="${telemetryData.batteryModuleOverVoltWarnings[count.index]}" /></c:when>	<%-- when equal to a middle fault code --%>
+													<c:when test="${batteryModuleOverVoltWarnings == bad_fault_code}"><p class="list-group-item list-group-item-danger"><c:out value="${telemetryData.batteryModuleOverVoltWarnings[count.index]}" /></c:when>		<%-- when equal to a bad fault code --%>
+													<c:when test="${batteryModuleOverVoltWarnings == false}">&nbsp;</c:when>
+													<c:otherwise>&nbsp;</c:otherwise>
+												</c:choose>
+										</td>
+
+										<!-- batteryModuleUnderVoltWarnings cell -->
+										<td>
+												<c:set var="batteryModuleUnderVoltWarnings" scope="session" value="${telemetryData.batteryModuleUnderVoltWarnings[count.index]}"/>
+												<c:choose>
+													<c:when test="${batteryModuleUnderVoltWarnings == good_fault_code}"><p class="list-group-item list-group-item-success"><c:out value="${telemetryData.batteryModuleUnderVoltWarnings[count.index]}" /></c:when>	<%-- when equal to a good fault code --%>
+													<c:when test="${batteryModuleUnderVoltWarnings == soso_fault_code}"><p class="list-group-item list-group-item-warning"><c:out value="${telemetryData.batteryModuleUnderVoltWarnings[count.index]}" /></c:when>	<%-- when equal to a middle fault code --%>
+													<c:when test="${batteryModuleUnderVoltWarnings == bad_fault_code}"><p class="list-group-item list-group-item-danger"><c:out value="${telemetryData.batteryModuleUnderVoltWarnings[count.index]}" /></c:when>	<%-- when equal to a bad fault code --%>
+													<c:when test="${batteryModuleUnderVoltWarnings == false}">&nbsp;</c:when>
+													<c:otherwise>&nbsp;</c:otherwise>
+												</c:choose>
+										</td>
+
+										<!-- batteryModuleUnderVoltFaults cell -->
+										<td>
+												<c:set var="batteryModuleUnderVoltFaults" scope="session" value="${telemetryData.batteryModuleUnderVoltFaults[count.index]}"/>
+												<c:choose>
+													<c:when test="${batteryModuleUnderVoltFaults == good_fault_code}"><p class="list-group-item list-group-item-success"><c:out value="${telemetryData.batteryModuleUnderVoltFaults[count.index]}" /></c:when>	<%-- when equal to a good fault code --%>
+													<c:when test="${batteryModuleUnderVoltFaults == soso_fault_code}"><p class="list-group-item list-group-item-warning"><c:out value="${telemetryData.batteryModuleUnderVoltFaults[count.index]}" /></c:when>	<%-- when equal to a middle fault code --%>
+													<c:when test="${batteryModuleUnderVoltFaults == bad_fault_code}"><p class="list-group-item list-group-item-danger"><c:out value="${telemetryData.batteryModuleUnderVoltFaults[count.index]}" /></c:when>	<%-- when equal to a bad fault code --%>
+													<c:when test="${batteryModuleUnderVoltFaults == false}">&nbsp;</c:when>
+													<c:otherwise>&nbsp;</c:otherwise>
+												</c:choose>
+										</td>
+
+										<!-- batteryModuleTempReadErrors cell -->
+										<td>
+												<c:set var="batteryModuleTempReadErrors" scope="session" value="${telemetryData.batteryModuleTempReadErrors[count.index]}"/>
+												<c:choose>
+													<c:when test="${batteryModuleTempReadErrors == good_fault_code}"><p class="list-group-item list-group-item-success"><c:out value="${telemetryData.batteryModuleTempReadErrors[count.index]}" /></c:when>	<%-- when equal to a good fault code --%>
+													<c:when test="${batteryModuleTempReadErrors == soso_fault_code}"><p class="list-group-item list-group-item-warning"><c:out value="${telemetryData.batteryModuleTempReadErrors[count.index]}" /></c:when>	<%-- when equal to a middle fault code --%>
+													<c:when test="${batteryModuleTempReadErrors == bad_fault_code}"><p class="list-group-item list-group-item-danger"><c:out value="${telemetryData.batteryModuleTempReadErrors[count.index]}" /></c:when>		<%-- when equal to a bad fault code --%>
+													<c:when test="${batteryModuleTempReadErrors == false}">&nbsp;</c:when>
+													<c:otherwise>&nbsp;</c:otherwise>
+												</c:choose>
+										</td>
+
+										<!-- batteryModuleOverTempFaults cell -->
+										<td>
+												<c:set var="batteryModuleOverTempFaults" scope="session" value="${telemetryData.batteryModuleOverTempFaults[count.index]}"/>
+												<c:choose>
+													<c:when test="${batteryModuleOverTempFaults == good_fault_code}"><p class="list-group-item list-group-item-success"><c:out value="${telemetryData.batteryModuleOverTempFaults[count.index]}" /></c:when>	<%-- when equal to a good fault code --%>
+													<c:when test="${batteryModuleOverTempFaults == soso_fault_code}"><p class="list-group-item list-group-item-warning"><c:out value="${telemetryData.batteryModuleOverTempFaults[count.index]}" /></c:when>	<%-- when equal to a middle fault code --%>
+													<c:when test="${batteryModuleOverTempFaults == bad_fault_code}"><p class="list-group-item list-group-item-danger"><c:out value="${telemetryData.batteryModuleOverTempFaults[count.index]}" /></c:when>		<%-- when equal to a bad fault code --%>
+													<c:when test="${batteryModuleOverTempFaults == false}">&nbsp;</c:when>
+													<c:otherwise>&nbsp;</c:otherwise>
+												</c:choose>
+										</td>
+
+										<!-- batteryModuleOverTempWarnings cell -->
+										<td>
+												<c:set var="batteryModuleOverTempWarnings" scope="session" value="${telemetryData.batteryModuleOverTempWarnings[count.index]}"/>
+												<c:choose>
+													<c:when test="${batteryModuleOverTempWarnings == good_fault_code}"><p class="list-group-item list-group-item-success"><c:out value="${telemetryData.batteryModuleOverTempWarnings[count.index]}" /></c:when>	<%-- when equal to a good fault code --%>
+													<c:when test="${batteryModuleOverTempWarnings == soso_fault_code}"><p class="list-group-item list-group-item-warning"><c:out value="${telemetryData.batteryModuleOverTempWarnings[count.index]}" /></c:when>	<%-- when equal to a middle fault code --%>
+													<c:when test="${batteryModuleOverTempWarnings == bad_fault_code}"><p class="list-group-item list-group-item-danger"><c:out value="${telemetryData.batteryModuleOverTempWarnings[count.index]}" /></c:when>		<%-- when equal to a bad fault code --%>
+													<c:when test="${batteryModuleOverTempWarnings == false}">&nbsp;</c:when>
+													<c:otherwise>&nbsp;</c:otherwise>
+												</c:choose>
+										</td>
+
+										<!-- batteryModuleUnderTempWarnings cell -->
+										<td>
+												<c:set var="batteryModuleUnderTempWarnings" scope="session" value="${telemetryData.batteryModuleUnderTempWarnings[count.index]}"/>
+												<c:choose>
+													<c:when test="${batteryModuleUnderTempWarnings == good_fault_code}"><p class="list-group-item list-group-item-success"><c:out value="${telemetryData.batteryModuleUnderTempWarnings[count.index]}" /></c:when>	<%-- when equal to a good fault code --%>
+													<c:when test="${batteryModuleUnderTempWarnings == soso_fault_code}"><p class="list-group-item list-group-item-warning"><c:out value="${telemetryData.batteryModuleUnderTempWarnings[count.index]}" /></c:when>	<%-- when equal to a middle fault code --%>
+													<c:when test="${batteryModuleUnderTempWarnings == bad_fault_code}"><p class="list-group-item list-group-item-danger"><c:out value="${telemetryData.batteryModuleUnderTempWarnings[count.index]}" /></c:when>	<%-- when equal to a bad fault code --%>
+													<c:when test="${batteryModuleUnderTempWarnings == false}">&nbsp;</c:when>
+													<c:otherwise>&nbsp;</c:otherwise>
+												</c:choose>
+										</td>
+
+										<!-- batteryModuleUnderTempFaults cell -->
+										<td>
+												<c:set var="batteryModuleUnderTempFaults" scope="session" value="${telemetryData.batteryModuleUnderTempFaults[count.index]}"/>
+												<c:choose>
+													<c:when test="${batteryModuleUnderTempFaults == good_fault_code}"><p class="list-group-item list-group-item-success"><c:out value="${telemetryData.batteryModuleUnderTempFaults[count.index]}" /></c:when>	<%-- when equal to a good fault code --%>
+													<c:when test="${batteryModuleUnderTempFaults == soso_fault_code}"><p class="list-group-item list-group-item-warning"><c:out value="${telemetryData.batteryModuleUnderTempFaults[count.index]}" /></c:when>	<%-- when equal to a middle fault code --%>
+													<c:when test="${batteryModuleUnderTempFaults == bad_fault_code}"><p class="list-group-item list-group-item-danger"><c:out value="${telemetryData.batteryModuleUnderTempFaults[count.index]}" /></c:when>	<%-- when equal to a bad fault code --%>
+													<c:when test="${batteryModuleUnderTempFaults == false}">&nbsp;</c:when>
+													<c:otherwise>&nbsp;</c:otherwise>
+												</c:choose>
+										</td>
+
+										<!-- batteryModuleDisconnectedFaults cell -->
+										<td>
+												<c:set var="batteryModuleDisconnectedFaults" scope="session" value="${telemetryData.batteryModuleDisconnectedFaults[count.index]}"/>
+												<c:choose>
+													<c:when test="${batteryModuleDisconnectedFaults == good_fault_code}"><p class="list-group-item list-group-item-success"><c:out value="${telemetryData.batteryModuleDisconnectedFaults[count.index]}" /></c:when>	<%-- when equal to a good fault code --%>
+													<c:when test="${batteryModuleDisconnectedFaults == soso_fault_code}"><p class="list-group-item list-group-item-warning"><c:out value="${telemetryData.batteryModuleDisconnectedFaults[count.index]}" /></c:when>	<%-- when equal to a middle fault code --%>
+													<c:when test="${batteryModuleDisconnectedFaults == bad_fault_code}"><p class="list-group-item list-group-item-danger"><c:out value="${telemetryData.batteryModuleDisconnectedFaults[count.index]}" /></c:when>		<%-- when equal to a bad fault code --%>
+													<c:when test="${batteryModuleDisconnectedFaults == false}">&nbsp;</c:when>
+													<c:otherwise>&nbsp;</c:otherwise>
+												</c:choose>
+										</td>
+
+										<!-- batteryModuleTempCalibrationRangeErrors cell -->
+										<td>
+												<c:set var="batteryModuleTempCalibrationRangeErrors" scope="session" value="${telemetryData.batteryModuleTempCalibrationRangeErrors[count.index]}"/>
+												<c:choose>
+													<c:when test="${batteryModuleTempCalibrationRangeErrors == good_fault_code}"><p class="list-group-item list-group-item-success"><c:out value="${telemetryData.batteryModuleTempCalibrationRangeErrors[count.index]}" /></c:when>	<%-- when equal to a good fault code --%>
+													<c:when test="${batteryModuleTempCalibrationRangeErrors == soso_fault_code}"><p class="list-group-item list-group-item-warning"><c:out value="${telemetryData.batteryModuleTempCalibrationRangeErrors[count.index]}" /></c:when>	<%-- when equal to a middle fault code --%>
+													<c:when test="${batteryModuleTempCalibrationRangeErrors == bad_fault_code}"><p class="list-group-item list-group-item-danger"><c:out value="${telemetryData.batteryModuleTempCalibrationRangeErrors[count.index]}" /></c:when>		<%-- when equal to a bad fault code --%>
+													<c:when test="${ModuleDisconnectedFaults == false}">&nbsp;</c:when>
+													<c:otherwise>&nbsp;</c:otherwise>
+												</c:choose>
+										</td>
+									</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -405,11 +549,7 @@
 			<div class="panel panel-default">
 				<div class="panel-body">
  					<div align="center" style="padding-top:20px; padding-bottom:20px">
-	 					<div id="GoogleChart" style="height:400px; width:80%"> 					
-					</div>
- 					<div align="center" style="padding-top:20px; padding-bottom:20px">
-	 					<div id="jqPlotLive" style="height:350px; width:80%"></div>
-						<div style="padding-top:20px; padding-bottom:20px"><button>Start Chart Updates</button></div>
+	 					<div id="GoogleChart"> 					
 					</div>
 				</div>
 			</div>
@@ -445,14 +585,14 @@
 		function drawVisualization() {
 			// Create and populate the data table.
 			var data = new google.visualization.DataTable();
-			data.addColumn('string', 'Time');
+			data.addColumn('string', 'Time');	// this probably needs to change to a number type
 			data.addColumn('number', 'Speed');
 			data.addColumn('number', 'Power Consumption');
 			data.addColumn('number', 'Charge Status');
-			data.addRow(["0", 17.7, 400, 98.5]);
-			data.addRow(["10", 20.6, 476, 98.1]);
-			data.addRow(["20", 21.1, 495, 97.4]);
-			data.addRow(["30", 19.4, 433, 97.0]);
+			data.addRow(["0", 17.7, 400, 98.5]);	// add code to update these values from the solar car
+			data.addRow(["10", 20.6, 476, 98.1]);	// add code to update these values from the solar car
+			data.addRow(["20", 21.1, 495, 97.4]);	// add code to update these values from the solar car
+			data.addRow(["30", 19.4, 433, 97.0]);	// add code to update these values from the solar car
 		 
 			// Chart options
 			var options = {
@@ -467,7 +607,10 @@
 					1:{targetAxisIndex:1},
 					2:{targetAxisIndex:0}
 				},
-				legend: 'bottom'
+ 				width: 800,
+				height: 400,
+				tooltip: { isHtml: true },
+				legend: { position: 'bottom' }
 			};
 
 			// Create and draw the visualization.
@@ -482,7 +625,7 @@
 
 
 	<!-- jqPlot stuff -->
-	<link href="//cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.8/jquery.jqplot.min.css" rel="stylesheet" type="text/css" />
+	<!--<link href="//cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.8/jquery.jqplot.min.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.8/jquery.jqplot.min.js"></script>
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.8/plugins/jqplot.dateAxisRenderer.min.js"></script>
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.8/plugins/jqplot.highlighter.min.js"></script>
@@ -600,7 +743,7 @@
 				setTimeout(doUpdate, time);
 			}	
 		});
-	</script>
+	</script>-->
 
 </body>
 </html>
