@@ -6,6 +6,7 @@
 
 package CananatorX;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.Collections;
 import java.util.List;
 /**
@@ -14,30 +15,20 @@ import java.util.List;
  */
 public class PrisumSolarCarState {
 
-
     
 	/*** Miles Per Hour PROPERTIES ***/
-	private int MPHcount  = 0; //Counter variable for speed calculations
-	private int MPH;
-	public synchronized void setMPH(int amount){MPH = amount;}
-	
-
-    private int MPHmax  = 0; //Initialize maximum speed
-	public synchronized void setMPHmax(int amount){MPHmax = amount;}
-	public synchronized int getMPHmax(){return MPHmax;}
-	
-    private int MPHmin  = 10000; //Initialize minimum speed
-    public synchronized void setMPHmin(int amount){MPHmin = amount;}
-	public synchronized int getMPHmin(){return MPHmin;}
-	
-    private int MPHrecent  = 0; //Initialize weighted average of MPH with expected value
-    public synchronized void setMPHrecent(int amount){MPHrecent = amount;}
-	public synchronized int getMPHrecent(){return MPHrecent;}
-	
-    private int MPHavg  = 0; //Initialize average speed
-    public synchronized void setMPHavg(int amount){MPHavg = amount;}
-	public synchronized int getMPHavg(){return MPHavg;}
-	public synchronized int getMPH(){return MPH; }
+	private TrackedValue MPH = new TrackedValue();    
+    
+    //automatically updates averages when set
+    public synchronized void setMPH(int amount)
+    {
+    	MPH.setNewValue(amount);
+    }
+	public synchronized int getMPHmax(){return (int) MPH.getMax();}
+	public synchronized int getMPHmin(){return (int) MPH.getMin();}
+	public synchronized double getMPHrecent(){return MPH.getMovingAverage();}
+	public synchronized double getMPHavg(){return MPH.getTotalAverage();}
+	public synchronized int getMPH(){return (int) MPH.getValue(); }
 	
 	private int throttlePositionPercent = 0;
 	/*** Throttle Percentage ***/
@@ -131,12 +122,11 @@ public class PrisumSolarCarState {
 //    private int MPGeAvg  = 0; //Initialize average MPGe
 
 	/*** Pack Properties ***/
-	private int PackPowerCount  = 0; //Counter variable for pack calculations
-    
-    private double PackPowerRecent  = 0; //Initialize weighted average of pack power with expected value
-    public synchronized void setPackPowerRecent(double amount)
+	TrackedValue PackPower = new TrackedValue();
+	
+  public synchronized void setPackPower(double amount)
     {
-    	PackPowerRecent = amount;
+    	
     	//update state
     	if(amount>0){
             this.PackStatus = PackStatus.Charging;
@@ -146,54 +136,43 @@ public class PrisumSolarCarState {
         	this.PackStatus = PackStatus.NoNetPower;
         }
     	
-    	//update min and max
-    	if(amount < this.PackPowerMin)
-    	{
-    		this.PackPowerMin = amount;
-    	}
-    	else if(amount > this.PackPowerMax)
-    	{
-    		this.PackPowerMax = amount;
-    	}
-    	
-    	
+    	PackPower.setNewValue(amount);	
     }
-	public synchronized double getPackPowerRecent(){return PackPowerRecent;}
-	
-	private double PackPowerAvg  = 0; //Initialize average pack power
-	public synchronized void setPackPowerAvg(double amount){PackPowerAvg = amount;}
-	public synchronized double getPackPowerAvg(){return PackPowerAvg;}
-	
-    public synchronized double getPackPowerMax(){return PackPowerMax;}
-    public synchronized double getPackPowerMin(){return PackPowerMin;}
+	public synchronized double getPackPowerRecent(){return PackPower.getMovingAverage();}
+	public synchronized double getPackPowerAvg(){return PackPower.getTotalAverage();}
+    public synchronized double getPackPowerMax(){return PackPower.getMax();}
+    public synchronized double getPackPowerMin(){return PackPower.getMin();}
+    public synchronized double getPackPower() {return PackPower.getValue();}
 	
 	private int PackTCount  = 0; //Counter variable for pack temp calculations
     private int PackTMax  = 0; //Initialize maximum pack temp
     private int PackTMin  = 10000; //Initialize minimum pack temp
     private int PackTRecent  = 30; //Initialize weighted average of pack temp with expected value
     private int PackTAvg  = 0; //Initialize average pack temp
-    private double PackPowerMin;
-    private double PackPowerMax;
     
-    private double PackCurrent;
-    public synchronized double getPackCurrent() {return PackCurrent;}
-	public synchronized void setPackCurrent(double packCurrent) {PackCurrent = packCurrent;}
+    private TrackedValue PackCurrent = new TrackedValue();
+    public synchronized void setPackCurrent(double packCurrent) 
+    {
+    	PackCurrent.setNewValue(packCurrent);
+    }
+    public synchronized double getPackCurrent() {return PackCurrent.getValue();}
+    public synchronized double getPackCurrentRecent() {return PackCurrent.getMovingAverage();}
+    public synchronized double getPackCurrentAvg() {return PackCurrent.getTotalAverage();}
+    public synchronized double getPackCurrentMax() {return PackCurrent.getMax();}
+    public synchronized double getPackCurrentMin() {return PackCurrent.getMin();}
     
-    private double PackPower;
-    public synchronized double getPackPower() {return PackVoltage;}
-	public synchronized void setPackPower(double packPower) {PackPower = packPower;}
+    
+    
+	
     
     private double PackVoltage;
-	public synchronized double getPackVoltage() {return PackVoltage;}
-	public synchronized void setPackVoltage(double packVoltage) {PackVoltage = packVoltage;}
+    public synchronized void setPackVoltage(double packVoltage) {PackVoltage = packVoltage;}
     
+    public synchronized double getPackVoltage() {return PackVoltage;}
+	
 
 	/*** ARRAY PROPERTIES ***/
-	private int ArrayPowerCount  = 0; //Counter variable for array calculations
-	private double ArrayPowerRecent  = 0; //Initialize weighted average of array power with expected value
-	public synchronized void setArrayPowerRecent(int amount){ArrayPowerRecent = amount;}
-	public synchronized double getArrayPowerRecent(){return ArrayPowerRecent;}
-	
+
 	private double ArrayVoltage = 0 ;
 	public synchronized void setArrayVoltage(double amount){ArrayVoltage = amount;}
 	public synchronized double getArrayVoltage(){return ArrayVoltage;}
@@ -202,35 +181,25 @@ public class PrisumSolarCarState {
     public synchronized void setArrayCurrent(double amount){ArrayCurrent = amount;}
 	public synchronized double getArrayCurrent(){return ArrayCurrent;}
 	
-    private double ArrayPower = 0;
-    public synchronized void setArrayPower(double amount){ArrayPower = amount;}
-	public synchronized double getArrayPower(){return ArrayPower;}
+    private TrackedValue ArrayPower = new TrackedValue();
+    public synchronized void setArrayPower(double amount){ArrayPower.setNewValue(amount);}
+	public synchronized double getArrayPower(){return ArrayPower.getValue();}
+	public synchronized double getArrayPowerMin(){return ArrayPower.getMin();}
+	public synchronized double getArrayPowerMax(){return ArrayPower.getMax();}
+	public synchronized double getArrayPowerRecent(){return ArrayPower.getMovingAverage();}
+	public synchronized double getArrayPowerAvg(){return ArrayPower.getTotalAverage();}
 	
-    private double ArrayPowerMin = 0;
-    public synchronized void setArrayPowerMin(double amount){ArrayPowerMin = amount;}
-	public synchronized double getArrayPowerMin(){return ArrayPowerMin;}
 	
-    private double ArrayPowerMax = 0;
-    public synchronized void setArrayPowerMax(double amount){ArrayPowerMax = amount;}
-	public synchronized double getArrayPowerMax(){return ArrayPowerMax;}
-	
-    private double ArrayPowerAvg = 0;
-    public synchronized void setArrayPowerAvg(double amount){ArrayPowerAvg = amount;}
-	public synchronized double getArrayPowerAvg(){return ArrayPowerAvg;}
-	
+    
 	
 	/*** MOTOR PROPERTIES ***/
-    private int MotorPowerCount  = 0; //Counter variable for motor power calculations
-    public synchronized void setMotorPowerCount(int amount){MotorPowerCount = amount;}
-	public synchronized int getMotorPowerCount(){return MotorPowerCount;}
-	
-    private double MotorPowerRecent  = 0; //Initialize weighted average of motor power with expected value
-    public synchronized void setMotorPowerRecent(double amount){MotorPowerRecent = amount;}
-	public synchronized double getMotorPowerRecent(){return MotorPowerRecent;}
-	
-	private double MotorPowerAvg  = 0; //Initialize average motor power
-	public synchronized void setMotorPowerAvg(double amount){MotorPowerAvg = amount;}
-	public synchronized double getMotorPowerAvg(){return MotorPowerAvg;}
+	private TrackedValue MotorPower = new TrackedValue();
+    public synchronized void setMotorPower(double amount){MotorPower.setNewValue(amount);}
+	public synchronized double getMotorPower(){return MotorPower.getValue();}
+	public synchronized double getMotorPowerMin(){return MotorPower.getMin();}
+	public synchronized double getMotorPowerMax(){return MotorPower.getMax();}
+	public synchronized double getMotorPowerRecent(){return MotorPower.getMovingAverage();}
+	public synchronized double getMotorPowerAvg(){return MotorPower.getTotalAverage();}
 	
 	private int MotorTCount  = 0; //Counter variable for motor temp calculations
     private int MotorTMax  = 0; //Initialize maximum motor temp
@@ -239,7 +208,6 @@ public class PrisumSolarCarState {
     private  int MotorTAvg  = 0; //Initialize average motor temp
     private double MotorVoltage;
     private double MotorCurrent;
-    private double MotorPower;
     private double MotorPowerMin;
     private double MotorPowerMax;
 
@@ -247,11 +215,7 @@ public class PrisumSolarCarState {
     public synchronized double getMotorCurrent(){return MotorCurrent;}
     public synchronized void setMotorVoltage(double amount){MotorVoltage = amount;}
     public synchronized double getMotorVoltage(){return MotorVoltage;}
-    public synchronized void setMotorPower(double amount){MotorPower = amount;}
-    public synchronized double getMotorPower(){return MotorPower;}
-    
-    public synchronized double getMotorPowerMax(){return MotorPowerMax;}
-    public synchronized double getMotorPowerMin(){return MotorPowerMin;}
+
     
     /*** MOTOR CONTROLLER PROPERTIES ***/
     private int ControllerTCount  = 0; //Counter variable for controller temp calculations
