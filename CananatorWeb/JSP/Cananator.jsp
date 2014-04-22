@@ -2,6 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="CananatorX.PrisumSolarCarState" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -84,8 +85,8 @@
 							<td>${telemetryData.stateOfCharge}</td>
 						</tr>
 						<tr>
-							<td>Battery Capacity (<abbr title="Kilowatt Hours">kWh</abbr>)</td>
-							<td>[Status]</td>
+							<td>Battery Capacity (<abbr title="Amp Hours">Ah</abbr>)</td>
+							<td>${telemetryData.maxCapacityAmpHours}</td>
 						</tr>
 						<tr>
 							<td>High Module (<abbr title="Degrees Celcius">&deg;C</abbr>)</td>
@@ -267,7 +268,7 @@
 						<tbody>
 						<tr>
 							<td>System Voltage (<abbr title="Volts">V</abbr>)</td>
-							<td>[Status]</td>
+							<td>${telemetryData.packVoltage}</td>
 						</tr>
 						<tr>
 							<td>No Load Voltage (<abbr title="Volts">V</abbr>)</td>
@@ -315,16 +316,16 @@
 <!--<div class="container"> -->
 	<!-- Nav tabs -->
 	<ul class="nav nav-tabs">
-		<li><a href="#bps" data-toggle="tab">Battery Protection (BPS)</a></li>
+		<li class="active"><a href="#bps" data-toggle="tab">Battery Protection (BPS)</a></li>
 		<li><a href="#mppt" data-toggle="tab">Power Trackers (MPPT)</a></li>
 		<li><a href="#motor" data-toggle="tab">Motor</a></li>
 		<li><a href="#errorlog" data-toggle="tab">Error Log</a></li>
-		<li class="active"><a href="#graphs" data-toggle="tab">Graphs</a></li>
+		<li><a href="#graphs" data-toggle="tab">Graphs</a></li>
 	</ul>
 
 <!-- Tab panes (LOWER CONTENT) -->
 	<div class="tab-content">
-		<div class="tab-pane" id="bps">
+		<div class="tab-pane active" id="bps">
 				<div class="panel panel-default">
 				<div class="panel-body">
 					<h4>BPS Content</h4>
@@ -351,23 +352,23 @@
 						</tr>
 						</thead>
 						<tbody>
-						<c:forEach var="i" begin="1" end="30">
+					  	<c:forEach var="moduleId" items="${telemetryData.batteryModuleIds}" varStatus="count">
 							<tr>
-									<td>Module ${i}</td>
-						            <td><c:out value="${telemetryData.batteryModuleVoltages[i]}" /></td>
-						            <td><c:out value="${telemetryData.batteryModuleTemperatures[i]}" /></td>
-						            <td><c:out value="${telemetryData.batteryModuleVoltageReadErrors[i]}" /></td>
-						            <td><c:out value="${telemetryData.batteryModuleOverVoltFaults[i]}" /></td>
-						            <td><c:out value="${telemetryData.batteryModuleOverVoltWarnings[i]}" /></td>
-						            <td><c:out value="${telemetryData.batteryModuleUnderVoltWarnings[i]}" /></td>
-						            <td><c:out value="${telemetryData.batteryModuleUnderVoltFaults[i]}" /></td>
-						            <td><c:out value="${telemetryData.batteryModuleTempReadErrors[i]}" /></td>
-						            <td><c:out value="${telemetryData.batteryModuleOverTempFaults[i]}" /></td>
-						            <td><c:out value="${telemetryData.batteryModuleOverTempWarnings[i]}" /></td>
-						            <td><c:out value="${telemetryData.batteryModuleUnderTempWarnings[i]}" /></td>
-						            <td><c:out value="${telemetryData.batteryModuleUnderTempFaults[i]}" /></td>						 
-						            <td><c:out value="${telemetryData.batteryModuleDisconnectedFaults[i]}" /></td>
-						            <td><c:out value="${telemetryData.batteryModuleTempCalibrationRangeErrors[i]}" /></td>
+						            <td>Module ${moduleId}</td>
+						         	<td><fmt:formatNumber maxFractionDigits="3" type="number" value="${telemetryData.batteryModuleVoltages[count.index]}" /></td>
+						            <td><c:out value="${telemetryData.batteryModuleTemperatures[count.index]}" /></td>
+						            <td><c:out value="${telemetryData.batteryModuleVoltageReadErrors[count.index]}" /></td>
+						            <td><c:out value="${telemetryData.batteryModuleOverVoltFaults[count.index]}" /></td>
+						            <td><c:out value="${telemetryData.batteryModuleOverVoltWarnings[count.index]}" /></td>
+						            <td><c:out value="${telemetryData.batteryModuleUnderVoltWarnings[count.index]}" /></td>
+						            <td><c:out value="${telemetryData.batteryModuleUnderVoltFaults[count.index]}" /></td>
+						            <td><c:out value="${telemetryData.batteryModuleTempReadErrors[count.index]}" /></td>
+						            <td><c:out value="${telemetryData.batteryModuleOverTempFaults[count.index]}" /></td>
+						            <td><c:out value="${telemetryData.batteryModuleOverTempWarnings[count.index]}" /></td>
+						            <td><c:out value="${telemetryData.batteryModuleUnderTempWarnings[count.index]}" /></td>
+						            <td><c:out value="${telemetryData.batteryModuleUnderTempFaults[count.index]}" /></td>						 
+						            <td><c:out value="${telemetryData.batteryModuleDisconnectedFaults[count.index]}" /></td>
+						            <td><c:out value="${telemetryData.batteryModuleTempCalibrationRangeErrors[count.index]}" /></td>
 						            
 							</tr>
 						</c:forEach>
@@ -400,7 +401,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="tab-pane active" id="graphs">
+		<div class="tab-pane" id="graphs">
 			<div class="panel panel-default">
 				<div class="panel-body">
  					<div align="center" style="padding-top:20px; padding-bottom:20px">

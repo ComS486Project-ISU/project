@@ -355,11 +355,14 @@ public class PrisumSolarCarState {
 	}
     
     private int CurrentCapAmpHours;
-    public void setCurrentCapAmpHours(int currentCapAmpHours)
+    public void setMaxCapacityAmpHours(int currentCapAmpHours)
     {
     	CurrentCapAmpHours = currentCapAmpHours;
     }
-    
+    public int getMaxCapacityAmpHours()
+    {
+    	return CurrentCapAmpHours;
+    }
     
     boolean[] MpptStatuses;
     //internal
@@ -368,7 +371,7 @@ public class PrisumSolarCarState {
     	MpptStatuses[status.ordinal()] = value;
     }
     
-    boolean getMpptStatus(MpptStatus status)
+    public boolean getMpptStatus(MpptStatus status)
     {
     	return MpptStatuses[status.ordinal()];
     }
@@ -401,6 +404,9 @@ public class PrisumSolarCarState {
     //inner battery module class
     private class BatteryModule {
 
+    	//track when a battery module actually exists
+    	
+    	public boolean Exists;
         public double Temp;
         public double Voltage;
         //public BatteryModuleError moduleError;
@@ -421,6 +427,7 @@ public class PrisumSolarCarState {
     {
     	BatteryModule bm = BatteryModules.get(num);
     	bm.Temp = amount;
+    	bm.Exists = true;
     	
     	//update temperature statistics
     	if(amount >= highT){
@@ -437,11 +444,12 @@ public class PrisumSolarCarState {
     {
     	ArrayList<Double> modTemps =  new ArrayList<Double>();// = new double[PrisumSolarCarConstants.NumModules];
 	
-    	int i = 0;
     	for(BatteryModule bm : BatteryModules)
     	{
-    		modTemps.add(bm.Temp);
-    		i++;
+    		if(bm.Exists)
+    		{
+    			modTemps.add(bm.Temp);
+    		}
     	}
     	return  modTemps;
     }
@@ -452,7 +460,10 @@ public class PrisumSolarCarState {
 	
     	for(BatteryModule bm : BatteryModules)
     	{
-    		modVoltages.add(bm.Voltage);
+    		if(bm.Exists)
+    		{
+    			modVoltages.add(bm.Voltage);
+    		}
     	}
     	return modVoltages;
     }
@@ -486,6 +497,8 @@ public class PrisumSolarCarState {
     {
     	BatteryModule bm = BatteryModules.get(num);
     	bm.Voltage = amount;
+    	bm.Exists = true;
+    	
     	
     	//update voltage statistics
     	if(amount >= highV){
@@ -498,6 +511,7 @@ public class PrisumSolarCarState {
 	    }
     }
     
+	
 	public synchronized double getBatteryModuleVoltage(int num)
 	{
 		BatteryModule bm = BatteryModules.get(num);
@@ -546,6 +560,7 @@ public class PrisumSolarCarState {
     void setBatteryModuleError(int num, BatteryModuleError error, boolean value )
     {
     	BatteryModule bm = BatteryModules.get(num);
+    	bm.Exists = true;
     	bm.bmErrors[error.ordinal()] = value;
     }
     
@@ -562,7 +577,10 @@ public class PrisumSolarCarState {
     	
     	for(BatteryModule bm : BatteryModules)
     	{
-    		errors.add(bm.bmErrors[error.ordinal()]);
+    		if(bm.Exists)
+    		{
+    			errors.add(bm.bmErrors[error.ordinal()]);
+    		}
     	}
     	
     	return errors;
@@ -629,7 +647,21 @@ public class PrisumSolarCarState {
 
 	public List<Boolean> getBatteryModuleTempCalibrationRangeErrors() { return collectBatModErrors(BatteryModuleError.TempCalibrationRangeError); };
 
-	
+	public synchronized List<Integer> getBatteryModuleIds()
+	{
+    	ArrayList<Integer> ids = new ArrayList<Integer>();
+    	
+    	for(BatteryModule bm : BatteryModules)
+    	{
+    		
+    		if(bm.Exists)
+    		{
+    			ids.add(bm.Id);
+    		}
+    	}
+    	
+    	return ids;		
+	}
 	/*** PACK ERROR ***/
     public enum PackError
     {
