@@ -90,15 +90,15 @@
 						</tr>
 						<tr>
 							<td>High Module (<abbr title="Degrees Celcius">&deg;C</abbr>)</td>
-							<td>[Status]</td>
+							<td>${telemetryData.batteryModuleTempHigh}</td>
 						</tr>
 						<tr>
 							<td>High Module (<abbr title="Volts">V</abbr>)</td>
-							<td>[Status]</td>
+							<td>${telemetryData.batteryModuleVoltageHigh}</td>
 						</tr>
 						<tr>
 							<td>Low Module (<abbr title="Volts">V</abbr>)</td>
-							<td>[Status]</td>
+							<td>${telemetryData.batteryModuleVoltageLow}</td>
 						</tr>
 						</tbody>
 					</table>
@@ -144,7 +144,7 @@
 						</tr>
 						<tr>
 							<td>Battery Pack Power (<abbr title="Watts">W</abbr>)</td>
-							<td>${telemetryData.packPower}</td>
+							<td><fmt:formatNumber maxFractionDigits="3" type="number" value="${telemetryData.packPower}" /></td>
 							<td>${telemetryData.packPowerRecent}</td>
 							<td>${telemetryData.packPowerAvg}</td>
 							<td>${telemetryData.packPowerMax}</td>
@@ -268,7 +268,7 @@
 						<tbody>
 						<tr>
 							<td>System Voltage (<abbr title="Volts">V</abbr>)</td>
-							<td>${telemetryData.packVoltage}</td>
+							<td><fmt:formatNumber maxFractionDigits="3" type="number" value="${telemetryData.packVoltage}" /></td>
 						</tr>
 						<tr>
 							<td>No Load Voltage (<abbr title="Volts">V</abbr>)</td>
