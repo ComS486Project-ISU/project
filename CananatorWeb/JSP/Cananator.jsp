@@ -321,7 +321,7 @@
 				<div class="panel-body">
 					<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
 						<div class="table" style="padding-top:20px">
-							<table class="table table-condensed table-bordered">
+							<table class="table table-striped table-condensed table-bordered">
 								<thead>
 									<tr>
 										<th>Module Number</th>
