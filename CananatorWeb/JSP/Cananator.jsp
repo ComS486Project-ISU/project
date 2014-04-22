@@ -121,10 +121,10 @@
 						<tr>
 							<td>Driving Speed (<abbr title="Miles per Hour">MPH</abbr>)</td>
 							<td>${telemetryData.MPH}</td>
-							<td>[Status]</td>
-							<td>[Status]</td>
-							<td>[Status]</td>
-							<td>[Status]</td>
+							<td>${telemetryData.MPHrecent}</td>
+							<td>${telemetryData.MPHavg}</td>
+							<td>${telemetryData.MPHmax}</td>
+							<td>${telemetryData.MPHmin}</td>
 						</tr>
 						<tr>
 							<td>Energy Consumption (<abbr title="Mile per Gallon Equivalent">MPGe</abbr>)</td>
@@ -145,26 +145,26 @@
 						<tr>
 							<td>Battery Pack Power (<abbr title="Watts">W</abbr>)</td>
 							<td>${telemetryData.packPower}</td>
-							<td>[Status]</td>
-							<td>[Status]</td>
-							<td>[Status]</td>
-							<td>[Status]</td>
+							<td>${telemetryData.packPowerRecent}</td>
+							<td>${telemetryData.packPowerAvg}</td>
+							<td>${telemetryData.packPowerMax}</td>
+							<td>${telemetryData.packPowerMin}</td>
 						</tr>
 						<tr>
 							<td>Solar Array Power (<abbr title="Watts">W</abbr>)</td>
 							<td>${telemetryData.arrayPower}</td>
-							<td>[Status]</td>
-							<td>[Status]</td>
-							<td>[Status]</td>
-							<td>[Status]</td>
+							<td>${telemetryData.arrayPowerRecent}</td>
+							<td>${telemetryData.arrayPowerAvg}</td>
+							<td>${telemetryData.arrayPowerMax}</td>
+							<td>${telemetryData.arrayPowerMin}</td>
 						</tr>
 						<tr>
 							<td>Motor Power (<abbr title="Watts">W</abbr>)</td>
 							<td>${telemetryData.motorPower}</td>
-							<td>[Status]</td>
-							<td>[Status]</td>
-							<td>[Status]</td>
-							<td>[Status]</td>
+							<td>${telemetryData.motorPowerRecent}</td>
+							<td>${telemetryData.motorPowerAvg}</td>
+							<td>${telemetryData.motorPowerMax}</td>
+							<td>${telemetryData.motorPowerMin}</td>
 						</tr>
 						<tr>
 							<td>Electronics Power (<abbr title="Watts">W</abbr>)</td>
@@ -177,10 +177,10 @@
 						<tr>
 							<td>Cockpit Temperature (<abbr title="Degrees Celcius">&deg;C</abbr>)</td>
 							<td>${telemetryData.cockpitTemp}</td>
-							<td>[Status]</td>
-							<td>[Status]</td>
-							<td>[Status]</td>
-							<td>[Status]</td>
+							<td>${telemetryData.cockpitTempRecent}</td>
+							<td>${telemetryData.cockpitTempAvg}</td>
+							<td>${telemetryData.cockpitTempMax}</td>
+							<td>${telemetryData.cockpitTempMin}</td>
 						</tr>
 						<tr>
 							<td>Motor Temperature (<abbr title="Degrees Celcius">&deg;C</abbr>)</td>

@@ -164,6 +164,9 @@ public class PrisumSolarCarState {
 	public synchronized void setPackPowerAvg(double amount){PackPowerAvg = amount;}
 	public synchronized double getPackPowerAvg(){return PackPowerAvg;}
 	
+    public synchronized double getPackPowerMax(){return PackPowerMax;}
+    public synchronized double getPackPowerMin(){return PackPowerMin;}
+	
 	private int PackTCount  = 0; //Counter variable for pack temp calculations
     private int PackTMax  = 0; //Initialize maximum pack temp
     private int PackTMin  = 10000; //Initialize minimum pack temp
@@ -247,6 +250,9 @@ public class PrisumSolarCarState {
     public synchronized void setMotorPower(double amount){MotorPower = amount;}
     public synchronized double getMotorPower(){return MotorPower;}
     
+    public synchronized double getMotorPowerMax(){return MotorPowerMax;}
+    public synchronized double getMotorPowerMin(){return MotorPowerMin;}
+    
     /*** MOTOR CONTROLLER PROPERTIES ***/
     private int ControllerTCount  = 0; //Counter variable for controller temp calculations
     private int ControllerTMax  = 0; //Initialize maximum controller temp
@@ -276,7 +282,11 @@ public class PrisumSolarCarState {
 	   return CockpitTemp;
    }
    
-    
+   public synchronized double getCockpitTempMax(){return CockpitTempMax;}
+   public synchronized double getCockpitTempMin(){return CockpitTempMin;}
+   public synchronized double getCockpitTempRecent(){return CockpitTempRecent;}
+   public synchronized double getCockpitTempAvg(){return CockpitTempAvg;}
+   
     private int RecentV  = 100; //Initialize weighted average of system voltage with expected value
     private int ShortWeight  = 100; //Determines how many recent samples are given significant weight
     private int MidWeight  = 300; //Determines how many recent samples are given significant weight
