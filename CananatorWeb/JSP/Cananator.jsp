@@ -231,17 +231,18 @@
 						<tr>
 							<td>Pack</td>
 							<td><c:out value="${telemetryData.packCurrent}" /></td>
-							<td>[Status]</td>
+							<td><c:out value="${telemetryData.packStatus}" /></td>
 						</tr>
 						<tr>
 							<td>Array</td>
 							<td><c:out value="${telemetryData.arrayCurrent}" /></td>
-							<td>[Status]</td>
+							<td><c:out value="${telemetryData.arrayStatus}" /></td>
 						</tr>
 						<tr>
 							<td>Motor</td>
 							<td><c:out value="${telemetryData.motorCurrent}" /></td>
-							<td>[Status]</td>
+							<td><c:out value="${telemetryData.motorBoardStatusString}" /></td>
+							
 						</tr>
 						</tbody>
 					</table>
@@ -263,15 +264,18 @@
 						</tr>
 						<tr>
 							<td>No Load Voltage (<abbr title="Volts">V</abbr>)</td>
-							<td>[Status]</td>
+							<td><fmt:formatNumber maxFractionDigits="3" type="number" value="${telemetryData.noLoadVoltage}" /></td>
+					
 						</tr>
 						<tr>
 							<td>Recent Voltage (<abbr title="Volts">V</abbr>)</td>
-							<td>[Status]</td>
+							<td><fmt:formatNumber maxFractionDigits="3" type="number" value="${telemetryData.packVoltageRecent}" /></td>
+						
 						</tr>
 						<tr>
 							<td>Module Range (<abbr title="Volts">V</abbr>)</td>
-							<td>[Status]</td>
+							<td><fmt:formatNumber maxFractionDigits="3" type="number" value="${telemetryData.batteryModuleVoltageRange}" /></td>
+						
 						</tr>
 						<tr>
 							<td><abbr title="Auxiliary">Aux.</abbr> Pack (<abbr title="Volts">V</abbr>)</td>
@@ -279,7 +283,7 @@
 						</tr>
 						<tr>
 							<td><abbr title="Auxiliary">Aux.</abbr> Pack Level (<abbr title="Volts">V</abbr>)</td>
-							<td>[Status]</td>
+							<td>${telemetryData.auxPackLevel}</td>
 						</tr>
 						<tr>
 							<td>12V Main Bus (<abbr title="Volts">V</abbr>)</td>

@@ -44,13 +44,28 @@ public class PrisumSolarCarState {
 	private int regenLimit = 0;
 	enum MotorBoardStatus
 	{
+		//The following statuses are used for WaveSculptor
 		Regen,
 		Throttle,
 		Reverse,
 		MotorEnable,
 		WavesculptorConected,
 		RegenEnable,
-		ThrottleEnable
+		ThrottleEnable,
+		
+		//Below are supported for NGM motor board only
+		NGM_Initialized,
+		NGM_Charging,
+		NGM_MotorNotReady,
+		NGM_Interlock,
+		NGM_Active,
+		NGM_Standby,
+		NGM_Transition,
+		NGM_INdisable,
+		NGM_Limiting,
+		NGM_SpeedControl
+		
+		
 	}
 	enum MotorBoardIOState
 	{
@@ -79,7 +94,43 @@ public class PrisumSolarCarState {
 	{
 		MotorBoardIOStates[state.ordinal()] = value;
 	}
+	boolean getMotorBoardStatus(MotorBoardStatus status)
+	{
+		return (MotorBoardStatuses[status.ordinal()]);
+	}
+	public String getMotorBoardStatusString()
+	{
+		 if(getMotorBoardStatus(MotorBoardStatus.NGM_Interlock)) return MotorBoardStatus.MotorEnable.toString();
+		 if(getMotorBoardStatus(MotorBoardStatus.NGM_Limiting)) return MotorBoardStatus.MotorEnable.toString();
+		 if(getMotorBoardStatus(MotorBoardStatus.NGM_MotorNotReady)) return MotorBoardStatus.MotorEnable.toString();
+		 if(getMotorBoardStatus(MotorBoardStatus.NGM_INdisable)) return MotorBoardStatus.MotorEnable.toString();
+		 if(getMotorBoardStatus(MotorBoardStatus.NGM_Transition)) return MotorBoardStatus.MotorEnable.toString();
+		 if(getMotorBoardStatus(MotorBoardStatus.NGM_Charging)) return MotorBoardStatus.MotorEnable.toString();
+		 if(getMotorBoardStatus(MotorBoardStatus.Regen)) return MotorBoardStatus.MotorEnable.toString();
+		 if(getMotorBoardStatus(MotorBoardStatus.MotorEnable)) return MotorBoardStatus.MotorEnable.toString();
+		 if(getMotorBoardStatus(MotorBoardStatus.NGM_Active)) return MotorBoardStatus.MotorEnable.toString();
+		 if(getMotorBoardStatus(MotorBoardStatus.NGM_Initialized)) return MotorBoardStatus.MotorEnable.toString();
+		 
+		 //look at power data
+		 double power = getMotorPower();
+		 if( power > 0 )
+		 {
+			 return "Active";
+		 } 
+		 if( power < 0 )
+		 {
+			 return "Regen";
+		 }
+		 if(!getMotorBoardStatus(MotorBoardStatus.MotorEnable))
+		 {
+			 return "Disabled";
+		 }
+		 else
+		 {
+			 return "NoNetPower";
+		 }
 	
+	}
 
 	
 	/*** Maximum Power Point Tracker Properties ***/
@@ -126,15 +177,32 @@ public class PrisumSolarCarState {
 	
   public synchronized void setPackPower(double amount)
     {
-    	
-    	//update state
-    	if(amount>0){
-            this.PackStatus = PackStatus.Charging;
-        }else if(amount<0){
-            this.PackStatus = PackStatus.Draining;
-        }else{
-        	this.PackStatus = PackStatus.NoNetPower;
-        }
+	
+	  if(this.getBpsStatus(BpsStatus.PackPrecharge))
+	  {
+		  this.PackStatus = PackStatus.PackPrecharge;
+	  }
+	  else if(this.getBpsStatus(BpsStatus.PackPrechargeTimeout))
+	  {
+		  this.PackStatus = PackStatus.PackPrechargeTimeout;
+	  }
+	  if(this.getBpsStatus(BpsStatus.PackEnable))
+		  		
+	  {
+	    	//update status
+	    	if(amount>0){
+	            this.PackStatus = PackStatus.Charging;
+	        }else if(amount<0){
+	            this.PackStatus = PackStatus.Draining;
+	        }else{
+	        	this.PackStatus = PackStatus.NoNetPower;
+	        }
+	  }
+	  else
+	  {
+		  this.PackStatus = PackStatus.Disabled;
+	  }
+	  
     	
     	PackPower.setNewValue(amount);	
     }
@@ -164,42 +232,109 @@ public class PrisumSolarCarState {
     
     
 	
+    private double noLoadVoltage;
+    private TrackedValue PackVoltage = new TrackedValue();
+    public synchronized void setPackVoltage(double packVoltage) 
+    {
+    	PackVoltage.setNewValue(packVoltage);
+    }
     
-    private double PackVoltage;
-    public synchronized void setPackVoltage(double packVoltage) {PackVoltage = packVoltage;}
+    public synchronized double getPackVoltage() 
+    {
+    	return PackVoltage.getValue();
+    }
     
-    public synchronized double getPackVoltage() {return PackVoltage;}
-	
+    public synchronized double getPackVoltageRecent()
+    {
+    	return PackVoltage.getMovingAverage();
+    }
+    
+	public synchronized double getNoLoadVoltage()
+	{
+		//no load voltage is the voltage of the pack when motor and array are 0
+		return noLoadVoltage;
+	}
 
 	/*** ARRAY PROPERTIES ***/
+	//custom staus attributes generated from other results
+	 private enum ArrayStatus
+    {
+    	Disabled,
+    	Switched_On_BPS_Disabled,
+    	Enabled
+    }
 
 	private double ArrayVoltage = 0 ;
 	public synchronized void setArrayVoltage(double amount){ArrayVoltage = amount;}
 	public synchronized double getArrayVoltage(){return ArrayVoltage;}
 	
 	private double ArrayCurrent = 0;
-    public synchronized void setArrayCurrent(double amount){ArrayCurrent = amount;}
-	public synchronized double getArrayCurrent(){return ArrayCurrent;}
+	public synchronized void setArrayPower(double amount){
+    	if(getBpsStatusArrayEnable())
+    	{
+    		this.ArrayStatus = ArrayStatus.Enabled;
+    	}
+    	if(getBpsStatusArraySwitch())
+    	{
+    		this.ArrayStatus = ArrayStatus.Switched_On_BPS_Disabled;
+    	}
+    	else
+    	{
+    		this.ArrayStatus = ArrayStatus.Disabled;
+    	}
+    	
+    	ArrayPower.setNewValue(amount);
+    	
+    }
+    public String getArrayStatus()
+    {
+    	return this.ArrayStatus.toString();
+    }
 	
+	public synchronized void setArrayCurrent(double amount){ArrayCurrent = amount;}
+	
+    public synchronized double getArrayCurrent(){return ArrayCurrent;}
+	private ArrayStatus ArrayStatus;
     private TrackedValue ArrayPower = new TrackedValue();
-    public synchronized void setArrayPower(double amount){ArrayPower.setNewValue(amount);}
+ 
 	public synchronized double getArrayPower(){return ArrayPower.getValue();}
 	public synchronized double getArrayPowerMin(){return ArrayPower.getMin();}
 	public synchronized double getArrayPowerMax(){return ArrayPower.getMax();}
 	public synchronized double getArrayPowerRecent(){return ArrayPower.getMovingAverage();}
 	public synchronized double getArrayPowerAvg(){return ArrayPower.getTotalAverage();}
-	
-	
+
+	   
     
 	
 	/*** MOTOR PROPERTIES ***/
+	
+	//custom mutually exclusive status values (generated from other data)
+
+	
 	private TrackedValue MotorPower = new TrackedValue();
-    public synchronized void setMotorPower(double amount){MotorPower.setNewValue(amount);}
+	private void updateNoLoadVoltage()
+	{
+		if(MotorPower.getValue() < 0.1 && MotorPower.getValue() > 0.1)
+		{
+			if(ArrayPower.getValue() < 0.1 && ArrayPower.getValue() >0.1)
+			{
+				this.noLoadVoltage = this.PackVoltage.getValue();
+			}
+		}
+	}
+    public synchronized void setMotorPower(double amount){
+    	
+
+    	
+    	MotorPower.setNewValue(amount);
+    	
+    }
 	public synchronized double getMotorPower(){return MotorPower.getValue();}
 	public synchronized double getMotorPowerMin(){return MotorPower.getMin();}
 	public synchronized double getMotorPowerMax(){return MotorPower.getMax();}
 	public synchronized double getMotorPowerRecent(){return MotorPower.getMovingAverage();}
 	public synchronized double getMotorPowerAvg(){return MotorPower.getTotalAverage();}
+
 	
 	private int MotorTCount  = 0; //Counter variable for motor temp calculations
     private int MotorTMax  = 0; //Initialize maximum motor temp
@@ -275,24 +410,41 @@ public class PrisumSolarCarState {
     
     private enum PackStatus
     {
+    	Disabled,
     	Charging,
     	Draining,
-    	NoNetPower
+    	NoNetPower,
+    	PackPrecharge,
+    	PackPrechargeTimeout,
+    	
     }
-    
-    
+   
     private PackStatus PackStatus;
     
     public String getPackStatus()
     {
+    	
     	return this.PackStatus.toString();
     }
-    
+
     public double getAuxPackVoltage() {
 		return AuxPackVoltage;
 	}
 	public void setAuxPackVoltage(double auxPackVoltage) {
 		AuxPackVoltage = auxPackVoltage;
+	}
+	
+	
+	public String getAuxPackLevel()
+	{
+		if(this.getPowerBoardAuxPackLow())
+		{
+			return "Aux Pack Low";
+		}
+		else
+		{
+			return "Normal";
+		}
 	}
 	public double getTwelveVoltMainVoltage() {
 		return TwelveVoltMainVoltage;
@@ -464,7 +616,10 @@ public class PrisumSolarCarState {
 		return lowTmod;
 	}
 	
-	
+	public synchronized double getBatteryModuleVoltageRange()
+	{
+		return highVmod - lowVmod;
+	}
      //not updating on bps statistics data, only batt mod
 
 	public synchronized void setBatteryModuleVoltage(int num, double amount)
@@ -760,6 +915,10 @@ public class PrisumSolarCarState {
     synchronized void setBpsStatus(BpsStatus status, boolean value )
     {
     	BpsStatuses[status.ordinal()] = value;
+    	
+    	
+    	//update Array Status
+    	
     }    
     
     synchronized boolean getBpsStatus(BpsStatus status)
@@ -779,6 +938,7 @@ public class PrisumSolarCarState {
     {
     	return getBpsStatus(BpsStatus.ArraySwitch);
     }
+    
     public synchronized boolean getBpsStatusPackEnable()
     {
     	return getBpsStatus(BpsStatus.PackEnable);
