@@ -590,9 +590,9 @@
 			// Create and populate the data table.
 			var data = new google.visualization.DataTable();
 			data.addColumn('string', 'Time');	// this probably needs to change to a number type
-			data.addColumn('number', 'Speed');
-			data.addColumn('number', 'Power Consumption');
-			data.addColumn('number', 'Charge Status');
+			data.addColumn('number', 'S');
+			data.addColumn('number', 'P');
+			data.addColumn('number', 'C');
 			data.addRow(["0", 17.7, 400, 98.5]);	// add code to update these values from the solar car
 			data.addRow(["10", 20.6, 476, 98.1]);	// add code to update these values from the solar car
 			data.addRow(["20", 21.1, 495, 97.4]);	// add code to update these values from the solar car
