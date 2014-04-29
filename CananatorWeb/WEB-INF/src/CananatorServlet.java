@@ -1,6 +1,7 @@
 import javax.servlet.http.*;
 import javax.servlet.*;
 
+import beans.GraphDataBean;
 import beans.StringBean;
 import beans.TelemetryDataBean;
 import CananatorX.*;
@@ -11,11 +12,14 @@ public class CananatorServlet extends HttpServlet {
  
   private static final long serialVersionUID = 1L;
   private PrisumCanParser telemetryReceiver;
+  private CananatorDataSimulator graphDataPolling;
   
   public void init()
 {
 	 
 	telemetryReceiver = new PrisumCanParser();
+	graphDataPolling = new CananatorDataSimulator(telemetryReceiver);
+	graphDataPolling.startThread();
 	
 	//set arbituary values until testing with batterybox
 	//SetTestData();
@@ -76,7 +80,7 @@ throws ServletException,IOException
 		synchronized(this){
 			getServletContext().setAttribute("key", sBean);
 			getServletContext().setAttribute("telemetryData", telemetryReceiver.solarCarState);
-			
+			getServletContext().setAttribute("graphData", graphDataPolling.graphData);
 		}
 		
 		RequestDispatcher dispatcher = 

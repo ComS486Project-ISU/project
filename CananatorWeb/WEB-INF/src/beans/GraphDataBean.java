@@ -6,6 +6,8 @@ import org.joda.time.DateTime;
 
 public class GraphDataBean {
 	
+	private List<DateTime> time; // time stamps
+	
 	private List<Double> packPowerVsTime; // Watts vs. seconds
 	
 	private List<Double> packCapacityVsTime; // Amp hrs vs. seconds
@@ -13,6 +15,8 @@ public class GraphDataBean {
 	private List<Double> systemVoltageVsTime; // Volts vs. seconds
 	
 	private List<Integer> mphVsTime; // mph vs. seconds
+	
+	private List<Integer> myList;
 	
 	private DateTime timeStart;
 	private DateTime timeEnd;
@@ -25,6 +29,11 @@ public class GraphDataBean {
 		packPowerVsTime = new ArrayList<Double>();
 		packCapacityVsTime = new ArrayList<Double>();
 		mphVsTime = new ArrayList<Integer>();
+		systemVoltageVsTime = new ArrayList<Double>();
+		
+		myList = new ArrayList<Integer>();
+		myList.add(10);
+		myList.add(20);
 		
 		timeStart = new DateTime();
 		timeEnd = new DateTime();
@@ -43,6 +52,9 @@ public class GraphDataBean {
 		this.interval = interval;
 	}
 	
+	public List<DateTime> getTime() {
+		return time;
+	}
 	public List<Double> getPackPowerVsTime() {
 		return packPowerVsTime;
 	}
@@ -69,5 +81,9 @@ public class GraphDataBean {
 	
 	public int getInterval() {
 		return interval;
+	}
+	
+	public List<Integer> getMyList() {
+		return myList;
 	}
 }

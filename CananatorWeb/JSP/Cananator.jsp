@@ -582,7 +582,20 @@
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js" type="text/javascript"></script>
 
-	<!--Google Chart script stuff -->
+	<!-- Google Chart script stuff 
+		 JSP OBJECT = graphData
+		 DATA = graphData.getMphVsTime
+		 		graphData.getPackCapacityVsTime
+		 		graphData.getSystemVoltageVsTime
+		 		graphData.getPackPowerVsTime
+		 		
+		 For google's chart, they use a 2d array to represent the graph
+		 Columns indicate points for a single data stream. i.e. column time, etc.
+		 Rows, for us, indicate a snapshot of values at a given time
+		 
+		 graphData.getX is a 1d array which we want to add as a column to the 2d graph array
+		 graphData.getTime?
+	-->
 		<script src="https://www.google.com/jsapi" type="text/javascript"></script>
 		
 		<script type="text/javascript">
@@ -590,17 +603,60 @@
 		</script>
 		
 		<script type="text/javascript">
+		
+		/*
+		 * Function to create the data var for Google chart
+		 */
+		function constructData() {
+			var retval;
+			
+			var time = ${graphData.time};
+			var mph = ${graphData.mphVsTime};
+			var packCapacity = ${graphData.packCapacityVsTime}
+			var systemVoltage = ${graphData.systemVoltageVsTime};
+			var packPower = ${graphData.packPowerVsTime};
+			
+			/*
+			var time = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+			var mph = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90];
+			var packCapacity = [100, 90, 80, 70, 60, 50, 40, 30, 20, 10];
+			var systemVoltage = [50, 50, 50, 50, 50, 50, 50, 50, 50, 50];
+			var packPower = [25, 25, 25, 25, 25, 25, 25, 25, 25, 25];
+			*/
+			// Create the 2d array for the data
+			retval = new Array(mph.length);
+			for(var i = 0; i < retval.length; i++) {
+				retval[i] = new Array(5);
+				retval[i][0] = time[i];
+				retval[i][1] = mph[i];
+				retval[i][2] = packCapacity[i];
+				retval[i][3] = systemVoltage[i];
+				retval[i][4] = packPower[i];
+			}
+			
+			return retval;
+		}
+		
 		function drawVisualization() {
 			// Create and populate the data table.
+			var chartValues = constructData();
 			var data = new google.visualization.DataTable();
 			data.addColumn('string', 'Time');	// this probably needs to change to a number type
-			data.addColumn('number', 'Speed');
-			data.addColumn('number', 'Power Consumption');
-			data.addColumn('number', 'Charge Status');
+			data.addColumn('number', 'System Voltage vs. Time');
+			data.addColumn('number', 'Pack Capacity vs. Time');
+			data.addColumn('number', 'Pack Power vs. Time');
+			data.addColumn('number', 'MPH vs. Time');
+			
+			for(var i = 0; i < chartValues.length; i++) {
+				data.addRow(chartValues[i]);
+			}
+			
+			/*
 			data.addRow(["0", 17.7, 400, 98.5]);	// add code to update these values from the solar car
 			data.addRow(["10", 20.6, 476, 98.1]);	// add code to update these values from the solar car
 			data.addRow(["20", 21.1, 495, 97.4]);	// add code to update these values from the solar car
 			data.addRow(["30", 19.4, 433, 97.0]);	// add code to update these values from the solar car
+			*/
 		 
 			// Chart options
 			var options = {

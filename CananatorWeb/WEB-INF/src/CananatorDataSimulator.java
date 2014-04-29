@@ -32,11 +32,12 @@ public class CananatorDataSimulator {
 		@Override
 		public void run() {
 			dateTime = new DateTime();
-
+			graphData.setTimeStart(dateTime);
+			graphData.setInterval(1000); // 1 second
+			
 			while (runningFlag) {
 				try {
-					graphData.setTimeStart(dateTime);
-					graphData.setInterval(1000); // 1 second
+					graphData.getTime().add(new DateTime());
 					graphData.getPackPowerVsTime().add(telemetryData.solarCarState.getPackPower());
 					graphData.getPackCapacityVsTime().add(telemetryData.solarCarState.getMaxCapacityAmpHours() 
 							                            * telemetryData.solarCarState.getStateOfCharge() * 0.01);
