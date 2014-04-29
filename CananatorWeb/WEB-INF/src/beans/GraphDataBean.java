@@ -14,6 +14,8 @@ public class GraphDataBean {
 	
 	private List<Integer> mphVsTime; // mph vs. seconds
 	
+	private List<Integer> myList;
+	
 	private DateTime timeStart;
 	private DateTime timeEnd;
 	private int interval; // in milliseconds
@@ -25,6 +27,10 @@ public class GraphDataBean {
 		packPowerVsTime = new ArrayList<Double>();
 		packCapacityVsTime = new ArrayList<Double>();
 		mphVsTime = new ArrayList<Integer>();
+		
+		myList = new ArrayList<Integer>();
+		myList.add(10);
+		myList.add(20);
 		
 		timeStart = new DateTime();
 		timeEnd = new DateTime();
@@ -69,5 +75,9 @@ public class GraphDataBean {
 	
 	public int getInterval() {
 		return interval;
+	}
+	
+	public List<Integer> getMyList() {
+		return myList;
 	}
 }
