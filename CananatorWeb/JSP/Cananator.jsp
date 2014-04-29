@@ -610,11 +610,11 @@
 		function constructData() {
 			var retval;
 			
-			var time = ${graphData.time};
 			var mph = ${graphData.mphVsTime};
 			var packCapacity = ${graphData.packCapacityVsTime}
 			var systemVoltage = ${graphData.systemVoltageVsTime};
 			var packPower = ${graphData.packPowerVsTime};
+			var time = ${graphData.time};
 			
 			/*
 			var time = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];

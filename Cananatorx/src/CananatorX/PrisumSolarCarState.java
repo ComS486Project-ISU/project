@@ -666,7 +666,7 @@ public class PrisumSolarCarState {
 	
 	
 	//internal
-    enum BatteryModuleError
+    public enum BatteryModuleError
     {
         None,   
         OverTempFault,
@@ -686,7 +686,7 @@ public class PrisumSolarCarState {
     }
     
     //internal only
-    void setBatteryModuleError(int num, BatteryModuleError error, boolean value )
+    public void setBatteryModuleError(int num, BatteryModuleError error, boolean value )
     {
     	BatteryModule bm = BatteryModules.get(num);
     	bm.Exists = true;
