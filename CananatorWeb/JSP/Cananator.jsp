@@ -1,4 +1,3 @@
-
 <%@ page import="java.util.List" %>
 <%@ page import="CananatorX.PrisumSolarCarState" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -216,7 +215,7 @@
 							<td>[Status]</td>
 							<td>[Status]</td>
 						</tr>
---!>
+-->
 						</tbody>
 					</table>
 				</div>
