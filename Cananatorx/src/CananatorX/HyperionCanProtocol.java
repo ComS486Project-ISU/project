@@ -189,7 +189,7 @@ public class HyperionCanProtocol implements CanProtocol {
         	solarCarState.setAuxPackVoltage(((intCANmessage[5]<<8)+intCANmessage[6])*IScale);
             solarCarState.setTwelveVoltMainVoltage(((intCANmessage[7]<<8)+intCANmessage[8])*pbScale);
             solarCarState.setTwelveVoltAuxVoltage( ((intCANmessage[9]<<8)+intCANmessage[10])*pbScale); 
-            solarCarState.setFiveVoltVoltage(intCANmessage[10]);
+            solarCarState.setFiveVoltVoltage(intCANmessage[11] * VScale);
             
             //status 1
             solarCarState.setPowerBoardError(PowerBoardError.AuxPackReadError, 			 itob(Status1 & 0b00000001));
@@ -202,16 +202,20 @@ public class HyperionCanProtocol implements CanProtocol {
         {
         	solarCarState.setPackVoltage(((intCANmessage[5]<<8)+intCANmessage[6]) * VScale);
         	solarCarState.setPackCurrent(((intCANmessage[7]<<8)+intCANmessage[8]) * IScale);
+        	solarCarState.setPackPower(solarCarState.getPackVoltage() * solarCarState.getPackCurrent());
+        	
         
         } else if(ID==306 /*Array Shunt*/)
         {
         	solarCarState.setArrayVoltage(((intCANmessage[5]<<8)+intCANmessage[6]) * VScale);
-        	solarCarState.setPackCurrent(((intCANmessage[7]<<8)+intCANmessage[8]) * IScale);
+        	solarCarState.setArrayCurrent(((intCANmessage[7]<<8)+intCANmessage[8]) * IScale);
+        	solarCarState.setArrayPower(solarCarState.getArrayVoltage() * solarCarState.getArrayCurrent());
         	
         } else if(ID==307 /*Motor Shunt*/)
         {
         	solarCarState.setMotorVoltage(((intCANmessage[5]<<8)+intCANmessage[6]) * VScale);
         	solarCarState.setMotorCurrent(((intCANmessage[7]<<8)+intCANmessage[8]) * IScale);
+        	solarCarState.setMotorPower(solarCarState.getMotorVoltage() * solarCarState.getMotorCurrent());
             
         }
         else if(ID==322 /*BPS Reset Data Format*/){

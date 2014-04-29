@@ -180,27 +180,27 @@ public class PrisumSolarCarState {
 	
 	  if(this.getBpsStatus(BpsStatus.PackPrecharge))
 	  {
-		  this.PackStatus = PackStatus.PackPrecharge;
+		  this.PackStatus = PackStatusEnum.PackPrecharge;
 	  }
 	  else if(this.getBpsStatus(BpsStatus.PackPrechargeTimeout))
 	  {
-		  this.PackStatus = PackStatus.PackPrechargeTimeout;
+		  this.PackStatus = PackStatusEnum.PackPrechargeTimeout;
 	  }
 	  if(this.getBpsStatus(BpsStatus.PackEnable))
 		  		
 	  {
 	    	//update status
 	    	if(amount>0){
-	            this.PackStatus = PackStatus.Charging;
+	            this.PackStatus = PackStatusEnum.Charging;
 	        }else if(amount<0){
-	            this.PackStatus = PackStatus.Draining;
+	            this.PackStatus = PackStatusEnum.Draining;
 	        }else{
-	        	this.PackStatus = PackStatus.NoNetPower;
+	        	this.PackStatus = PackStatusEnum.NoNetPower;
 	        }
 	  }
 	  else
 	  {
-		  this.PackStatus = PackStatus.Disabled;
+		  this.PackStatus = PackStatusEnum.Disabled;
 	  }
 	  
     	
@@ -257,7 +257,7 @@ public class PrisumSolarCarState {
 
 	/*** ARRAY PROPERTIES ***/
 	//custom staus attributes generated from other results
-	 private enum ArrayStatus
+	 private enum ArrayStatusEnum
     {
     	Disabled,
     	Switched_On_BPS_Disabled,
@@ -272,15 +272,15 @@ public class PrisumSolarCarState {
 	public synchronized void setArrayPower(double amount){
     	if(getBpsStatusArrayEnable())
     	{
-    		this.ArrayStatus = ArrayStatus.Enabled;
+    		this.ArrayStatus = ArrayStatusEnum.Enabled;
     	}
     	if(getBpsStatusArraySwitch())
     	{
-    		this.ArrayStatus = ArrayStatus.Switched_On_BPS_Disabled;
+    		this.ArrayStatus = ArrayStatusEnum.Switched_On_BPS_Disabled;
     	}
     	else
     	{
-    		this.ArrayStatus = ArrayStatus.Disabled;
+    		this.ArrayStatus = ArrayStatusEnum.Disabled;
     	}
     	
     	ArrayPower.setNewValue(amount);
@@ -294,7 +294,7 @@ public class PrisumSolarCarState {
 	public synchronized void setArrayCurrent(double amount){ArrayCurrent = amount;}
 	
     public synchronized double getArrayCurrent(){return ArrayCurrent;}
-	private ArrayStatus ArrayStatus;
+	private ArrayStatusEnum ArrayStatus = ArrayStatusEnum.Disabled;
     private TrackedValue ArrayPower = new TrackedValue();
  
 	public synchronized double getArrayPower(){return ArrayPower.getValue();}
@@ -393,14 +393,14 @@ public class PrisumSolarCarState {
     
 
 	/*** BPS PROPERTIES ***/
-    private double highV;
+    private double highV = 0.0;
     private int highVmod;
-    private double lowV;
-    private int lowVmod;
-    private double highT;
+    private double lowV = Integer.MAX_VALUE ;
+    private int lowVmod ;
+    private double highT = 0.0;
     private int highTmod;
-    private double lowT;
-    private int lowTmod;
+    private double lowT = Integer.MAX_VALUE;
+    private int lowTmod; 
 
     
     private boolean[] PackErrors;
@@ -408,7 +408,7 @@ public class PrisumSolarCarState {
     private boolean[] BpsStatuses;
 
     
-    private enum PackStatus
+    private enum PackStatusEnum
     {
     	Disabled,
     	Charging,
@@ -419,7 +419,7 @@ public class PrisumSolarCarState {
     	
     }
    
-    private PackStatus PackStatus;
+    private PackStatusEnum PackStatus = PackStatusEnum.Disabled;
     
     public String getPackStatus()
     {

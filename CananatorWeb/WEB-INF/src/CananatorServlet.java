@@ -18,7 +18,7 @@ public class CananatorServlet extends HttpServlet {
 	telemetryReceiver = new PrisumCanParser();
 	
 	//set arbituary values until testing with batterybox
-	SetTestData();
+	//SetTestData();
 	
 	//connect
 	telemetryReceiver.connect("COM3");

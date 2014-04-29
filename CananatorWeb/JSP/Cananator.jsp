@@ -165,6 +165,9 @@
 							<td>[Status]</td>
 							<td>[Status]</td>
 						</tr>
+
+
+<!-- REMOVED FOR DEMO						
 						<tr>
 							<td>Cockpit Temperature (<abbr title="Degrees Celcius">&deg;C</abbr>)</td>
 							<td><c:out value="${telemetryData.cockpitTemp}" /></td>
@@ -213,6 +216,7 @@
 							<td>[Status]</td>
 							<td>[Status]</td>
 						</tr>
+--!>
 						</tbody>
 					</table>
 				</div>
@@ -279,7 +283,7 @@
 						</tr>
 						<tr>
 							<td><abbr title="Auxiliary">Aux.</abbr> Pack (<abbr title="Volts">V</abbr>)</td>
-							<td><c:out value="${telemetryData.auxPackVoltage}" /></td>
+							<td><fmt:formatNumber maxFractionDigits="3" type="number" value="${telemetryData.auxPackVoltage}" /></td>
 						</tr>
 						<tr>
 							<td><abbr title="Auxiliary">Aux.</abbr> Pack Level (<abbr title="Volts">V</abbr>)</td>

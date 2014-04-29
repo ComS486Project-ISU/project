@@ -10,8 +10,8 @@ public class TrackedValue {
 	private int count = 0;
 	private double val;
 	private double sum = 0;
-	private double min = Double.MAX_VALUE;
-	private double max = Double.MIN_VALUE;
+	private double min = 0;
+	private double max = 0;
 	private double avg = 0; // total average
 	private double movAvg = 0; // moving average
 	private Deque<Double> deque = new ArrayDeque<Double>();
@@ -43,6 +43,16 @@ public class TrackedValue {
 		
 		movAvg = movSum/runningAvgSize;
 		
+		//check min/max
+		
+		if(val > max || count == 1)
+		{
+			max = val;
+		}
+		if(val < min || count == 1)
+		{
+			min = val;
+		}
 	}
 	
 	public double getMovingAverage()
