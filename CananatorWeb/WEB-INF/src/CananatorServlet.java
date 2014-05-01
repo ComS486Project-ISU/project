@@ -22,7 +22,7 @@ public class CananatorServlet extends HttpServlet {
 	graphDataPolling.startThread();
 	
 	//set arbituary values until testing with batterybox
-	SetTestData();
+	//SetTestData();
 	
 	//connect
 	telemetryReceiver.connect("COM3");
