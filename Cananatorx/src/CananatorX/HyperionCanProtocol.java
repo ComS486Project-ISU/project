@@ -130,21 +130,19 @@ public class HyperionCanProtocol implements CanProtocol {
             
             
             //Status 1
-            solarCarState.setBatteryModuleError(modID, BatteryModuleError.UnderVoltWarning,  itob(CAN9 & 10000000));
-            solarCarState.setBatteryModuleError(modID, BatteryModuleError.UnderVoltFault, 	 itob(CAN9 & 01000000));
-            solarCarState.setBatteryModuleError(modID, BatteryModuleError.OverVoltWarning,	 itob(CAN9 & 00100000));
-            solarCarState.setBatteryModuleError(modID, BatteryModuleError.OverVoltFault,	 itob(CAN9 & 00010000));
-            solarCarState.setBatteryModuleError(modID, BatteryModuleError.UnderTempWarning,  itob(CAN9 & 00001000));
-            solarCarState.setBatteryModuleError(modID, BatteryModuleError.UnderTempFault,    itob(CAN9 & 00000100));
-            solarCarState.setBatteryModuleError(modID, BatteryModuleError.OverTempWarning,   itob(CAN9 & 00000010));
-            solarCarState.setBatteryModuleError(modID, BatteryModuleError.OverTempFault,     itob(CAN9 & 00000001));
+            solarCarState.setBatteryModuleError(modID, BatteryModuleError.UnderVoltWarning,  itob(CAN10 & 10000000));
+            solarCarState.setBatteryModuleError(modID, BatteryModuleError.UnderVoltFault, 	 itob(CAN10 & 01000000));
+            solarCarState.setBatteryModuleError(modID, BatteryModuleError.OverVoltWarning,	 itob(CAN10 & 00100000));
+            solarCarState.setBatteryModuleError(modID, BatteryModuleError.OverVoltFault,	 itob(CAN10 & 00010000));
+            solarCarState.setBatteryModuleError(modID, BatteryModuleError.UnderTempWarning,  itob(CAN10 & 00001000));
+            solarCarState.setBatteryModuleError(modID, BatteryModuleError.UnderTempFault,    itob(CAN10 & 00000100));
+            solarCarState.setBatteryModuleError(modID, BatteryModuleError.OverTempWarning,   itob(CAN10 & 00000010));
+            solarCarState.setBatteryModuleError(modID, BatteryModuleError.OverTempFault,     itob(CAN10 & 00000001));
       
            
             //status 2
-            solarCarState.setBatteryModuleError(modID, BatteryModuleError.VoltageReadError,          itob(CAN10 & 0b0000001));
-            solarCarState.setBatteryModuleError(modID, BatteryModuleError.TempReadError,             itob(CAN10 & 0b0000010));
-            solarCarState.setBatteryModuleError(modID, BatteryModuleError.TempCalibrationRangeError, itob(CAN10 & 0b0000100));
-            solarCarState.setBatteryModuleError(modID, BatteryModuleError.ModuleDisconnectedFault, 	 itob(CAN10 & 0b0001000));
+            solarCarState.setBatteryModuleError(modID, BatteryModuleError.VoltageReadError,          itob(CAN9 & 0b0100000));
+            solarCarState.setBatteryModuleError(modID, BatteryModuleError.TempReadError,             itob(CAN9 & 0b1000000));
             
             CanDataArg dataArg = new CanDataArg(this,solarCarState, modID,PrisumCanDataType.BatteryModule);
             NotifyDataChanged(dataArg);

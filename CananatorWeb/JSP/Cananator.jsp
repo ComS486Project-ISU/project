@@ -362,9 +362,9 @@
 											<td>
 												<c:set var="batteryModuleVoltages" scope="session" value="${telemetryData.batteryModuleVoltages[count.index]}"/>
 												<c:choose>
-													<c:when test="${batteryModuleVoltages > 40}"><p class="list-group-item-success"><fmt:formatNumber maxFractionDigits="3" type="number" value="${telemetryData.batteryModuleVoltages[count.index]}" /></c:when>	<%-- when equal to a good fault code --%>
-													<c:when test="${batteryModuleVoltages >= 20 && batteryModuleVoltages <= 40}"><p class="list-group-item-warning"><fmt:formatNumber maxFractionDigits="3" type="number" value="${telemetryData.batteryModuleVoltages[count.index]}" /></c:when>	<%-- when equal to a middle fault code --%>
-													<c:when test="${batteryModuleVoltages < 20}"><p class="list-group-item-danger"><fmt:formatNumber maxFractionDigits="3" type="number" value="${telemetryData.batteryModuleVoltages[count.index]}" /></c:when>	<%-- when equal to a bad fault code --%>
+													<c:when test="${batteryModuleVoltages > 4.0}"><p class="list-group-item-success"><fmt:formatNumber maxFractionDigits="3" type="number" value="${telemetryData.batteryModuleVoltages[count.index]}" /></c:when>	<%-- when equal to a good fault code --%>
+													<c:when test="${batteryModuleVoltages >= 3.5 && batteryModuleVoltages <= 40}"><p class="list-group-item-warning"><fmt:formatNumber maxFractionDigits="3" type="number" value="${telemetryData.batteryModuleVoltages[count.index]}" /></c:when>	<%-- when equal to a middle fault code --%>
+													<c:when test="${batteryModuleVoltages < 3.5}"><p class="list-group-item-danger"><fmt:formatNumber maxFractionDigits="3" type="number" value="${telemetryData.batteryModuleVoltages[count.index]}" /></c:when>	<%-- when equal to a bad fault code --%>
 													<c:otherwise>&nbsp;</c:otherwise>
 												</c:choose>
 											</td>
@@ -373,9 +373,9 @@
 											<td>
 												<c:set var="batteryModuleTemperatures" scope="session" value="${telemetryData.batteryModuleTemperatures[count.index]}"/>
 												<c:choose>
-													<c:when test="${batteryModuleTemperatures < 20}"><p class="list-group-item-success"><c:out value="${telemetryData.batteryModuleTemperatures[count.index]}" /></c:when>	<%-- when equal to a good fault code --%>
-													<c:when test="${batteryModuleTemperatures >= 20 && batteryModuleTemperatures <= 40}"><p class="list-group-item-warning"><c:out value="${telemetryData.batteryModuleTemperatures[count.index]}" /></c:when>	<%-- when equal to a middle fault code --%>
-													<c:when test="${batteryModuleTemperatures > 40}"><p class="list-group-item-danger"><c:out value="${telemetryData.batteryModuleTemperatures[count.index]}" /></c:when>	<%-- when equal to a bad fault code --%>
+													<c:when test="${batteryModuleTemperatures >25 }"><p class="list-group-item-success"><c:out value="${telemetryData.batteryModuleTemperatures[count.index]}" /></c:when>	<%-- when equal to a good fault code --%>
+													<c:when test="${batteryModuleTemperatures >= 35 && batteryModuleTemperatures <= 40}"><p class="list-group-item-warning"><c:out value="${telemetryData.batteryModuleTemperatures[count.index]}" /></c:when>	<%-- when equal to a middle fault code --%>
+													<c:when test="${batteryModuleTemperatures > 45}"><p class="list-group-item-danger"><c:out value="${telemetryData.batteryModuleTemperatures[count.index]}" /></c:when>	<%-- when equal to a bad fault code --%>
 													<c:otherwise>&nbsp;</c:otherwise>
 												</c:choose>
 											</td>
@@ -441,7 +441,7 @@
 														</c:choose>
 														<c:set var="batteryModuleTempCalibrationRangeErrors" scope="session" value="${telemetryData.batteryModuleTempCalibrationRangeErrors[count.index]}"/>
 														<c:choose>
-															<c:when test="${ModuleDisconnectedFaults == false}"></c:when>
+															<c:when test="${batteryModuleTempCalibrationRangeErrors == false}"></c:when>
 															<c:otherwise><td class="list-group-item-danger">&nbsp;TCRE&nbsp;</td></c:otherwise>
 														</c:choose>
 													</tr>
