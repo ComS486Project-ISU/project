@@ -22,7 +22,7 @@ public class CananatorServlet extends HttpServlet {
 	graphDataPolling.startThread();
 	
 	//set arbituary values until testing with batterybox
-	//SetTestData();
+	SetTestData();
 	
 	//connect
 	telemetryReceiver.connect("COM3");
@@ -105,6 +105,8 @@ throws ServletException,IOException
 		telemetryReceiver.solarCarState.setTwelveVoltMainVoltage(40);
 		telemetryReceiver.solarCarState.setFiveVoltVoltage(20);
 		telemetryReceiver.solarCarState.setBatteryModuleVoltage(1, 32.3);
+		telemetryReceiver.solarCarState.setBatteryModuleError(0, PrisumSolarCarState.BatteryModuleError.ModuleDisconnectedFault, true);
+	
 
 	}
   
