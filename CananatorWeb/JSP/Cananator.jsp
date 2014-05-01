@@ -25,6 +25,9 @@
 	<div class="navbar-header">
 		<div class="navbar-brand">CANanator Web Interface</div>
 	</div>
+	<div align="right">
+		<input type="checkbox" onchange='handleChange(this);' id="autoRefresh" /> Auto Refresh<br>
+	</div>
 </div>
 
 <!-- UPPER CONTENT AREA -->
@@ -313,8 +316,9 @@
 <!-- NAVIGATION BAR -->
 <!--<div class="container"> -->
 	<!-- Nav tabs -->
+<div id="tabs">
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="#bps" data-toggle="tab">Battery Protection (BPS)</a></li>
+		<li><a href="#bps" data-toggle="tab">Battery Protection (BPS)</a></li>
 		<li><a href="#mppt" data-toggle="tab">Power Trackers (MPPT)</a></li>
 		<li><a href="#motor" data-toggle="tab">Motor</a></li>
 		<li><a href="#errorlog" data-toggle="tab">Error Log</a></li>
@@ -486,7 +490,7 @@
 			</div>
 		</div>
 	</div>
-
+</div>
 
 <!-- FOOTER -->
 <div height="50">&nbsp;</div>
@@ -505,6 +509,36 @@
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js" type="text/javascript"></script>
 
+	<!-- Auto Refresh -->
+		// Add tab hash to URL to preserve it on refresh
+		<script type="text/javascript">
+			$('#tabs').tabs({
+			    beforeActivate: function (event, ui) {
+			        window.location.hash = ui.newPanel.selector;
+			    }
+			});
+			
+			// If checkbox is selected, start auto-refresh
+			var timeout;
+			var cb = document.getElementById("autoRefresh");
+			if (cb.checked)	{
+				timeout = setTimeout(function(){
+					window.location.reload(false);
+				}, 5000);
+			}
+			
+			// When checkbox is changed, start or cancel auto-refresh
+			function handleChange(cb)	{
+				if (cb.checked)	{
+					window.location.reload(false);
+				}
+				else {
+					clearTimeout(timeout);
+				}
+			}
+			
+		</script>
+	
 	<!-- Google Chart script stuff 
 		 JSP OBJECT = graphData
 		 DATA = graphData.getMphVsTime
@@ -691,7 +725,7 @@
 				doUpdate();
 				$(this).hide();
 			});
-	
+    
 			function doUpdate() {
 				if (dataZ.length > samples - 1) {
 					dataZ.shift();
