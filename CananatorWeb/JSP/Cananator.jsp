@@ -483,7 +483,7 @@
 		<div class="tab-pane" id="graphs">
 			<div class="panel panel-default">
 				<div class="panel-body">
- 					<div align="center" style="padding-top:20px; padding-bottom:20px">
+ 					<div align="center" style="padding-top:20px; padding-bottom:20px; height:550px; width:200px" >
 	 					<div id="GoogleChart"> 					
 					</div>
 				</div>
