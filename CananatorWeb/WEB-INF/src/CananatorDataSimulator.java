@@ -8,9 +8,11 @@ public class CananatorDataSimulator {
 	private Thread t;
 	public static volatile boolean runningFlag;
 	private PrisumCanParser telemetryData;
+	private int sleepInterval;
 	public GraphDataBean graphData;
 
 	public CananatorDataSimulator(PrisumCanParser telemetryData) {
+		sleepInterval = 5000; // 5000ms = 5s
 		graphData = new GraphDataBean();
 		this.telemetryData = telemetryData;
 	}
@@ -32,25 +34,25 @@ public class CananatorDataSimulator {
 		@Override
 		public void run() {
 			dateTime = new DateTime();
-			graphData.setTimeStart(dateTime);
-			graphData.setInterval(1000); // 1 second
 			
 			while (runningFlag) {
 				try {
-					graphData.getTime().add(new DateTime());
+					dateTime = new DateTime();
+					graphData.getTime().add("\"" + dateTime.hourOfDay().get() + ":" + 
+											dateTime.minuteOfHour().get() + ":" + 
+											dateTime.secondOfMinute().get() + "\"");
 					graphData.getPackPowerVsTime().add(telemetryData.solarCarState.getPackPower());
 					graphData.getPackCapacityVsTime().add(telemetryData.solarCarState.getMaxCapacityAmpHours() 
 							                            * telemetryData.solarCarState.getStateOfCharge() * 0.01);
 					graphData.getSystemVoltageVsTime().add(telemetryData.solarCarState.getPackVoltage());
 					graphData.getMphVsTime().add(telemetryData.solarCarState.getMPH());
-					Thread.sleep(1000);
+					Thread.sleep(sleepInterval);
 					// ++counter;
 				}
 				catch(InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
-			graphData.setTimeEnd(dateTime);
 		}
 	}
 }

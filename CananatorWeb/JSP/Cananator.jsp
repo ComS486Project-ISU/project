@@ -623,11 +623,13 @@
 			var systemVoltage = [50, 50, 50, 50, 50, 50, 50, 50, 50, 50];
 			var packPower = [25, 25, 25, 25, 25, 25, 25, 25, 25, 25];
 			*/
+			
 			// Create the 2d array for the data
 			retval = new Array(mph.length);
 			for(var i = 0; i < retval.length; i++) {
 				retval[i] = new Array(5);
 				retval[i][0] = time[i];
+				//retval[i][0] = "0";
 				retval[i][1] = mph[i];
 				retval[i][2] = packCapacity[i];
 				retval[i][3] = systemVoltage[i];
